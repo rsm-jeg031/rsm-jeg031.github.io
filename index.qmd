@@ -1,0 +1,17 @@
+---
+title: "Marketing Analytics Jesus"
+image: "files/profile_pic.png"
+
+about: 
+    template: jolla
+    links: 
+        - icon: envelope
+          href: mailto:jesus.gonzalez@rady.ucsd.edu
+        - icon: linkedin
+          href: https://www.linkedin.com/in/jesusgonzalez10/
+    
+---
+
+Welcome to my website! 
+
+My name is Jesus Gonzalez and I am currently learning about Marketing Analytics

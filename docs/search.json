@@ -1,0 +1,58 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Marketing Analytics Jesus",
+    "section": "",
+    "text": "Welcome to my website!\nMy name is Jesus Gonzalez and I am currently learning about Marketing Analytics"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "resume.html",
+    "href": "resume.html",
+    "title": "Jesus Gonzalez’s Resume",
+    "section": "",
+    "text": "Download PDF file."
+  },
+  {
+    "objectID": "projects.html",
+    "href": "projects.html",
+    "title": "My Projects",
+    "section": "",
+    "text": "Project Example 1\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nProject Example 2\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "projects/project1/index.html",
+    "href": "projects/project1/index.html",
+    "title": "Project Example 1",
+    "section": "",
+    "text": "Ploting some data.\n\n\nSome other data stuff."
+  },
+  {
+    "objectID": "projects/project1/index.html#header-2",
+    "href": "projects/project1/index.html#header-2",
+    "title": "Project Example 1",
+    "section": "",
+    "text": "Some other data stuff."
+  },
+  {
+    "objectID": "projects/project2/index.html",
+    "href": "projects/project2/index.html",
+    "title": "Project Example 2",
+    "section": "",
+    "text": "Ploting some data.\n\n\nSome other data stuff."
+  },
+  {
+    "objectID": "projects/project2/index.html#header-2",
+    "href": "projects/project2/index.html#header-2",
+    "title": "Project Example 2",
+    "section": "",
+    "text": "Some other data stuff."
+  }
+]
