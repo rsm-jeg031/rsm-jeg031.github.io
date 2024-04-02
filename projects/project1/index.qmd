@@ -5,7 +5,7 @@ title: Project Example 1
 
 # Header 1 
 
-Ploting some data. 
+Ploting some data for funzies. 
 
 
 ## Header 2
