@@ -25,14 +25,14 @@
     "href": "projects.html",
     "title": "My Projects",
     "section": "",
-    "text": "Project Example 1\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nProject Example 2\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "Project Example 2\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nProject Example 1\n\n\n\n\n\n\nJesus G\n\n\nApr 3, 2024\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "projects/project1/index.html",
     "href": "projects/project1/index.html",
     "title": "Project Example 1",
     "section": "",
-    "text": "Ploting some data.\n\n\nSome other data stuff."
+    "text": "Ploting some data for funzies.\n\n\nSome other data stuff.\n\n\nblah blah here\n\nbulleted item 1\nthe second whatever\n\n\nblah blah one\nblah two\nblah three\n\ntext can be bold or italics, or strikethrough\nmy website is https://rsm-jeg031.github.io/ or here"
   },
   {
     "objectID": "projects/project1/index.html#header-2",
@@ -54,5 +54,12 @@
     "title": "Project Example 2",
     "section": "",
     "text": "Some other data stuff."
+  },
+  {
+    "objectID": "projects/project1/index.html#sub-section-of-1-some-smaller-stuff-here",
+    "href": "projects/project1/index.html#sub-section-of-1-some-smaller-stuff-here",
+    "title": "Project Example 1",
+    "section": "",
+    "text": "Some other data stuff.\n\n\nblah blah here\n\nbulleted item 1\nthe second whatever\n\n\nblah blah one\nblah two\nblah three\n\ntext can be bold or italics, or strikethrough\nmy website is https://rsm-jeg031.github.io/ or here"
   }
 ]

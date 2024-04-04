@@ -1,14 +1,42 @@
 ---
 title: Project Example 1
+subtitle: stuff here 
+author: Jesus G
+date: today
+toc: true 
+
 ---
 
+```{r}
+#| message: false
+#| echo: false
+#| warning: false
 
-# Header 1 
+library(tidyverse)
+```
+
+
+# Section 1: Some stuff here  
 
 Ploting some data for funzies. 
 
 
-## Header 2
+## Sub-section of 1: some smaller stuff here 
 
 Some other data stuff. 
+
+### Header of smalles items
+
+blah blah here 
+
+- bulleted item 1 
+- the second whatever 
+
+1. blah blah one 
+2. blah two 
+3. blah three
+
+text can be **bold** or _italics_, or ~~strikethrough~~
+
+my website is <https://rsm-jeg031.github.io/> or [here](https://rsm-jeg031.github.io/)
 
