@@ -40,3 +40,112 @@ text can be **bold** or _italics_, or ~~strikethrough~~
 
 my website is <https://rsm-jeg031.github.io/> or [here](https://rsm-jeg031.github.io/)
 
+# Section 2: some math stuff 
+
+if you want inline math $y = mx + b$ 
+
+$$
+\int_o^1 x^2 dx = \frac{1}{3}
+$$
+
+some latex math below 
+
+\begin{align}
+y &= a(b+c) \\
+  &= ab + ac
+\end{align}
+
+
+# Section 3: code sytax for neat looking pages 😎
+
+you can do inline code like so `sqrt(2)` then add the language prior to the line of code to get the result `r sqrt(2)`
+
+
+**show the code, hide results**
+
+```{r}
+#| results: hide
+
+data(mtcars)
+cor(mtcars$mpg, mtcars$wt)
+```
+
+**show the results, hide the code**
+
+```{r}
+#| echo: false 
+
+data(mtcars)
+cor(mtcars$mpg, mtcars$wt)
+```
+
+# Section 4: plots
+
+```{r}
+library(ggplot2)
+```
+
+```{r}
+#| fig-height: 4
+#| fig-width: 4
+#| fig-align: center
+mtcars %>%
+    ggplot(aes(mpg, wt)) +
+    geom_point(col="dodgerblue4", size=2)
+```
+
+# Section 5: Tables 
+
+
+```{r}
+mtcars[1:5,]
+```
+
+
+```{r}
+knitr::kable(mtcars[1:5,])
+```
+
+
+# Bonus stuff: 
+
+:::{.callout-note collapse="true"}
+## note title
+
+some dash  
+
+```{r}
+#| fig-height: 4
+#| fig-width: 4
+#| fig-align: center
+#| echo: false
+p <- mtcars %>%
+    ggplot(aes(mpg, wt)) +
+    geom_point(col="dodgerblue4", size=2)
+```
+
+:::
+
+
+A tabset panel
+
+:::{.panel-tabset}
+
+## Jesus Tab
+
+```{r}
+p
+```
+
+## Brian Tab 
+
+```{r}
+#| echo: false
+p + geom_smooth(method="lm", se=FALSE)
+```
+
+:::
+
+
+
+
