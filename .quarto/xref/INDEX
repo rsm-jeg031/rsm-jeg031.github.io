@@ -16,5 +16,8 @@
   },
   "projects.qmd": {
     "projects.html": "2aa33020"
+  },
+  "projects/Assignment1/hw1_questions.qmd": {
+    "hw1_questions.html": "72e3f3a9"
   }
 }
