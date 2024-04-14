@@ -1,5 +1,5 @@
 ---
-title: Project Example 1
+title: Sample Section
 subtitle: stuff here 
 author: Jesus G
 date: today
@@ -18,7 +18,7 @@ library(tidyverse)
 
 # Section 1: Some stuff here  
 
-Ploting some data for funzies. 
+Ploting some data for funzies. And playing around with Quarto website capabilities. 
 
 
 ## Sub-section of 1: some smaller stuff here 

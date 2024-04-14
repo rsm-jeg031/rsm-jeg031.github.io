@@ -25,7 +25,7 @@
     "href": "projects.html",
     "title": "My Projects",
     "section": "",
-    "text": "Project Example 2\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nA Replication of Karlan and List (2007)\n\n\n\n\n\n\nYour Name\n\n\nApr 14, 2024\n\n\n\n\n\n\n\n\n\n\n\n\nProject Example 1\n\n\n\n\n\n\nJesus G\n\n\nApr 14, 2024\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "A Replication of Karlan and List (2007)\n\n\n\n\n\n\nYour Name\n\n\nApr 14, 2024\n\n\n\n\n\n\n\n\n\n\n\n\nProject Example 1\n\n\n\n\n\n\nJesus G\n\n\nApr 14, 2024\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "projects/project1/index.html",
@@ -96,5 +96,19 @@
     "title": "A Replication of Karlan and List (2007)",
     "section": "Simulation Experiment",
     "text": "Simulation Experiment\nAs a reminder of how the t-statistic “works,” in this section I use simulation to demonstrate the Law of Large Numbers and the Central Limit Theorem.\nSuppose the true distribution of respondents who do not get a charitable donation match is Bernoulli with probability p=0.018 that a donation is made.\nFurther suppose that the true distribution of respondents who do get a charitable donation match of any size is Bernoulli with probability p=0.022 that a donation is made.\n\nLaw of Large Numbers\nto do: Make a plot like those on slide 43 from our first class and explain the plot to the reader. To do this, you will simulate 100,00 draws from the control distribution and 10,000 draws from the treatment distribution. You’ll then calculate a vector of 10,000 differences, and then you’ll plot the cumulative average of that vector of differences. Comment on whether the cumulative average approaches the true difference in means.\n\n\nCentral Limit Theorem\nto do: Make 4 histograms like those on slide 44 from our first class at sample sizes 50, 200, 500, and 1000 and explain these plots to the reader. To do this for a sample size of e.g. 50, take 50 draws from each of the control and treatment distributions, and calculate the average difference between those draws. Then repeat that process 999 more times so that you have 1000 averages. Plot the histogram of those averages. Comment on whether zero is in the “middle” of the distribution or whether it’s in the “tail.”"
+  },
+  {
+    "objectID": "projects/Example/index.html",
+    "href": "projects/Example/index.html",
+    "title": "Project Example 1",
+    "section": "",
+    "text": "Ploting some data for funzies.\n\n\nSome other data stuff.\n\n\nblah blah here\n\nbulleted item 1\nthe second whatever\n\n\nblah blah one\nblah two\nblah three\n\ntext can be bold or italics, or strikethrough\nmy website is https://rsm-jeg031.github.io/ or here"
+  },
+  {
+    "objectID": "projects/Example/index.html#sub-section-of-1-some-smaller-stuff-here",
+    "href": "projects/Example/index.html#sub-section-of-1-some-smaller-stuff-here",
+    "title": "Project Example 1",
+    "section": "",
+    "text": "Some other data stuff.\n\n\nblah blah here\n\nbulleted item 1\nthe second whatever\n\n\nblah blah one\nblah two\nblah three\n\ntext can be bold or italics, or strikethrough\nmy website is https://rsm-jeg031.github.io/ or here"
   }
 ]
