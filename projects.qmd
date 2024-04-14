@@ -1,5 +1,5 @@
 ---
-title: "My Projects"
+title: "Projects & Coursework"
 listing: 
   contents: projects
   type: grid

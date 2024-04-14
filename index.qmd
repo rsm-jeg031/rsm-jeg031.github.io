@@ -9,6 +9,8 @@ about:
           href: mailto:jesus.gonzalez@rady.ucsd.edu
         - icon: linkedin
           href: https://www.linkedin.com/in/jesusgonzalez10/
+        - icon: github
+          href: https://github.com/rsm-jeg031 
     
 ---
 

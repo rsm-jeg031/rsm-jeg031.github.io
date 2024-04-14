@@ -1,6 +1,6 @@
 ---
 title: "A Replication of Karlan and List (2007)"
-author: "Your Name"
+author: "Jesus Gonzalez"
 date: today
 callout-appearance: minimal # this hides the blue "i" icon on .callout-notes
 ---
@@ -10,9 +10,9 @@ callout-appearance: minimal # this hides the blue "i" icon on .callout-notes
 
 Dean Karlan at Yale and John List at the University of Chicago conducted a field experiment to test the effectiveness of different fundraising letters. They sent out 50,000 fundraising letters to potential donors, randomly assigning each letter to one of three treatments: a standard letter, a matching grant letter, or a challenge grant letter. They published the results of this experiment in the _American Economic Review_ in 2007. The article and supporting data are available from the [AEA website](https://www.aeaweb.org/articles?id=10.1257/aer.97.5.1774) and from Innovations for Poverty Action as part of [Harvard's Dataverse](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/27853&version=4.2).
 
-_to do: expand on the description of the experiment._
+The experimental design varied the matching ratios, maximum amount of leadership donation matching, and suggested donation amounts. The results revealed that the presence of a matching grant notably increased both the revenues per solicitation by 19% and the probability of an individual donating by 22%. The researchers concluded that the presence of a match likely serves as a quality signal or timing signal that can effectiely increase donations, especialy among demographics and regions more responsive to such cues. Their finding suggested practical implications for the design of fundraising campaigns and provide avenues for further theoretical research on charitable givings. 
 
-This project seeks to replicate their results.
+**This project seeks to replicate their results.**
 
 
 ## Data
@@ -20,6 +20,13 @@ This project seeks to replicate their results.
 ### Description
 
 _todo: Read the data into R/Python and describe the data_
+
+```{python}
+import pandas as pd 
+data = pd.read_stata("../../files/Assignment1/karlan_list_2007.dta")
+
+data.head()
+```
 
 :::: {.callout-note collapse="true"}
 ### Variable Definitions

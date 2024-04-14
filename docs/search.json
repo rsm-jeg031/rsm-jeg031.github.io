@@ -23,9 +23,9 @@
   {
     "objectID": "projects.html",
     "href": "projects.html",
-    "title": "My Projects",
+    "title": "Projects & Coursework",
     "section": "",
-    "text": "A Replication of Karlan and List (2007)\n\n\n\n\n\n\nYour Name\n\n\nApr 14, 2024\n\n\n\n\n\n\n\n\n\n\n\n\nProject Example 1\n\n\n\n\n\n\nJesus G\n\n\nApr 14, 2024\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "A Replication of Karlan and List (2007)\n\n\n\n\n\n\nYour Name\n\n\nApr 14, 2024\n\n\n\n\n\n\n\n\n\n\n\n\nSample Section\n\n\n\n\n\n\nJesus G\n\n\nApr 14, 2024\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "projects/project1/index.html",
@@ -67,14 +67,14 @@
     "href": "projects/Assignment1/hw1_questions.html",
     "title": "A Replication of Karlan and List (2007)",
     "section": "",
-    "text": "Dean Karlan at Yale and John List at the University of Chicago conducted a field experiment to test the effectiveness of different fundraising letters. They sent out 50,000 fundraising letters to potential donors, randomly assigning each letter to one of three treatments: a standard letter, a matching grant letter, or a challenge grant letter. They published the results of this experiment in the American Economic Review in 2007. The article and supporting data are available from the AEA website and from Innovations for Poverty Action as part of Harvard’s Dataverse.\nto do: expand on the description of the experiment.\nThis project seeks to replicate their results."
+    "text": "Dean Karlan at Yale and John List at the University of Chicago conducted a field experiment to test the effectiveness of different fundraising letters. They sent out 50,000 fundraising letters to potential donors, randomly assigning each letter to one of three treatments: a standard letter, a matching grant letter, or a challenge grant letter. They published the results of this experiment in the American Economic Review in 2007. The article and supporting data are available from the AEA website and from Innovations for Poverty Action as part of Harvard’s Dataverse.\nThe experimental design varied the matching ratios, maximum amount of leadership donation matching, and suggested donation amounts. The results revealed that the presence of a matching grant notably increased both the revenues per solicitation by 19% and the probability of an individual donating by 22%. The researchers concluded that the presence of a match likely serves as a quality signal or timing signal that can effectiely increase donations, especialy among demographics and regions more responsive to such cues. Their finding suggested practical implications for the design of fundraising campaigns and provide avenues for further theoretical research on charitable givings.\nThis project seeks to replicate their results."
   },
   {
     "objectID": "projects/Assignment1/hw1_questions.html#introduction",
     "href": "projects/Assignment1/hw1_questions.html#introduction",
     "title": "A Replication of Karlan and List (2007)",
     "section": "",
-    "text": "Dean Karlan at Yale and John List at the University of Chicago conducted a field experiment to test the effectiveness of different fundraising letters. They sent out 50,000 fundraising letters to potential donors, randomly assigning each letter to one of three treatments: a standard letter, a matching grant letter, or a challenge grant letter. They published the results of this experiment in the American Economic Review in 2007. The article and supporting data are available from the AEA website and from Innovations for Poverty Action as part of Harvard’s Dataverse.\nto do: expand on the description of the experiment.\nThis project seeks to replicate their results."
+    "text": "Dean Karlan at Yale and John List at the University of Chicago conducted a field experiment to test the effectiveness of different fundraising letters. They sent out 50,000 fundraising letters to potential donors, randomly assigning each letter to one of three treatments: a standard letter, a matching grant letter, or a challenge grant letter. They published the results of this experiment in the American Economic Review in 2007. The article and supporting data are available from the AEA website and from Innovations for Poverty Action as part of Harvard’s Dataverse.\nThe experimental design varied the matching ratios, maximum amount of leadership donation matching, and suggested donation amounts. The results revealed that the presence of a matching grant notably increased both the revenues per solicitation by 19% and the probability of an individual donating by 22%. The researchers concluded that the presence of a match likely serves as a quality signal or timing signal that can effectiely increase donations, especialy among demographics and regions more responsive to such cues. Their finding suggested practical implications for the design of fundraising campaigns and provide avenues for further theoretical research on charitable givings.\nThis project seeks to replicate their results."
   },
   {
     "objectID": "projects/Assignment1/hw1_questions.html#data",
@@ -100,14 +100,14 @@
   {
     "objectID": "projects/Example/index.html",
     "href": "projects/Example/index.html",
-    "title": "Project Example 1",
+    "title": "Sample Section",
     "section": "",
-    "text": "Ploting some data for funzies.\n\n\nSome other data stuff.\n\n\nblah blah here\n\nbulleted item 1\nthe second whatever\n\n\nblah blah one\nblah two\nblah three\n\ntext can be bold or italics, or strikethrough\nmy website is https://rsm-jeg031.github.io/ or here"
+    "text": "Ploting some data for funzies. And playing around with Quarto website capabilities.\n\n\nSome other data stuff.\n\n\nblah blah here\n\nbulleted item 1\nthe second whatever\n\n\nblah blah one\nblah two\nblah three\n\ntext can be bold or italics, or strikethrough\nmy website is https://rsm-jeg031.github.io/ or here"
   },
   {
     "objectID": "projects/Example/index.html#sub-section-of-1-some-smaller-stuff-here",
     "href": "projects/Example/index.html#sub-section-of-1-some-smaller-stuff-here",
-    "title": "Project Example 1",
+    "title": "Sample Section",
     "section": "",
     "text": "Some other data stuff.\n\n\nblah blah here\n\nbulleted item 1\nthe second whatever\n\n\nblah blah one\nblah two\nblah three\n\ntext can be bold or italics, or strikethrough\nmy website is https://rsm-jeg031.github.io/ or here"
   }
