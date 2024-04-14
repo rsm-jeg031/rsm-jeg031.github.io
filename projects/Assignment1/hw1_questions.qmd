@@ -13,7 +13,6 @@ Dean Karlan at Yale and John List at the University of Chicago conducted a field
 The experimental design varied the matching ratios, maximum amount of leadership donation matching, and suggested donation amounts. The results revealed that the presence of a matching grant notably increased both the revenues per solicitation by 19% and the probability of an individual donating by 22%. The researchers concluded that the presence of a match likely serves as a quality signal or timing signal that can effectiely increase donations, especialy among demographics and regions more responsive to such cues. Their finding suggested practical implications for the design of fundraising campaigns and provide avenues for further theoretical research on charitable givings. 
 
 **This project seeks to replicate their results.**
-
 ```{python}
 #| echo: false
 from nbclient import NotebookClient
@@ -23,16 +22,27 @@ from nbclient import NotebookClient
 
 ### Description
 
-_todo: Read the data into R/Python and describe the data_
+The dataset contains 50,083 entries and 51 columns, each with varying data types. 
 
+**Here are some key points:**
+
+- `treatment` and `control` columns separate the groups for experimentation.
+- The ratio variables (`ratio`, `ratio2`, `ratio3`), size variables (`size25`, `size50`, `size100`, `sizeno`), and ask variables (`ask`, `askd1`, `askd2`, `askd3`, `ask1`, `ask2`, `ask3`), refer to the different experimental conditions.
+- The `amount` and `amountchange` columns measure impact.
+- The `years`, `female`, `couple`, `nonlit`, `cases`, and geographic variables like `statecnt`, `stateresponse`, provide demographic and location-based contextual data.
+
+:::: {.callout-note collapse="true"}
+### Interactive Dataset 
 ```{python}
-#| echo: [4]
+#| echo: false
+#| message: false
+#| warning: false
 import pandas as pd 
+from itables import show
 data = pd.read_stata("../../files/Assignment1/karlan_list_2007.dta")
-
-data.head()
+show(data)
 ```
-
+::::
 :::: {.callout-note collapse="true"}
 ### Variable Definitions
 
@@ -92,15 +102,99 @@ data.head()
 
 ::::
 
-
 ### Balance Test 
 
 As an ad hoc test of the randomization mechanism, I provide a series of tests that compare aspects of the treatment and control groups to assess whether they are statistically significantly different from one another.
 
-_todo: test a few variables other than the key outcome variables (for example, test months since last donation) to see if the treatment and control groups are statistically significantly different at the 95% confidence level. Do each as a t-test and separately as a linear regression, and confirm you get the exact same results from both methods. When doing a t-test, use the formula in the class slides. When doing the linear regression, regress for example mrm2 on treatment and look at the estimated coefficient on the treatment variable. It might be helpful to compare parts of your analysis to Table 1 in the paper. Be sure to comment on your results (hint: why is Table 1 included in the paper)._
+**T-Test**
 
+Comparing the means of variables like `mrm2` for the treatment and control groups allows us to see if there's any obvious statistically significantly different groups at a 95% confidence level. 
 
-## Experimental Results
+```{python}
+#| echo: false
+from scipy.stats import ttest_ind
+treatment_data = data[data['treatment'] == 1]['mrm2']
+control_data = data[data['control'] == 1]['mrm2']
+t_test_treatment_control = ttest_ind(treatment_data.dropna(), control_data.dropna())
+t_test_control = ttest_ind(control_data.dropna(), control_data.dropna())
+```
+
+```{python}
+t_test_treatment_control, t_test_control
+```
+
+A quick pass at a variable last 'month since last donation' tells us there is no significant different between treatment and control groups for this value. Both samples are similar enough. 
+
+Below I tested the `dormant` variable leading to similar results, pointing to an unbaised dataset.  
+
+```{python}
+#| echo: false
+dormant_treatment_data = data[data['treatment'] == 1]['dormant']
+dormant_control_data = data[data['control'] == 1]['dormant']
+t_test_dormant_treatment_control = ttest_ind(dormant_treatment_data.dropna(), dormant_control_data.dropna())
+```
+
+```{python}
+t_test_dormant_treatment_control
+```
+
+**Regression Coefficients**
+
+Explanatory variables used:
+
+- `female`
+- `couple`
+- `pwhite`
+- `pblack`
+- `page18_39`
+- `ave_hh_sz`
+- `median_hhincome`
+- `powner`
+- `psch_atlstba`
+- `pop_propurban`
+
+```{python}
+#| echo: false
+import pyrsm as rsm
+evar = ['female', 'couple', 'pwhite', 'pblack', 'page18_39', 'ave_hh_sz', 'median_hhincome', 'powner', 'psch_atlstba', 'pop_propurban']
+```
+
+```{python}
+#| echo: false
+
+lin_reg_dormant = rsm.model.regress(
+    {"Treatment Group" : data.query("treatment == 1")},
+    rvar = "dormant",
+    evar = evar
+)
+
+lin_reg_dormant_2 = rsm.model.regress(
+    {"Control Group" : data.query("treatment == 0")},
+    rvar = "dormant",
+    evar = evar
+)
+
+```
+
+```{python}
+lin_reg_dormant.summary()
+```
+
+```{python}
+lin_reg_dormant.plot("vimp")
+```
+
+```{python}
+lin_reg_dormant_2.summary()
+```
+
+```{python}
+lin_reg_dormant_2.plot("vimp")
+```
+
+The significance of the coefficients and their changes between the two groups (treatment and control of the same variable) carry important implications for understanding the dynamics of how treaments affects various populations. Primarily the variable means are consistent between the groups, but impacts the them differently. 
+
+## Experimental Results 🚩🚩🚩🚩 will continue later 🥱
 
 ### Charitable Contribution Made
 
