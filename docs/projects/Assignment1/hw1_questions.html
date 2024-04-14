@@ -214,21 +214,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Dean Karlan at Yale and John List at the University of Chicago conducted a field experiment to test the effectiveness of different fundraising letters. They sent out 50,000 fundraising letters to potential donors, randomly assigning each letter to one of three treatments: a standard letter, a matching grant letter, or a challenge grant letter. They published the results of this experiment in the <em>American Economic Review</em> in 2007. The article and supporting data are available from the <a href="https://www.aeaweb.org/articles?id=10.1257/aer.97.5.1774">AEA website</a> and from Innovations for Poverty Action as part of <a href="https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/27853&amp;version=4.2">Harvard’s Dataverse</a>.</p>
 <p>The experimental design varied the matching ratios, maximum amount of leadership donation matching, and suggested donation amounts. The results revealed that the presence of a matching grant notably increased both the revenues per solicitation by 19% and the probability of an individual donating by 22%. The researchers concluded that the presence of a match likely serves as a quality signal or timing signal that can effectiely increase donations, especialy among demographics and regions more responsive to such cues. Their finding suggested practical implications for the design of fundraising campaigns and provide avenues for further theoretical research on charitable givings.</p>
 <p><strong>This project seeks to replicate their results.</strong></p>
-<div id="d93bc4a3" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> nbclient <span class="im">import</span> NotebookClient</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 </section>
 <section id="data" class="level2">
 <h2 class="anchored" data-anchor-id="data">Data</h2>
 <section id="description" class="level3">
 <h3 class="anchored" data-anchor-id="description">Description</h3>
 <p><em>todo: Read the data into R/Python and describe the data</em></p>
-<div id="3e4349bd" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_stata(<span class="st">"../../files/Assignment1/karlan_list_2007.dta"</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
+<div id="8683f9b2" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_stata(<span class="st">"../../files/Assignment1/karlan_list_2007.dta"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>data.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
 <div>
 <div>
 

@@ -14,7 +14,8 @@ The experimental design varied the matching ratios, maximum amount of leadership
 
 **This project seeks to replicate their results.**
 
-```{python, echo=FALSE}
+```{python}
+#| echo: false
 from nbclient import NotebookClient
 ```
 
@@ -24,7 +25,8 @@ from nbclient import NotebookClient
 
 _todo: Read the data into R/Python and describe the data_
 
-```{python, echo=[4]}
+```{python}
+#| echo: [4]
 import pandas as pd 
 data = pd.read_stata("../../files/Assignment1/karlan_list_2007.dta")
 
