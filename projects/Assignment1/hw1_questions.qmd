@@ -408,6 +408,7 @@ print("P-Value:", p_value)
 
 
 ```{python}
+donors_data = data[data['amount'] > 0]
 treatment_group = donors_data[donors_data['treatment'] == 1]['amount']
 control_group = donors_data[donors_data['treatment'] == 0]['amount']
 
@@ -570,7 +571,3 @@ The histograms depict the distribution of average differences in donation probab
 The histograms support the CLT's assertion that with larger sample sizes, the sampling distribution of the mean will approximate a normal distribution centered around the true population mean. Zero is not in the center but rather in the tail of the distribution, as the treatment and control groups' donation probabilities differ by 0.004.
 
 In the context of the study, these results imply that with sufficient sample sizes, any difference in means due to random chance (sampling variability) will average out, and we can expect the sample mean to reliably estimate the population mean difference. This is critical for replication analysis, as it underlines the importance of sample size in detecting true effects and ensuring that findings are not artifacts of random variation. The CLT allows researchers to make inferences about population parameters based on sample statistics, a foundational concept in hypothesis testing and confidence interval estimation.
-
-
-
-
