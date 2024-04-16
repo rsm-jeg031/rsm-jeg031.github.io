@@ -201,6 +201,7 @@ The significance of the coefficients and their changes between the two groups (t
 First, I analyze whether matched donations lead to an increased response rate of making a donation. 
 
 ```{python}
+#| echo: false
 import matplotlib.pyplot as plt
 
 prop_treatment = data[data['treatment'] == 1]['gave'].mean()
@@ -219,6 +220,7 @@ plt.show()
 ```
 
 ```{python}
+#| echo: false
 from scipy.stats import ttest_ind
 import statsmodels.api as sm
 
@@ -240,7 +242,9 @@ t_test_results, results.summary()
 ```
 
 **Statistical Findings:**
+
 1. **T-test:** The t-test results show a statistically significant difference with a p-value of approximately 0.0019. This indicates that the observed difference in donation rates between the treatment and control groups is unlikely to be due to chance.
+
 2. **Linear Regression:** The regression analysis confirms this finding. The coefficient for the treatment variable is positive (approximately 0.0042) and significant at the 0.002 level. This means that being in the treatment group increases the likelihood of donating by about 0.42 percentage points, holding other factors constant.
 
 **Interpretation in Context of the Experiment:**
@@ -252,6 +256,7 @@ This outcome reveals insights into human behavior, especially in the context of 
 These results underline the importance of strategically designed fundraising campaigns that leverage psychological and economic incentives to boost charitable giving. By understanding and implementing what motivates people to give, nonprofits can more effectively mobilize resources to address various social issues.
 
 ```{python}
+#| echo: false
 from statsmodels.discrete.discrete_model import Probit
 
 probit_model = Probit(y, X['treatment'])  
@@ -262,7 +267,9 @@ probit_results.summary()
 ```
 
 **Comparison to Table 3, Column 1:**
+
 - The paper reports that the treatment has a statistically significant effect on the likelihood of donating.
+
 - The results obtained here match in terms of significance and direction, even if the exact coefficients might differ due to the differences in the model specification (such as inclusion of constants and other controls that were not replicated exactly in this model)
 
 This model suggests that assignment to the treatment does increase the likelihood of making a donation, aligning with findings in the paper.
@@ -272,6 +279,7 @@ This model suggests that assignment to the treatment does increase the likelihoo
 Next, I assess the effectiveness of different sizes of matched donations on the response rate.
 
 ```{python}
+#| echo: false
 donations_ratio1 = data[data['ratio'] == 1]['gave']
 donations_ratio2 = data[data['ratio'] == 2]['gave']
 donations_ratio3 = data[data['ratio'] == 3]['gave']
@@ -298,12 +306,13 @@ t_test_1_vs_2, t_test_1_vs_3, t_test_2_vs_3
    - P-value: 0.960
    - Interpretation: There is no statistically significant difference in donation rates between the 2:1 and 3:1 match ratios.
 
-**Discussion in Relation to the Authors' Commentary:**
+**Interpretation:**
 The authors comment that the "figures suggest" certain outcomes regarding the match ratios, likely pointing towards expectations of different match ratios having varying effects on donation behavior. However, the t-test results indicate that there is no statistically significant difference in the likelihood of donating between any of the match ratios tested (1:1, 2:1, 3:1).
 
 This suggests that increasing the match ratio, within the ranges tested, does not significantly influence the decision to donate in this particular data set and experimental setup. This finding is important because it challenges the assumption that simply increasing the match ratio will lead to higher donation rates, and supports a more nuanced view of how incentives impact charitable giving. It suggests that other factors beyond the match ratio might play more significant roles in influencing donor behavior.
 
 ```{python}
+#| echo: false
 import pandas as pd
 import statsmodels.api as sm
 
@@ -340,6 +349,7 @@ print(results_categorical.summary())
 
 **From Data**
 ```{python}
+#| echo: false
 donation_rate_1 = data[data['ratio'] == '1']['gave'].mean()
 donation_rate_2 = data[data['ratio'] == '2']['gave'].mean()
 donation_rate_3 = data[data['ratio'] == '3']['gave'].mean()
@@ -355,6 +365,7 @@ print("Difference in donation rates between 2:1 and 3:1 ratios:", diff_2_to_3)
 **From Fitted Coefficients**
 
 ```{python}
+#| echo: false
 X = data[['ratio2', 'ratio3']]  
 X = sm.add_constant(X)  
 
@@ -371,19 +382,27 @@ print("Difference in coefficients between 2:1 and 3:1 ratios:", diff_ratio2_to_r
 ```
 
 **Regression Results Overview**
+
 - **Dependent Variable (`gave`)**: Indicates whether a donation was made.
+
 - **Coefficients**: 
+
   - **`const` (0.0190)**: Baseline probability of making a donation, likely reflecting the control group or a 1:1 match ratio group.
+  
   - **`ratio2` (0.0036)**: Increases the likelihood of donating by 0.36 percentage points, significant at the 0.023 level.
+  
   - **`ratio3` (0.0037)**: Increases the likelihood of donating by 0.37 percentage points, significant at the 0.020 level.
 
 **Statistical Significance**
+
 - `ratio2` and `ratio3` are statistically significant, indicating that higher match ratios positively affect donation likelihood.
 
 **Comparing Match Ratios**
+
 - The difference between `ratio2` and `ratio3` is 0.0001, suggesting no significant benefit in increasing the match ratio from 2:1 to 3:1.
 
 **Implications for Fundraising Strategy**
+
 - Both match ratios increase donation probabilities similarly; hence, moving from a 2:1 to a 3:1 match ratio does not yield significantly higher donations. This suggests a diminishing return on higher match ratios, guiding organizations to potentially optimize fundraising efforts without increasing the match offer.
 
 - Match incentives effectively increase donations, but overly generous matches may not provide additional benefits, supporting cost-effective fundraising strategies.
@@ -395,6 +414,7 @@ print("Difference in coefficients between 2:1 and 3:1 ratios:", diff_ratio2_to_r
 In this subsection, I analyze the effect of the size of matched donation on the size of the charitable contribution.
 
 ```{python}
+#| echo: false
 treatment_group = data[data['treatment'] == 1]['amount']  
 control_group = data[data['treatment'] == 0]['amount']  
 
@@ -408,6 +428,7 @@ print("P-Value:", p_value)
 
 
 ```{python}
+#| echo: false
 donors_data = data[data['amount'] > 0]
 treatment_group = donors_data[donors_data['treatment'] == 1]['amount']
 control_group = donors_data[donors_data['treatment'] == 0]['amount']
@@ -423,6 +444,7 @@ print("P-Value:", p_value)
 Both analyses suggest that the treatment—while potentially affecting the decision to donate when considering the full dataset—does not have a significant impact on the amount donated, particularly among those who have already decided to donate. These findings underscore the complexity of donor behavior and suggest that the treatment may not be as effective in increasing donation amounts as it might be in influencing the decision to donate.
 
 ```{python}
+#| echo: false
 import matplotlib.pyplot as plt
 
 donors_data = data[data['amount'] > 0]
@@ -459,19 +481,27 @@ plt.show()
 ```
 
 **Regression Results Overview**
+
 - **Dependent Variable (`gave`)**: Indicates whether a donation was made.
+
 - **Coefficients**: 
+
   - **`const` (0.0190)**: Baseline probability of making a donation, likely reflecting the control group or a 1:1 match ratio group.
+
   - **`ratio2` (0.0036)**: Increases the likelihood of donating by 0.36 percentage points, significant at the 0.023 level.
+
   - **`ratio3` (0.0037)**: Increases the likelihood of donating by 0.37 percentage points, significant at the 0.020 level.
 
 **Statistical Significance**
+
 - `ratio2` and `ratio3` are statistically significant, indicating that higher match ratios positively affect donation likelihood.
 
 **Comparing Match Ratios**
+
 - The difference between `ratio2` and `ratio3` is 0.0001, suggesting no significant benefit in increasing the match ratio from 2:1 to 3:1.
 
 **Implications for Fundraising Strategy**
+
 - Both match ratios increase donation probabilities similarly; hence, moving from a 2:1 to a 3:1 match ratio does not yield significantly higher donations. This suggests a diminishing return on higher match ratios, guiding organizations to potentially optimize fundraising efforts without increasing the match offer.
 
 - Match incentives effectively increase donations, but overly generous matches may not provide additional benefits, supporting cost-effective fundraising strategies.
@@ -483,6 +513,7 @@ As a reminder of how the t-statistic "works," in this section I use simulation t
 ### Law of Large Numbers
 
 ```{python}
+#| echo: false
 import numpy as np
 
 p_control = 0.018 # provided by my professor
@@ -498,7 +529,7 @@ diff_vector = treatment_draws - control_draws[:n_simulations]
 
 cumulative_avg_diff = np.cumsum(diff_vector) / np.arange(1, n_simulations + 1)
 
-plt.figure(figsize=(10, 6))
+plt.figure(figsize=(8, 4))
 plt.plot(cumulative_avg_diff, label='Cumulative Average of Differences')
 plt.axhline((p_treatment - p_control), color='red', linestyle='--', label='True Difference')
 plt.xlabel('Number of Simulations')
@@ -517,9 +548,8 @@ The output is expected in the sense that it reflects the behavior described by t
 
 ### Central Limit Theorem
 
-_to do: Make 4 histograms like those on slide 44 from our first class at sample sizes 50, 200, 500, and 1000 and explain these plots to the reader. To do this for a sample size of e.g. 50, take 50 draws from each of the control and treatment distributions, and calculate the average difference between those draws. Then repeat that process 999 more times so that you have 1000 averages. Plot the histogram of those averages. Comment on whether zero is in the "middle" of the distribution or whether it's in the "tail."_
-
 ```{python}
+#| echo: false
 def simulate_and_plot_histograms(control_prob, treatment_prob, sample_sizes, num_repetitions=1000):
     fig, axes = plt.subplots(1, 4, figsize=(20, 5))
     fig.suptitle('Histograms of Average Differences at Various Sample Sizes')
@@ -555,17 +585,27 @@ simulate_and_plot_histograms(control_prob, treatment_prob, sample_sizes)
 The histograms depict the distribution of average differences in donation probabilities between treatment and control groups across different sample sizes, demonstrating the Central Limit Theorem (CLT).
 
 **Interpretation within the Study Context:**
+
 - **Sample Size: 50**
+
   - The distribution is somewhat bell-shaped but shows considerable spread and variability around the true mean difference. The red dashed line, which represents the true mean difference of 0.004, does not appear to be in the exact center of the distribution, indicating the impact of higher variability at lower sample sizes.
+
 - **Sample Size: 200**
+
   - The distribution becomes more bell-shaped and starts to center around the true mean difference. The variability is reduced compared to a sample size of 50, which is expected as per the CLT.
+
 - **Sample Size: 500**
+
   - Further narrowing and centering around the true difference are observed, with the distribution taking a more definitive normal shape.
+
 - **Sample Size: 1000**
+
   - The histogram for a sample size of 1000 shows the distribution closely centered around the true mean difference, with even less variability, demonstrating the CLT's prediction of a normal distribution as sample size increases.
 
 **Central Limit Theorem Validation:**
+
 - Across all histograms, zero is not in the exact center because the true mean difference is not zero; it's 0.004. The green dashed line, which would represent zero, is clearly not in the center, especially for larger sample sizes. Instead, it falls within the left tail of the distributions, particularly for sample sizes of 500 and 1000, where the bell shape is more apparent.
+
 - As sample sizes increase, the distribution of the average differences increasingly conforms to a normal distribution centered around the true difference (0.004), not zero, validating the CLT.
 
 The histograms support the CLT's assertion that with larger sample sizes, the sampling distribution of the mean will approximate a normal distribution centered around the true population mean. Zero is not in the center but rather in the tail of the distribution, as the treatment and control groups' donation probabilities differ by 0.004.
