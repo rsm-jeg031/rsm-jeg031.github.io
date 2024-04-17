@@ -529,7 +529,7 @@ diff_vector = treatment_draws - control_draws[:n_simulations]
 
 cumulative_avg_diff = np.cumsum(diff_vector) / np.arange(1, n_simulations + 1)
 
-plt.figure(figsize=(8, 4))
+plt.figure(figsize=(10, 6))
 plt.plot(cumulative_avg_diff, label='Cumulative Average of Differences')
 plt.axhline((p_treatment - p_control), color='red', linestyle='--', label='True Difference')
 plt.xlabel('Number of Simulations')
