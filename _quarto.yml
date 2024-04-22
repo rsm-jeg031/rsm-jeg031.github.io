@@ -3,13 +3,11 @@ project:
   output-dir: docs
 
 website:
-  title: "Marketing Analytics Jesus"
+  title: "Jesus Gonzalez"
   navbar:
     left:
-      - href: index.qmd
-        text: Home
-      - href: resume.qmd
-        text: Resume
+      - href: about.qmd
+        text: About
       - href: projects.qmd
         text: Projects
 

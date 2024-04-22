@@ -2,16 +2,16 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Marketing Analytics Jesus",
+    "title": "Jesus Gonzalez",
     "section": "",
-    "text": "Welcome to my website!\nMy name is Jesus Gonzalez and I am currently learning about Marketing Analytics…feel free to click around so that I can then stalk your every move 😉 🔍"
+    "text": "Data TPM | PlayStation\nMilitary Interview Coach | Candorful\nTransitioning Military Mentor | Veterati\n\n\n\n\n\n\nUS Air Force | 2015 - 2022\n\n\n\n\n\n\nMSBA | UCSD Rady 2024\nMBA | AMU 2022\nBBA | AMU 2020\nAAS | CCAF 2018\n\n\n\n\n\n\nPMP | PMI 2022\nPSM | Scrum.org 2022"
   },
   {
     "objectID": "about.html",
     "href": "about.html",
-    "title": "About",
+    "title": "Jesus Gonzalez",
     "section": "",
-    "text": "About this site"
+    "text": "Data TPM | PlayStation\nMilitary Interview Coach | Candorful\nTransitioning Military Mentor | Veterati\n\n\n\n\n\n\nUS Air Force | 2015 - 2022\n\n\n\n\n\n\nMSBA | UCSD Rady 2024\nMBA | AMU 2022\nBBA | AMU 2020\nAAS | CCAF 2018\n\n\n\n\n\n\nPMP | PMI 2022\nPSM | Scrum.org 2022"
   },
   {
     "objectID": "resume.html",
@@ -23,9 +23,9 @@
   {
     "objectID": "projects.html",
     "href": "projects.html",
-    "title": "Projects & Coursework",
+    "title": "Projects",
     "section": "",
-    "text": "A Replication of Karlan and List (2007)\n\n\n\n\n\n\nJesus Gonzalez\n\n\nApr 16, 2024\n\n\n\n\n\n\n\n\n\n\n\n\nSample Section\n\n\n\n\n\n\nJesus G\n\n\nApr 16, 2024\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "A Replication of Karlan and List (2007)\n\n\n\n\n\n\nJesus Gonzalez\n\n\nApr 22, 2024\n\n\n\n\n\n\n\n\n\n\n\n\nSample Section\n\n\n\n\n\n\nJesus G\n\n\nApr 22, 2024\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "projects/project1/index.html",
@@ -117,5 +117,61 @@
     "title": "A Replication of Karlan and List (2007)",
     "section": "Experimental Results 🚩🚩🚩🚩 will continue later 🥱",
     "text": "Experimental Results 🚩🚩🚩🚩 will continue later 🥱\n\nCharitable Contribution Made\nFirst, I analyze whether matched donations lead to an increased response rate of making a donation.\ntodo: make a barplot with two bars. Each bar is the proportion of people who donated. One bar for treatment and one bar for control.\ntodo: run a t-test between the treatment and control groups on the binary outcome of whether any charitable donation was made. Also run a bivariate linear regression that demonstrates the same finding. (It may help to confirm your calculations match Table 2a Panel A.) Report your statistical results and interpret them in the context of the experiment (e.g., if you found a difference with a small p-value or that was statistically significant at some threshold, what have you learned about human behavior? Use mostly English words, not numbers or stats, to explain your finding.)\ntodo: run a probit regression where the outcome variable is whether any charitable donation was made and the explanatory variable is assignment to treatment or control. Confirm that your results replicate Table 3 column 1 in the paper.\n\n\nDifferences between Match Rates\nNext, I assess the effectiveness of different sizes of matched donations on the response rate.\ntodo: Use a series of t-tests to test whether the size of the match ratio has an effect on whether people donate or not. For example, does the 2:1 match rate lead increase the likelihood that someone donates as compared to the 1:1 match rate? Do your results support the “figures suggest” comment the authors make on page 8?\ntodo: Assess the same issue using a regression. Specifically, create the variable ratio1 then regress gave on ratio1, ratio2, and ratio3 (or alternatively, regress gave on the categorical variable ratio). Interpret the coefficients and their statistical precision.\ntodo: Calculate the response rate difference between the 1:1 and 2:1 match ratios and the 2:1 and 3:1 ratios. Do this directly from the data, and do it by computing the differences in the fitted coefficients of the previous regression. what do you conclude regarding the effectiveness of different sizes of matched donations?\n\n\nSize of Charitable Contribution\nIn this subsection, I analyze the effect of the size of matched donation on the size of the charitable contribution.\ntodo: Calculate a t-test or run a bivariate linear regression of the donation amount on the treatment status. What do we learn from doing this analysis?\ntodo: now limit the data to just people who made a donation and repeat the previous analysis. This regression allows you to analyze how much respondents donate conditional on donating some positive amount. Interpret the regression coefficients – what did we learn? Does the treatment coefficient have a causal interpretation?\ntodo: Make two plot: one for the treatment group and one for the control. Each plot should be a histogram of the donation amounts only among people who donated. Add a red vertical bar or some other annotation to indicate the sample average for each plot."
+  },
+  {
+    "objectID": "index.html#current",
+    "href": "index.html#current",
+    "title": "Jesus Gonzalez",
+    "section": "",
+    "text": "Data TPM | PlayStation\nMilitary Interview Coach | Candorful\nTransitioning Military Mentor | Veterati"
+  },
+  {
+    "objectID": "index.html#work-history",
+    "href": "index.html#work-history",
+    "title": "Jesus Gonzalez",
+    "section": "",
+    "text": "US Air Force | 2015 - 2022"
+  },
+  {
+    "objectID": "index.html#education",
+    "href": "index.html#education",
+    "title": "Jesus Gonzalez",
+    "section": "",
+    "text": "MSBA | UCSD Rady 2024\nMBA | AMU 2022\nBBA | AMU 2020\nAAS | CCAF 2018"
+  },
+  {
+    "objectID": "index.html#certifications",
+    "href": "index.html#certifications",
+    "title": "Jesus Gonzalez",
+    "section": "",
+    "text": "PMP | PMI 2022\nPSM | Scrum.org 2022"
+  },
+  {
+    "objectID": "about.html#current",
+    "href": "about.html#current",
+    "title": "Jesus Gonzalez",
+    "section": "",
+    "text": "Data TPM | PlayStation\nMilitary Interview Coach | Candorful\nTransitioning Military Mentor | Veterati"
+  },
+  {
+    "objectID": "about.html#work-history",
+    "href": "about.html#work-history",
+    "title": "Jesus Gonzalez",
+    "section": "",
+    "text": "US Air Force | 2015 - 2022"
+  },
+  {
+    "objectID": "about.html#education",
+    "href": "about.html#education",
+    "title": "Jesus Gonzalez",
+    "section": "",
+    "text": "MSBA | UCSD Rady 2024\nMBA | AMU 2022\nBBA | AMU 2020\nAAS | CCAF 2018"
+  },
+  {
+    "objectID": "about.html#certifications",
+    "href": "about.html#certifications",
+    "title": "Jesus Gonzalez",
+    "section": "",
+    "text": "PMP | PMI 2022\nPSM | Scrum.org 2022"
   }
 ]

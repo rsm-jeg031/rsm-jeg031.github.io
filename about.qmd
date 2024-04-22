@@ -1,5 +1,54 @@
 ---
-title: "About"
+title: "Jesus Gonzalez"
+about: 
+    id: main-content
+    template: trestles
+    image: "files/profile_pic.png"
+    image-shape: round
+    links: 
+        - icon: envelope
+          href: mailto:jesus@jegnexus.com
+        - icon: linkedin
+          href: https://www.linkedin.com/in/jesusgonzalez10/
+        - icon: github
+          href: https://github.com/rsm-jeg031 
+        - icon: building
+          href: https://candorful.org/team-members/ 
+        - icon: file-person
+          href: https://enter.veterati.com/mentor/public_profile?mid=MR.e9369c3a26f0f75aa3cc4ac01b2afbfc 
+format: 
+  html:
+    page-layout: full
+---
+:::{#main-content}
+
+## Current
+
+- Data TPM | PlayStation
+- Military Interview Coach | Candorful
+- Transitioning Military Mentor | Veterati
+
 ---
 
-About this site
+## Work History
+
+- US Air Force | 2015 - 2022
+
+---
+
+## Education
+
+- MSBA | UCSD Rady 2024
+- MBA | AMU 2022
+- BBA | AMU 2020
+- AAS | CCAF 2018
+
+---
+
+## Certifications
+
+- PMP | PMI 2022
+- PSM | Scrum.org 2022
+
+:::
+
