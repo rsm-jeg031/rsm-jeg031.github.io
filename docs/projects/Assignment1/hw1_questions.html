@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jesus Gonzalez">
-<meta name="dcterms.date" content="2024-04-23">
+<meta name="dcterms.date" content="2024-04-16">
 
 <title>Jesus Gonzalez - A Replication of Karlan and List (2007)</title>
 <style>
@@ -222,7 +222,7 @@ cookieconsent.run({
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">April 23, 2024</p>
+      <p class="date">April 16, 2024</p>
     </div>
   </div>
   
@@ -264,7 +264,7 @@ Interactive Dataset
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="2da03659" class="cell" data-message="false" data-execution_count="2">
+<div id="938a7158" class="cell" data-message="false" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <style>.itables table td {
@@ -291,7 +291,7 @@ Interactive Dataset
 </style>
 <div class="itables">
 
-<table id="63f6a1db-7937-4de2-aaa2-4ff63354d8e4" class="display nowrap table table-sm table-striped small" data-quarto-postprocess="true">
+<table id="8b24fea4-fa4f-46b9-8101-01bcc90c7da1" class="display nowrap table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header" style="text-align: right;">
 <th data-quarto-table-cell-role="th">treatment</th>
@@ -420,7 +420,7 @@ Interactive Dataset
 
     $(document).ready(function () {
         
-        $('#63f6a1db-7937-4de2-aaa2-4ff63354d8e4').DataTable(dt_args);
+        $('#8b24fea4-fa4f-46b9-8101-01bcc90c7da1').DataTable(dt_args);
     });
 </script>
 </div>
@@ -669,18 +669,18 @@ Variable Definitions
 <p>As an ad hoc test of the randomization mechanism, I provide a series of tests that compare aspects of the treatment and control groups to assess whether they are statistically significantly different from one another.</p>
 <p><strong>T-Test</strong></p>
 <p>Comparing the means of variables like <code>mrm2</code> for the treatment and control groups allows us to see if there’s any obvious statistically significantly different groups at a 95% confidence level.</p>
-<div id="325e9101" class="cell" data-execution_count="4">
+<div id="9e5ff7e3" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>t_test_treatment_control, t_test_control</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="28">
+<div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>(TtestResult(statistic=0.1194921058159193, pvalue=0.9048859731777738, df=50080.0),
  TtestResult(statistic=0.0, pvalue=1.0, df=33372.0))</code></pre>
 </div>
 </div>
 <p>A quick pass at a variable last ‘month since last donation’ tells us there is no significant different between treatment and control groups for this value. Both samples are similar enough.</p>
 <p>Below I tested the <code>dormant</code> variable leading to similar results, pointing to an unbaised dataset.</p>
-<div id="fd7fd77b" class="cell" data-execution_count="6">
+<div id="a06cd130" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>t_test_dormant_treatment_control</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="30">
+<div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>TtestResult(statistic=0.17388504815227449, pvalue=0.8619565062750842, df=50081.0)</code></pre>
 </div>
 </div>
@@ -698,7 +698,7 @@ Variable Definitions
 <li><code>psch_atlstba</code></li>
 <li><code>pop_propurban</code></li>
 </ul>
-<div id="43cf41b7" class="cell" data-execution_count="9">
+<div id="c724f045" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>lin_reg_dormant.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear regression (OLS)
@@ -728,7 +728,7 @@ F-statistic: 5.652 df(10, 31296), p.value &lt; 0.001
 Nr obs: 31,307</code></pre>
 </div>
 </div>
-<div id="22c219dc" class="cell" data-execution_count="10">
+<div id="359e36cb" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>lin_reg_dormant.plot(<span class="st">"vimp"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -738,7 +738,7 @@ Nr obs: 31,307</code></pre>
 </div>
 </div>
 </div>
-<div id="0fe80797" class="cell" data-execution_count="11">
+<div id="21e32ad9" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>lin_reg_dormant_2.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear regression (OLS)
@@ -768,7 +768,7 @@ F-statistic: 2.579 df(10, 15634), p.value 0.004
 Nr obs: 15,645</code></pre>
 </div>
 </div>
-<div id="49610e1d" class="cell" data-execution_count="12">
+<div id="9db407b2" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>lin_reg_dormant_2.plot(<span class="st">"vimp"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
@@ -786,7 +786,7 @@ Nr obs: 15,645</code></pre>
 <section id="charitable-contribution-made" class="level3">
 <h3 class="anchored" data-anchor-id="charitable-contribution-made">Charitable Contribution Made</h3>
 <p>First, I analyze whether matched donations lead to an increased response rate of making a donation.</p>
-<div id="86027761" class="cell" data-execution_count="13">
+<div id="66bfb36e" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -795,8 +795,8 @@ Nr obs: 15,645</code></pre>
 </div>
 </div>
 </div>
-<div id="09ed87e1" class="cell" data-execution_count="14">
-<div class="cell-output cell-output-display" data-execution_count="38">
+<div id="3a934165" class="cell" data-execution_count="14">
+<div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>(TtestResult(statistic=3.101361000543946, pvalue=0.0019274025949016988, df=50081.0),
  &lt;class 'statsmodels.iolib.summary.Summary'&gt;
  """
@@ -805,8 +805,8 @@ Nr obs: 15,645</code></pre>
  Dep. Variable:                   gave   R-squared:                       0.000
  Model:                            OLS   Adj. R-squared:                  0.000
  Method:                 Least Squares   F-statistic:                     9.618
- Date:                Tue, 16 Apr 2024   Prob (F-statistic):            0.00193
- Time:                        18:36:57   Log-Likelihood:                 26630.
+ Date:                Tue, 23 Apr 2024   Prob (F-statistic):            0.00193
+ Time:                        10:30:46   Log-Likelihood:                 26630.
  No. Observations:               50083   AIC:                        -5.326e+04
  Df Residuals:                   50081   BIC:                        -5.324e+04
  Df Model:                           1                                         
@@ -836,13 +836,13 @@ Nr obs: 15,645</code></pre>
 <p><strong>Interpretation in Context of the Experiment:</strong> The statistical tests confirm that the treatment, which typically involves some form of intervention such as an enhanced fundraising appeal or incentive (like matching donations), has a positive effect on the probability of making a donation. This finding suggests that interventions designed to make giving more appealing or rewarding can indeed increase charitable contributions.</p>
 <p><strong>Implications for Human Behavior:</strong> This outcome reveals insights into human behavior, especially in the context of philanthropy. The effectiveness of the treatment suggests that individuals are responsive to incentives or enhancements in the solicitation process. Essentially, when people perceive that their contributions will have a greater impact (such as through matching), they are more likely to contribute. This aligns with broader behavioral economics principles, which assert that people’s actions are often influenced by contextual cues and perceived benefits.</p>
 <p>These results underline the importance of strategically designed fundraising campaigns that leverage psychological and economic incentives to boost charitable giving. By understanding and implementing what motivates people to give, nonprofits can more effectively mobilize resources to address various social issues.</p>
-<div id="0a55d065" class="cell" data-execution_count="15">
+<div id="2945893b" class="cell" data-execution_count="15">
 <div class="cell-output cell-output-stdout">
 <pre><code>Optimization terminated successfully.
          Current function value: 0.301543
          Iterations 7</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="39">
+<div class="cell-output cell-output-display" data-execution_count="15">
 <div>
 <table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>Probit Regression Results</caption>
@@ -867,13 +867,13 @@ Nr obs: 15,645</code></pre>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Date:</td>
-<td>Tue, 16 Apr 2024</td>
+<td>Tue, 23 Apr 2024</td>
 <td data-quarto-table-cell-role="th">Pseudo R-squ.:</td>
 <td>-1.999</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Time:</td>
-<td>18:36:57</td>
+<td>10:30:46</td>
 <td data-quarto-table-cell-role="th">Log-Likelihood:</td>
 <td>-15102.</td>
 </tr>
@@ -926,8 +926,8 @@ Nr obs: 15,645</code></pre>
 <section id="differences-between-match-rates" class="level3">
 <h3 class="anchored" data-anchor-id="differences-between-match-rates">Differences between Match Rates</h3>
 <p>Next, I assess the effectiveness of different sizes of matched donations on the response rate.</p>
-<div id="c81a0249" class="cell" data-execution_count="16">
-<div class="cell-output cell-output-display" data-execution_count="40">
+<div id="bd8dc337" class="cell" data-execution_count="16">
+<div class="cell-output cell-output-display" data-execution_count="16">
 <pre><code>(TtestResult(statistic=-0.96504713432247, pvalue=0.33453168549723933, df=22265.0),
  TtestResult(statistic=-1.0150255853798622, pvalue=0.3101046637086672, df=22260.0),
  TtestResult(statistic=-0.05011583793874515, pvalue=0.9600305283739325, df=22261.0))</code></pre>
@@ -955,15 +955,15 @@ Nr obs: 15,645</code></pre>
 </ol>
 <p><strong>Interpretation:</strong> The authors comment that the “figures suggest” certain outcomes regarding the match ratios, likely pointing towards expectations of different match ratios having varying effects on donation behavior. However, the t-test results indicate that there is no statistically significant difference in the likelihood of donating between any of the match ratios tested (1:1, 2:1, 3:1).</p>
 <p>This suggests that increasing the match ratio, within the ranges tested, does not significantly influence the decision to donate in this particular data set and experimental setup. This finding is important because it challenges the assumption that simply increasing the match ratio will lead to higher donation rates, and supports a more nuanced view of how incentives impact charitable giving. It suggests that other factors beyond the match ratio might play more significant roles in influencing donor behavior.</p>
-<div id="375e483b" class="cell" data-execution_count="17">
+<div id="5dd36987" class="cell" data-execution_count="17">
 <div class="cell-output cell-output-stdout">
 <pre><code>                            OLS Regression Results                            
 ==============================================================================
 Dep. Variable:                   gave   R-squared:                       0.000
 Model:                            OLS   Adj. R-squared:                  0.000
 Method:                 Least Squares   F-statistic:                     3.665
-Date:                Tue, 16 Apr 2024   Prob (F-statistic):             0.0118
-Time:                        18:36:57   Log-Likelihood:                 26630.
+Date:                Tue, 23 Apr 2024   Prob (F-statistic):             0.0118
+Time:                        10:30:46   Log-Likelihood:                 26630.
 No. Observations:               50083   AIC:                        -5.325e+04
 Df Residuals:                   50079   BIC:                        -5.322e+04
 Df Model:                           3                                         
@@ -1009,22 +1009,22 @@ Notes:
 </ul></li>
 </ol>
 <p><strong>From Data</strong></p>
-<div id="e9919bfa" class="cell" data-execution_count="18">
+<div id="36063067" class="cell" data-execution_count="18">
 <div class="cell-output cell-output-stdout">
 <pre><code>Difference in donation rates between 1:1 and 2:1 ratios: 0.0018842510217149944
 Difference in donation rates between 2:1 and 3:1 ratios: 0.00010002398025293902</code></pre>
 </div>
 </div>
 <p><strong>From Fitted Coefficients</strong></p>
-<div id="15b9ce7b" class="cell" data-execution_count="19">
+<div id="ff90bcb4" class="cell" data-execution_count="19">
 <div class="cell-output cell-output-stdout">
 <pre><code>                            OLS Regression Results                            
 ==============================================================================
 Dep. Variable:                   gave   R-squared:                       0.000
 Model:                            OLS   Adj. R-squared:                  0.000
 Method:                 Least Squares   F-statistic:                     4.117
-Date:                Tue, 16 Apr 2024   Prob (F-statistic):             0.0163
-Time:                        18:36:57   Log-Likelihood:                 26629.
+Date:                Tue, 23 Apr 2024   Prob (F-statistic):             0.0163
+Time:                        10:30:46   Log-Likelihood:                 26629.
 No. Observations:               50083   AIC:                        -5.325e+04
 Df Residuals:                   50080   BIC:                        -5.323e+04
 Df Model:                           2                                         
@@ -1074,14 +1074,14 @@ Difference in coefficients between 2:1 and 3:1 ratios: 0.00010002398025543442</c
 <section id="size-of-charitable-contribution" class="level3">
 <h3 class="anchored" data-anchor-id="size-of-charitable-contribution">Size of Charitable Contribution</h3>
 <p>In this subsection, I analyze the effect of the size of matched donation on the size of the charitable contribution.</p>
-<div id="bd0c7396" class="cell" data-execution_count="20">
+<div id="c1c7c794" class="cell" data-execution_count="20">
 <div class="cell-output cell-output-stdout">
 <pre><code>T-Statistic: 1.9182618934467577
 P-Value: 0.05508566528918335</code></pre>
 </div>
 </div>
 <p><strong>Interpretation</strong>: The initial analysis shows a T-Statistic close to 2, suggesting a moderate difference in donation amounts between the treatment and control groups across all individuals, including non-donors. The p-value is slightly above the conventional threshold of 0.05, indicating that this difference is not statistically significant at the 5% level. This result suggests that while there is a trend towards higher donations in the treatment group, we cannot confidently assert that the treatment has a statistically significant impact on donation amounts when considering the entire sample.</p>
-<div id="c4808e38" class="cell" data-execution_count="21">
+<div id="44ae2808" class="cell" data-execution_count="21">
 <div class="cell-output cell-output-stdout">
 <pre><code>T-Statistic: -0.5846089794983359
 P-Value: 0.5590471865673547</code></pre>
@@ -1089,7 +1089,7 @@ P-Value: 0.5590471865673547</code></pre>
 </div>
 <p><strong>Interpretation</strong>: When focusing only on individuals who made a donation, the T-Statistic is negative, indicating that the average donation amount in the treatment group might actually be lower than in the control group among donors, although the difference is small. The p-value is well above 0.05, suggesting that this observed difference is not statistically significant. This result indicates that among those who chose to donate, the treatment does not significantly influence the amount donated, implying that other factors may play a more critical role in determining donation size among this group.</p>
 <p>Both analyses suggest that the treatment—while potentially affecting the decision to donate when considering the full dataset—does not have a significant impact on the amount donated, particularly among those who have already decided to donate. These findings underscore the complexity of donor behavior and suggest that the treatment may not be as effective in increasing donation amounts as it might be in influencing the decision to donate.</p>
-<div id="697dccea" class="cell" data-execution_count="22">
+<div id="c7b5f432" class="cell" data-execution_count="22">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1128,11 +1128,11 @@ P-Value: 0.5590471865673547</code></pre>
 <p>As a reminder of how the t-statistic “works,” in this section I use simulation to demonstrate the Law of Large Numbers and the Central Limit Theorem. Suppose the true distribution of respondents who do not get a charitable donation match is Bernoulli with probability p=0.018 that a donation is made. Further suppose that the true distribution of respondents who do get a charitable donation match of any size is Bernoulli with probability p=0.022 that a donation is made.</p>
 <section id="law-of-large-numbers" class="level3">
 <h3 class="anchored" data-anchor-id="law-of-large-numbers">Law of Large Numbers</h3>
-<div id="4990aecd" class="cell" data-execution_count="23">
+<div id="1b63d529" class="cell" data-execution_count="23">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="hw1_questions_files/figure-html/cell-24-output-1.png" width="840" height="523" class="figure-img"></p>
+<p><img src="hw1_questions_files/figure-html/cell-24-output-1.png" width="823" height="523" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1146,7 +1146,7 @@ P-Value: 0.5590471865673547</code></pre>
 </section>
 <section id="central-limit-theorem" class="level3">
 <h3 class="anchored" data-anchor-id="central-limit-theorem">Central Limit Theorem</h3>
-<div id="846fc3f1" class="cell" data-execution_count="24">
+<div id="8c2df0ef" class="cell" data-execution_count="24">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
