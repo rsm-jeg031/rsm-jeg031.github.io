@@ -10,6 +10,7 @@ website:
     tracking-id: G-B730JHHC8P
     storage: cookies
     anonymize-ip: false
+    version: 4
   cookie-consent:
     style: interstitial
     palette: dark
