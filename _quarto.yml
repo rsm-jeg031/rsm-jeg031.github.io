@@ -6,6 +6,11 @@ project:
 
 website:
   title: "Jesus Gonzalez"
+  google-analytics: 
+    tracking-id: G-B730JHHC8P
+    storage: cookies
+    anonymize-ip: false
+  cookie-consent: True
   navbar:
     left:
       - href: about.qmd
