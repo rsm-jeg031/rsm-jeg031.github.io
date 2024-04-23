@@ -10,7 +10,9 @@ website:
     tracking-id: G-B730JHHC8P
     storage: cookies
     anonymize-ip: false
-  cookie-consent: True
+  cookie-consent:
+    style: interstitial
+    palette: dark
   navbar:
     left:
       - href: about.qmd
