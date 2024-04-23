@@ -1,6 +1,8 @@
 project:
   type: website
   output-dir: docs
+  resources: 
+    - CNAME 
 
 website:
   title: "Jesus Gonzalez"
@@ -16,6 +18,3 @@ format:
     theme: cosmo
     css: styles.css
     toc: true
-
-
-
