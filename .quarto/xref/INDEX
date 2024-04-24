@@ -22,5 +22,8 @@
   },
   "projects/Example/index.qmd": {
     "index.html": "78e6c3f2"
+  },
+  "projects/RAG LLM/rag-llm.qmd": {
+    "rag-llm.html": "0ff9af1b"
   }
 }

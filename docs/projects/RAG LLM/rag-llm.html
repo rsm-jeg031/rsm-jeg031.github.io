@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Jesus Gonzalez">
+<meta name="dcterms.date" content="2024-04-23">
 
-<title>Jesus Gonzalez - Projects</title>
+<title>Jesus Gonzalez - Plug and Play RAG LLM</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,29 +22,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/cookie-consent/cookie-consent.js"></script>
-<link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -70,35 +104,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-title','listing-author','listing-date','listing-image','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-B730JHHC8P"></script>
 
 <script type="text/plain" cookie-consent="tracking">
@@ -127,37 +132,8 @@ cookieconsent.run({
 </script> 
   
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../styles.css">
 </head>
 
 <body class="nav-fixed">
@@ -167,7 +143,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Jesus Gonzalez</span>
     </a>
   </div>
@@ -178,11 +154,11 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./projects.html" aria-current="page"> 
+    <a class="nav-link" href="../../projects.html"> 
 <span class="menu-text">Projects</span></a>
   </li>  
 </ul>
@@ -197,21 +173,43 @@ window.Quarto = {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-model" id="toc-the-model" class="nav-link active" data-scroll-target="#the-model">The Model</a></li>
+  <li><a href="#plug-play-section" id="toc-plug-play-section" class="nav-link" data-scroll-target="#plug-play-section">Plug &amp; Play Section</a></li>
+  <li><a href="#chunking-context-due-to-token-limitations" id="toc-chunking-context-due-to-token-limitations" class="nav-link" data-scroll-target="#chunking-context-due-to-token-limitations">Chunking Context Due to Token Limitations</a></li>
+  <li><a href="#embedding-the-context-for-improved-performance" id="toc-embedding-the-context-for-improved-performance" class="nav-link" data-scroll-target="#embedding-the-context-for-improved-performance">Embedding the Context for Improved Performance</a></li>
+  <li><a href="#setup-chaining" id="toc-setup-chaining" class="nav-link" data-scroll-target="#setup-chaining">Setup &amp; Chaining</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Projects</h1>
+<h1 class="title">Plug and Play RAG LLM</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Jesus Gonzalez </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">April 23, 2024</p>
+    </div>
+  </div>
   
     
   </div>
@@ -221,63 +219,94 @@ window.Quarto = {
 </header>
 
 
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../../files/rag-llm/gpt-rag-image.png" class="small-image img-fluid figure-img"></p>
+<figcaption>Here’s an image GPT tried really hard to create 😆</figcaption>
+</figure>
+</div>
+<p>This document demonstrate a quick and easy RAG implementation using OPENAIs API and the LangChain framework. I tried to make this a simple copy/pastable PDF solution for anyone looking to quickly interact with their PDFs or simple a large corpus of text.</p>
+<section id="the-model" class="level2">
+<h2 class="anchored" data-anchor-id="the-model">The Model</h2>
+<div id="ef64b91a" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ChatOpenAI(api_key<span class="op">=</span>OPENAI_API_KEY, model<span class="op">=</span><span class="st">"gpt-3.5-turbo"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>parser <span class="op">=</span> StrOutputParser()</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>chain <span class="op">=</span> model <span class="op">|</span> parser</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>chain.invoke(<span class="st">"hi, are you there gpt?"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="52">
+<pre><code>'Hello! Yes, I am here. How can I assist you today?'</code></pre>
+</div>
+</div>
+</section>
+<section id="plug-play-section" class="level2">
+<h2 class="anchored" data-anchor-id="plug-play-section">Plug &amp; Play Section</h2>
+<div id="14cff98b" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> pdf_to_text(pdf_path, output_txt_path):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    text <span class="op">=</span> extract_text(pdf_path)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(output_txt_path, <span class="st">'w'</span>, encoding<span class="op">=</span><span class="st">'utf-8'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">file</span>.write(text)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># pdf_path = '../../files/Computer Age Statistical Inference Book.pdf'</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># output_txt_path = '../../files/rag-llm/Computer Age Statistical Inference Book.txt'  </span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># pdf_to_text(pdf_path, output_txt_path)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>I am showing the short script above so that anyone may replicate this in their environment. I used a course textbook as a test case.</p>
+</section>
+<section id="chunking-context-due-to-token-limitations" class="level2">
+<h2 class="anchored" data-anchor-id="chunking-context-due-to-token-limitations">Chunking Context Due to Token Limitations</h2>
+<div id="8015b18f" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>loader <span class="op">=</span> TextLoader(<span class="st">"../../files/rag-llm/Computer Age Statistical Inference Book.txt"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>text_documents <span class="op">=</span> loader.load()</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>text_splitter <span class="op">=</span> RecursiveCharacterTextSplitter(chunk_size<span class="op">=</span><span class="dv">1000</span>, chunk_overlap<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>documents <span class="op">=</span> text_splitter.split_documents(text_documents)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="embedding-the-context-for-improved-performance" class="level2">
+<h2 class="anchored" data-anchor-id="embedding-the-context-for-improved-performance">Embedding the Context for Improved Performance</h2>
+<div id="130c2072" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>embeddings <span class="op">=</span> OpenAIEmbeddings()</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>vector_store <span class="op">=</span> DocArrayInMemorySearch.from_documents(documents, embeddings)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>retriever <span class="op">=</span> vector_store.as_retriever()</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>retriever.invoke(<span class="st">"Who or what do frequentists criticize?"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="55">
+<pre><code>[Document(page_content='What might be called the strong deﬁnition of frequentism insists on exact\nfrequentist correctness under experimental repetitions. Pivotality, unfortu-\nnately, is unavailable in most statistical situations. Our looser deﬁnition\nof frequentism, supplemented by devices such as those above,7 presents a\nmore realistic picture of actual frequentist practice.\n\n2.2 Frequentist Optimality\n\nThe popularity of frequentist methods reﬂects their relatively modest math-\nematical modeling assumptions: only a probability model F (more exactly\na family of probabilities, Chapter 3) and an algorithm of choice t.x/. This\nﬂexibility is also a defect in that the principle of frequentist correctness\ndoesn’t help with the choice of algorithm. Should we use the sample mean\nto estimate the location of the gfr distribution? Maybe the 25% Win-\nsorized mean would be better, as Table 2.1 suggests.', metadata={'source': '../../files/rag-llm/Computer Age Statistical Inference Book.txt'}),
+ Document(page_content='Frequentism cannot claim to be a seamless philosophy of statistical in-\nference. Paradoxes and contradictions abound within its borders, as will\nbe shown in the next chapter. That being said, frequentist methods have\na natural appeal to working scientists, an impressive history of success-\nful application, and, as our list of ﬁve “devices” suggests, the capacity to\nencourage clever methodology. The story that follows is not one of aban-\ndonment of frequentist thinking, but rather a broadening of connections\nwith other methods.\n\n2.3 Notes and Details', metadata={'source': '../../files/rag-llm/Computer Age Statistical Inference Book.txt'}),
+ Document(page_content='Despite its simplicity, or perhaps because of it, objective Bayes procedures\nare vulnerable to criticism from both ends of the statistical spectrum. From\nthe subjectivist point of view, objective Bayes is only partially Bayesian: it\nemploys Bayes’ theorem but without doing the hard work of determining a\nconvincing prior distribution. This introduces frequentist elements into its\npractice—clearly so in the case of Jeffreys’ prior—along with frequentist\nincoherencies.\n\nFor the frequentist, objective Bayes analysis can seem dangerously un-\ntethered from the usual standards of accuracy, having only tenuous large-\nsample claims to legitimacy. This is more than a theoretical objection. The\npractical advantages claimed for Bayesian methods depend crucially on the\nﬁne structure of the prior. Can we safely ignore stopping rules or selective\ninference (e.g., choosing the largest of many estimated parameters for spe-\ncial attention) for a prior not based on some form of genuine experience?', metadata={'source': '../../files/rag-llm/Computer Age Statistical Inference Book.txt'}),
+ Document(page_content='Frequentist statistics has the advantage of being applicable to any algo-\nrithmic procedure, for instance to our Cp/OLS estimator. This has great\nappeal in an era of enormous data sets and fast computation. The draw-\nback, compared with Bayesian statistics, is that we have no guarantee that\nour chosen algorithm is best in any way. Classical statistics developed a\ntheory of best for a catalog of comparatively simple estimation and testing\nproblems. In this sense, modern inferential theory has not yet caught up\nwith modern problems such as data-based model selection, though tech-\nniques such as model averaging (e.g., bagging) suggest promising steps\nforward.\n\n20.3 Selection Bias', metadata={'source': '../../files/rag-llm/Computer Age Statistical Inference Book.txt'})]</code></pre>
+</div>
+</div>
+<p>The PDF extract is not great … but you see the potential in cleaned text. Read the embedded text it considered most relevant to the question. This differentiates a ‘RAG’ that simply reads a file versus a RAG that passes the corpus through an embedding model.</p>
+</section>
+<section id="setup-chaining" class="level2">
+<h2 class="anchored" data-anchor-id="setup-chaining">Setup &amp; Chaining</h2>
+<div id="7e5dcdb1" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>instructions <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="st">Answer the question based on the context below. Prior to finalizing your response, </span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="st">remember to clean the data and make sense of it. You are a pretrained LLM that understands</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="st">common language, so use your best judgement if the text is too messy to give a definitive answer. </span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="st">If you can't answer the question because the text is too messy,</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="st">reply "The text is too messy to answer this question". If you can't answer the question in general, reply "I don't know". </span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="st">Context: </span><span class="sc">{context}</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="st">Question: </span><span class="sc">{question}</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>prompt <span class="op">=</span> ChatPromptTemplate.from_template(instructions)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>setup <span class="op">=</span> RunnableParallel(context<span class="op">=</span>retriever, question<span class="op">=</span>RunnablePassthrough())</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>chain <span class="op">=</span> setup <span class="op">|</span> prompt <span class="op">|</span> model <span class="op">|</span> parser</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>chain.invoke(<span class="st">"Who or what do frequentists criticize?"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="56">
+<pre><code>'Frequentists criticize objective Bayes procedures for their vulnerability to criticism from both subjectivist and frequentist perspectives.'</code></pre>
+</div>
+</div>
+<p>Looks like neither of them were right…transformers for the win!</p>
 
 
+</section>
 
-
-<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-listing-date-sort="1713855600000" data-listing-file-modified-sort="1713930930787" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="382">
-<a href="./projects/RAG LLM/rag-llm.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="files/rag-llm/gpt-rag-image.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Plug and Play RAG LLM
-</h5>
-<div class="card-text listing-description">
-This document demonstrate a quick and easy RAG implementation using OPENAIs API and the LangChain framework. I tried to make this a simple copy/pastable PDF solution for…
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Jesus Gonzalez
-</div>
-<div class="listing-date">
-Apr 23, 2024
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="1" data-listing-date-sort="1713250800000" data-listing-file-modified-sort="1713893440339" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="32" data-listing-word-count-sort="6384">
-<a href="./projects/Assignment1/hw1_questions.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="projects/Assignment1/hw1_questions_files/figure-html/cell-11-output-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-A Replication of Karlan and List (2007)
-</h5>
-<div class="card-text listing-description">
-Dean Karlan at Yale and John List at the University of Chicago conducted a field experiment to test the effectiveness of different fundraising letters. They sent out 50,000…<em></em>
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Jesus Gonzalez
-</div>
-<div class="listing-date">
-Apr 16, 2024
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

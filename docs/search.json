@@ -25,7 +25,7 @@
     "href": "projects.html",
     "title": "Projects",
     "section": "",
-    "text": "A Replication of Karlan and List (2007)\n\n\n\n\n\n\nJesus Gonzalez\n\n\nApr 16, 2024\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "Plug and Play RAG LLM\n\n\n\n\n\n\nJesus Gonzalez\n\n\nApr 23, 2024\n\n\n\n\n\n\n\n\n\n\n\n\nA Replication of Karlan and List (2007)\n\n\n\n\n\n\nJesus Gonzalez\n\n\nApr 16, 2024\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "projects/project1/index.html",
@@ -173,5 +173,47 @@
     "title": "Jesus Gonzalez",
     "section": "",
     "text": "PMP | PMI 2022\nPSM | Scrum.org 2022"
+  },
+  {
+    "objectID": "projects/RAG LLM/rag-llm.html",
+    "href": "projects/RAG LLM/rag-llm.html",
+    "title": "Plug and Play RAG LLM",
+    "section": "",
+    "text": "Here’s an image GPT tried really hard to create 😆\nThis document demonstrate a quick and easy RAG implementation using OPENAIs API and the LangChain framework. I tried to make this a simple copy/pastable PDF solution for anyone looking to quickly interact with their PDFs or simple a large corpus of text."
+  },
+  {
+    "objectID": "projects/RAG LLM/rag-llm.html#the-model",
+    "href": "projects/RAG LLM/rag-llm.html#the-model",
+    "title": "Plug and Play RAG LLM",
+    "section": "The Model",
+    "text": "The Model\n\nmodel = ChatOpenAI(api_key=OPENAI_API_KEY, model=\"gpt-3.5-turbo\")\nparser = StrOutputParser()\nchain = model | parser\nchain.invoke(\"hi, are you there gpt?\")\n\n'Hello! Yes, I am here. How can I assist you today?'"
+  },
+  {
+    "objectID": "projects/RAG LLM/rag-llm.html#plug-play-section",
+    "href": "projects/RAG LLM/rag-llm.html#plug-play-section",
+    "title": "Plug and Play RAG LLM",
+    "section": "Plug & Play Section",
+    "text": "Plug & Play Section\n\ndef pdf_to_text(pdf_path, output_txt_path):\n    text = extract_text(pdf_path)\n    with open(output_txt_path, 'w', encoding='utf-8') as file:\n        file.write(text)\n\n# pdf_path = '../../files/Computer Age Statistical Inference Book.pdf'\n# output_txt_path = '../../files/rag-llm/Computer Age Statistical Inference Book.txt'  \n# pdf_to_text(pdf_path, output_txt_path)\n\nI am showing the short script above so that anyone may replicate this in their environment. I used a course textbook as a test case."
+  },
+  {
+    "objectID": "projects/RAG LLM/rag-llm.html#chunking-context-due-to-token-limitations",
+    "href": "projects/RAG LLM/rag-llm.html#chunking-context-due-to-token-limitations",
+    "title": "Plug and Play RAG LLM",
+    "section": "Chunking Context Due to Token Limitations",
+    "text": "Chunking Context Due to Token Limitations\n\nloader = TextLoader(\"../../files/rag-llm/Computer Age Statistical Inference Book.txt\")\ntext_documents = loader.load()\ntext_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=20)\ndocuments = text_splitter.split_documents(text_documents)"
+  },
+  {
+    "objectID": "projects/RAG LLM/rag-llm.html#embedding-the-context-for-improved-performance",
+    "href": "projects/RAG LLM/rag-llm.html#embedding-the-context-for-improved-performance",
+    "title": "Plug and Play RAG LLM",
+    "section": "Embedding the Context for Improved Performance",
+    "text": "Embedding the Context for Improved Performance\n\nembeddings = OpenAIEmbeddings()\nvector_store = DocArrayInMemorySearch.from_documents(documents, embeddings)\n\nretriever = vector_store.as_retriever()\nretriever.invoke(\"Who or what do frequentists criticize?\") \n\n[Document(page_content='What might be called the strong deﬁnition of frequentism insists on exact\\nfrequentist correctness under experimental repetitions. Pivotality, unfortu-\\nnately, is unavailable in most statistical situations. Our looser deﬁnition\\nof frequentism, supplemented by devices such as those above,7 presents a\\nmore realistic picture of actual frequentist practice.\\n\\n2.2 Frequentist Optimality\\n\\nThe popularity of frequentist methods reﬂects their relatively modest math-\\nematical modeling assumptions: only a probability model F (more exactly\\na family of probabilities, Chapter 3) and an algorithm of choice t.x/. This\\nﬂexibility is also a defect in that the principle of frequentist correctness\\ndoesn’t help with the choice of algorithm. Should we use the sample mean\\nto estimate the location of the gfr distribution? Maybe the 25% Win-\\nsorized mean would be better, as Table 2.1 suggests.', metadata={'source': '../../files/rag-llm/Computer Age Statistical Inference Book.txt'}),\n Document(page_content='Frequentism cannot claim to be a seamless philosophy of statistical in-\\nference. Paradoxes and contradictions abound within its borders, as will\\nbe shown in the next chapter. That being said, frequentist methods have\\na natural appeal to working scientists, an impressive history of success-\\nful application, and, as our list of ﬁve “devices” suggests, the capacity to\\nencourage clever methodology. The story that follows is not one of aban-\\ndonment of frequentist thinking, but rather a broadening of connections\\nwith other methods.\\n\\n2.3 Notes and Details', metadata={'source': '../../files/rag-llm/Computer Age Statistical Inference Book.txt'}),\n Document(page_content='Despite its simplicity, or perhaps because of it, objective Bayes procedures\\nare vulnerable to criticism from both ends of the statistical spectrum. From\\nthe subjectivist point of view, objective Bayes is only partially Bayesian: it\\nemploys Bayes’ theorem but without doing the hard work of determining a\\nconvincing prior distribution. This introduces frequentist elements into its\\npractice—clearly so in the case of Jeffreys’ prior—along with frequentist\\nincoherencies.\\n\\nFor the frequentist, objective Bayes analysis can seem dangerously un-\\ntethered from the usual standards of accuracy, having only tenuous large-\\nsample claims to legitimacy. This is more than a theoretical objection. The\\npractical advantages claimed for Bayesian methods depend crucially on the\\nﬁne structure of the prior. Can we safely ignore stopping rules or selective\\ninference (e.g., choosing the largest of many estimated parameters for spe-\\ncial attention) for a prior not based on some form of genuine experience?', metadata={'source': '../../files/rag-llm/Computer Age Statistical Inference Book.txt'}),\n Document(page_content='Frequentist statistics has the advantage of being applicable to any algo-\\nrithmic procedure, for instance to our Cp/OLS estimator. This has great\\nappeal in an era of enormous data sets and fast computation. The draw-\\nback, compared with Bayesian statistics, is that we have no guarantee that\\nour chosen algorithm is best in any way. Classical statistics developed a\\ntheory of best for a catalog of comparatively simple estimation and testing\\nproblems. In this sense, modern inferential theory has not yet caught up\\nwith modern problems such as data-based model selection, though tech-\\nniques such as model averaging (e.g., bagging) suggest promising steps\\nforward.\\n\\n20.3 Selection Bias', metadata={'source': '../../files/rag-llm/Computer Age Statistical Inference Book.txt'})]\n\n\nThe PDF extract is not great … but you see the potential in cleaned text. Read the embedded text it considered most relevant to the question. This differentiates a ‘RAG’ that simply reads a file versus a RAG that passes the corpus through an embedding model."
+  },
+  {
+    "objectID": "projects/RAG LLM/rag-llm.html#setup-chaining",
+    "href": "projects/RAG LLM/rag-llm.html#setup-chaining",
+    "title": "Plug and Play RAG LLM",
+    "section": "Setup & Chaining",
+    "text": "Setup & Chaining\n\ninstructions = \"\"\"\nAnswer the question based on the context below. Prior to finalizing your response, \nremember to clean the data and make sense of it. You are a pretrained LLM that understands\ncommon language, so use your best judgement if the text is too messy to give a definitive answer. \nIf you can't answer the question because the text is too messy,\nreply \"The text is too messy to answer this question\". If you can't answer the question in general, reply \"I don't know\". \n\nContext: {context}\n\nQuestion: {question}\n\"\"\"\nprompt = ChatPromptTemplate.from_template(instructions)\nsetup = RunnableParallel(context=retriever, question=RunnablePassthrough())\n\nchain = setup | prompt | model | parser\nchain.invoke(\"Who or what do frequentists criticize?\") \n\n'Frequentists criticize objective Bayes procedures for their vulnerability to criticism from both subjectivist and frequentist perspectives.'\n\n\nLooks like neither of them were right…transformers for the win!"
   }
 ]

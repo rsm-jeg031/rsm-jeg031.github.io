@@ -1,0 +1,107 @@
+---
+title: "Plug and Play RAG LLM"
+author: "Jesus Gonzalez"
+date: April 23, 2024
+callout-appearance: minimal 
+---
+![Here's an image GPT tried really hard to create 😆](../../files/rag-llm/gpt-rag-image.png)
+
+This document demonstrate a quick and easy RAG implementation using OPENAIs API and the LangChain framework. I tried to make this a simple copy/pastable PDF solution for anyone looking to quickly interact with their PDFs or simple a large corpus of text. 
+
+## The Model
+
+```{python}
+#| echo: false
+#| warnings: false
+#| message: false
+import os
+from dotenv import load_dotenv
+from langchain_openai.chat_models import ChatOpenAI
+from langchain_core.output_parsers import StrOutputParser
+from langchain.prompts import ChatPromptTemplate
+from pdfminer.high_level import extract_text
+from langchain_community.document_loaders import TextLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_openai.embeddings import OpenAIEmbeddings
+from langchain_community.vectorstores import DocArrayInMemorySearch
+from langchain_core.runnables import RunnableParallel, RunnablePassthrough
+from langchain_pinecone import PineconeVectorStore
+import warnings
+warnings.filterwarnings("ignore")
+```
+
+
+```{python}
+#| echo: false
+load_dotenv()
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+```
+
+
+```{python}
+model = ChatOpenAI(api_key=OPENAI_API_KEY, model="gpt-3.5-turbo")
+parser = StrOutputParser()
+chain = model | parser
+chain.invoke("hi, are you there gpt?")
+```
+
+## Plug & Play Section
+
+```{python}
+def pdf_to_text(pdf_path, output_txt_path):
+    text = extract_text(pdf_path)
+    with open(output_txt_path, 'w', encoding='utf-8') as file:
+        file.write(text)
+
+# pdf_path = '../../files/Computer Age Statistical Inference Book.pdf'
+# output_txt_path = '../../files/rag-llm/Computer Age Statistical Inference Book.txt'  
+# pdf_to_text(pdf_path, output_txt_path)
+```
+
+I am showing the short script above so that anyone may replicate this in their environment. I used a course textbook as a test case.
+
+## Chunking Context Due to Token Limitations
+
+```{python}
+loader = TextLoader("../../files/rag-llm/Computer Age Statistical Inference Book.txt")
+text_documents = loader.load()
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=20)
+documents = text_splitter.split_documents(text_documents)
+```
+
+## Embedding the Context for Improved Performance
+
+
+```{python}
+embeddings = OpenAIEmbeddings()
+vector_store = DocArrayInMemorySearch.from_documents(documents, embeddings)
+
+retriever = vector_store.as_retriever()
+retriever.invoke("Who or what do frequentists criticize?") 
+```
+
+The PDF extract is not great ... but you see the potential in cleaned text. Read the embedded text it considered most relevant to the question. This differentiates a 'RAG' that simply reads a file versus a RAG that passes the corpus through an embedding model. 
+
+## Setup & Chaining
+
+
+```{python}
+instructions = """
+Answer the question based on the context below. Prior to finalizing your response, 
+remember to clean the data and make sense of it. You are a pretrained LLM that understands
+common language, so use your best judgement if the text is too messy to give a definitive answer. 
+If you can't answer the question because the text is too messy,
+reply "The text is too messy to answer this question". If you can't answer the question in general, reply "I don't know". 
+
+Context: {context}
+
+Question: {question}
+"""
+prompt = ChatPromptTemplate.from_template(instructions)
+setup = RunnableParallel(context=retriever, question=RunnablePassthrough())
+
+chain = setup | prompt | model | parser
+chain.invoke("Who or what do frequentists criticize?") 
+```
+
+Looks like neither of them were right...transformers for the win! 
