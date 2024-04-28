@@ -25,5 +25,11 @@
   },
   "projects/RAG LLM/rag-llm.qmd": {
     "rag-llm.html": "0ff9af1b"
+  },
+  "projects/RAG-LLM/rag-llm.qmd": {
+    "rag-llm.html": "357a890b"
+  },
+  "projects/Assignment2/hw2_questions.qmd": {
+    "hw2_questions.html": "42fc47be"
   }
 }

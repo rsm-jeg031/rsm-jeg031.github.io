@@ -232,19 +232,19 @@ cookieconsent.run({
 <p>This document demonstrate a quick and easy RAG implementation using OPENAIs API and the LangChain framework. I tried to make this a simple copy/pastable PDF solution for anyone looking to quickly interact with their PDFs or simply a large corpus of text.</p>
 <section id="the-model" class="level2">
 <h2 class="anchored" data-anchor-id="the-model">The Model</h2>
-<div id="c0b97c0f" class="cell" data-execution_count="3">
+<div id="126c96bb" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ChatOpenAI(api_key<span class="op">=</span>OPENAI_API_KEY, model<span class="op">=</span><span class="st">"gpt-3.5-turbo"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>parser <span class="op">=</span> StrOutputParser()</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>chain <span class="op">=</span> model <span class="op">|</span> parser</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>chain.invoke(<span class="st">"hi, are you there gpt?"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="17">
-<pre><code>"Hello! Yes, I'm here. How can I assist you today?"</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>"Hello! Yes, I'm here. How can I help you today?"</code></pre>
 </div>
 </div>
 </section>
 <section id="plug-play-section" class="level2">
 <h2 class="anchored" data-anchor-id="plug-play-section">Plug &amp; Play Section</h2>
-<div id="59f5b423" class="cell" data-execution_count="4">
+<div id="4a51f6c9" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> pdf_to_text(pdf_path, output_txt_path):</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    text <span class="op">=</span> extract_text(pdf_path)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(output_txt_path, <span class="st">'w'</span>, encoding<span class="op">=</span><span class="st">'utf-8'</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
@@ -258,7 +258,7 @@ cookieconsent.run({
 </section>
 <section id="chunking-context-due-to-token-limitations" class="level2">
 <h2 class="anchored" data-anchor-id="chunking-context-due-to-token-limitations">Chunking Context Due to Token Limitations</h2>
-<div id="afb7c706" class="cell" data-execution_count="5">
+<div id="99bb8466" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>loader <span class="op">=</span> TextLoader(<span class="st">"../../files/rag-llm/Computer Age Statistical Inference Book.txt"</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>text_documents <span class="op">=</span> loader.load()</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>text_splitter <span class="op">=</span> RecursiveCharacterTextSplitter(chunk_size<span class="op">=</span><span class="dv">1000</span>, chunk_overlap<span class="op">=</span><span class="dv">20</span>)</span>
@@ -267,13 +267,13 @@ cookieconsent.run({
 </section>
 <section id="embedding-the-context-for-improved-performance" class="level2">
 <h2 class="anchored" data-anchor-id="embedding-the-context-for-improved-performance">Embedding the Context for Improved Performance</h2>
-<div id="79f296bf" class="cell" data-execution_count="6">
+<div id="f7042b79" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>embeddings <span class="op">=</span> OpenAIEmbeddings()</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>vector_store <span class="op">=</span> DocArrayInMemorySearch.from_documents(documents, embeddings)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>retriever <span class="op">=</span> vector_store.as_retriever()</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>retriever.invoke(<span class="st">"Who or what do frequentists criticize?"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="20">
+<div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>[Document(page_content='What might be called the strong deﬁnition of frequentism insists on exact\nfrequentist correctness under experimental repetitions. Pivotality, unfortu-\nnately, is unavailable in most statistical situations. Our looser deﬁnition\nof frequentism, supplemented by devices such as those above,7 presents a\nmore realistic picture of actual frequentist practice.\n\n2.2 Frequentist Optimality\n\nThe popularity of frequentist methods reﬂects their relatively modest math-\nematical modeling assumptions: only a probability model F (more exactly\na family of probabilities, Chapter 3) and an algorithm of choice t.x/. This\nﬂexibility is also a defect in that the principle of frequentist correctness\ndoesn’t help with the choice of algorithm. Should we use the sample mean\nto estimate the location of the gfr distribution? Maybe the 25% Win-\nsorized mean would be better, as Table 2.1 suggests.', metadata={'source': '../../files/rag-llm/Computer Age Statistical Inference Book.txt'}),
  Document(page_content='Frequentism cannot claim to be a seamless philosophy of statistical in-\nference. Paradoxes and contradictions abound within its borders, as will\nbe shown in the next chapter. That being said, frequentist methods have\na natural appeal to working scientists, an impressive history of success-\nful application, and, as our list of ﬁve “devices” suggests, the capacity to\nencourage clever methodology. The story that follows is not one of aban-\ndonment of frequentist thinking, but rather a broadening of connections\nwith other methods.\n\n2.3 Notes and Details', metadata={'source': '../../files/rag-llm/Computer Age Statistical Inference Book.txt'}),
  Document(page_content='Despite its simplicity, or perhaps because of it, objective Bayes procedures\nare vulnerable to criticism from both ends of the statistical spectrum. From\nthe subjectivist point of view, objective Bayes is only partially Bayesian: it\nemploys Bayes’ theorem but without doing the hard work of determining a\nconvincing prior distribution. This introduces frequentist elements into its\npractice—clearly so in the case of Jeffreys’ prior—along with frequentist\nincoherencies.\n\nFor the frequentist, objective Bayes analysis can seem dangerously un-\ntethered from the usual standards of accuracy, having only tenuous large-\nsample claims to legitimacy. This is more than a theoretical objection. The\npractical advantages claimed for Bayesian methods depend crucially on the\nﬁne structure of the prior. Can we safely ignore stopping rules or selective\ninference (e.g., choosing the largest of many estimated parameters for spe-\ncial attention) for a prior not based on some form of genuine experience?', metadata={'source': '../../files/rag-llm/Computer Age Statistical Inference Book.txt'}),
@@ -284,7 +284,7 @@ cookieconsent.run({
 </section>
 <section id="setup-chaining" class="level2">
 <h2 class="anchored" data-anchor-id="setup-chaining">Setup &amp; Chaining</h2>
-<div id="ec2d3f6c" class="cell" data-execution_count="7">
+<div id="8d61cc0d" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>instructions <span class="op">=</span> <span class="st">"""</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="st">Answer the question based on the context below. Prior to finalizing your response, </span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="st">remember to clean the data and make sense of it. You are a pretrained LLM that understands</span></span>
@@ -301,8 +301,8 @@ cookieconsent.run({
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>chain <span class="op">=</span> setup <span class="op">|</span> prompt <span class="op">|</span> model <span class="op">|</span> parser</span>
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>chain.invoke(<span class="st">"Who or what do frequentists criticize?"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="21">
-<pre><code>'Frequentists criticize objective Bayes procedures.'</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>'Frequentists criticize the objective Bayes procedures for being vulnerable to criticism from both subjectivist and frequentist perspectives.'</code></pre>
 </div>
 </div>
 <p>Looks like neither of them were right…transformers for the win!</p>
@@ -310,32 +310,32 @@ cookieconsent.run({
 <section id="exploring-embeddings" class="level2">
 <h2 class="anchored" data-anchor-id="exploring-embeddings">Exploring Embeddings</h2>
 <p>Exploring embeddings using gensim.</p>
-<div id="c4233ca6" class="cell" data-execution_count="9">
+<div id="2763ce32" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sentences <span class="op">=</span> LineSentence(<span class="st">'../../files/rag-llm/Computer Age Statistical Inference Book.txt'</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Word2Vec(sentences<span class="op">=</span>sentences, vector_size<span class="op">=</span><span class="dv">100</span>, window<span class="op">=</span><span class="dv">5</span>, min_count<span class="op">=</span><span class="dv">5</span>, workers<span class="op">=</span><span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Setting up the model by breaking up the book into sentence chunks.</p>
-<div id="fd63edee" class="cell" data-execution_count="10">
+<div id="dbea7628" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>words <span class="op">=</span> [word <span class="cf">for</span> word, _ <span class="kw">in</span> model.wv.most_similar(<span class="st">'statistics'</span>, topn<span class="op">=</span><span class="dv">30</span>)]</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>word_vectors <span class="op">=</span> [model.wv[word] <span class="cf">for</span> word <span class="kw">in</span> words]</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>pca <span class="op">=</span> PCA(n_components<span class="op">=</span><span class="dv">2</span>)</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>reduced_vectors <span class="op">=</span> pca.fit_transform(word_vectors)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="1b2cf333" class="cell" data-execution_count="11">
+<div id="8e548e29" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="rag-llm_files/figure-html/cell-12-output-1.png" width="664" height="411" class="figure-img"></p>
+<p><img src="rag-llm_files/figure-html/cell-12-output-1.png" width="677" height="414" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>A two-dimensional view of the most similar words, based on their embeddings, to the word “statistics.”</p>
-<div id="6547d491" class="cell" data-execution_count="12">
+<div id="87c0bf6b" class="cell" data-execution_count="12">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="rag-llm_files/figure-html/cell-13-output-1.png" width="626" height="611" class="figure-img"></p>
+<p><img src="rag-llm_files/figure-html/cell-13-output-1.png" width="624" height="611" class="figure-img"></p>
 </figure>
 </div>
 </div>
@@ -344,18 +344,18 @@ cookieconsent.run({
 <section id="cosine-similarity" class="level3">
 <h3 class="anchored" data-anchor-id="cosine-similarity">Cosine Similarity</h3>
 <p>Here you can see the Cosine similarity between any words of your choice. Given the context of the book and the questions asked above to the GPT-powered model I chose the following.</p>
-<div id="7363ea98" class="cell" data-execution_count="13">
+<div id="efa08a4a" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>words <span class="op">=</span> [<span class="st">'frequentist'</span>, <span class="st">'Bayes'</span>, <span class="st">'objective'</span>, <span class="st">'subjective'</span>] </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="5c132160" class="cell" data-execution_count="14">
+<div id="b3b8a7f7" class="cell" data-execution_count="14">
 <div class="cell-output cell-output-stdout">
-<pre><code>Cosine similarity between frequentist and Bayes: 0.9953806400299072
-Cosine similarity between objective and subjective: 0.9843490123748779</code></pre>
+<pre><code>Cosine similarity between frequentist and Bayes: 0.995741069316864
+Cosine similarity between objective and subjective: 0.9796308875083923</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="rag-llm_files/figure-html/cell-15-output-2.png" width="622" height="611" class="figure-img"></p>
+<p><img src="rag-llm_files/figure-html/cell-15-output-2.png" width="627" height="611" class="figure-img"></p>
 </figure>
 </div>
 </div>
