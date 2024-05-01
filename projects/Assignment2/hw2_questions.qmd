@@ -515,17 +515,18 @@ poisson_glm_result.summary()
 
 Up to this point in the analysis, we took a *"looking under the hood"* approach to this case study. Using the open source statsmodels api we can easily summarize our work. 
 
-Output: 
-| Variable          | Coefficient (Manual) | Standard Error (Manual) | Coefficient (GLM) | Standard Error (GLM) |
-|-------------------|----------------------|-------------------------|-------------------|----------------------|
-| Intercept         | 1.215                | 0.036                   | 1.215             | 0.036                |
-| Age               | 1.046                | 0.100                   | 1.046             | 0.100                |
-| Age Squared       | -1.141               | 0.102                   | -1.141            | 0.102                |
-| Is Customer       | 0.118                | 0.039                   | 0.118             | 0.039                |
-| Region Northeast  | 0.099                | 0.042                   | 0.099             | 0.042                |
-| Region Northwest  | -0.020               | 0.054                   | -0.020            | 0.054                |
-| Region South      | 0.057                | 0.053                   | 0.057             | 0.053                |
-| Region Southwest  | 0.051                | 0.047                   | 0.051             | 0.047                |
+| Variable         | Coefficient (Manual) | Standard Error (Manual) | Coefficient (GLM) | Standard Error (GLM) |
+|------------------|----------------------|-------------------------|-------------------|----------------------|
+| Intercept        | 1.215                | 0.036                   | 1.215             | 0.036                |
+| Age              | 1.046                | 0.100                   | 1.046             | 0.100                |
+| Age Squared      | -1.141               | 0.102                   | -1.141            | 0.102                |
+| Is Customer      | 0.118                | 0.039                   | 0.118             | 0.039                |
+| Region Northeast | 0.099                | 0.042                   | 0.099             | 0.042                |
+| Region Northwest | -0.020               | 0.054                   | -0.020            | 0.054                |
+| Region South     | 0.057                | 0.053                   | 0.057             | 0.053                |
+| Region Southwest | 0.051                | 0.047                   | 0.051             | 0.047                |
+
+: Model Coefficients {.striped .hover}
 
 
 - Consistency: The coefficients and standard errors from the `statsmodels.GLM` function match exactly with those computed manually using the Hessian-based approach. This indicates the correctness of our manual calculations and the model setup.

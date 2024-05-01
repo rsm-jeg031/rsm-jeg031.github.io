@@ -280,7 +280,7 @@ Interactive Blueprinty Dataset
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="7f075b81" class="cell" data-execution_count="2">
+<div id="1082b4a6" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <style>.itables table td {
@@ -307,7 +307,7 @@ Interactive Blueprinty Dataset
 </style>
 <div class="itables">
 
-<table id="969cc050-f8f0-411a-8224-8acddae5cd28" class="display nowrap table table-sm table-striped small" data-quarto-postprocess="true">
+<table id="e568558e-a72a-474c-ba2d-15fcf03fd681" class="display nowrap table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header" style="text-align: right;">
 <th data-quarto-table-cell-role="th">Unnamed: 0</th>
@@ -344,7 +344,7 @@ Interactive Blueprinty Dataset
 
     $(document).ready(function () {
         
-        $('#969cc050-f8f0-411a-8224-8acddae5cd28').DataTable(dt_args);
+        $('#e568558e-a72a-474c-ba2d-15fcf03fd681').DataTable(dt_args);
     });
 </script>
 </div>
@@ -366,8 +366,8 @@ Summary Statistics
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="46a826e4" class="cell" data-execution_count="3">
-<div class="cell-output cell-output-display" data-execution_count="3">
+<div id="fd847d52" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display" data-execution_count="32">
 <div>
 <div>
 
@@ -457,7 +457,7 @@ Summary Statistics
 <li><p><code>iscustomer</code>: Indicates whether the firm uses Blueprinty’s software (1 = customer, 0 = not a customer)</p></li>
 </ul>
 <p><strong>Distributions of Customers</strong></p>
-<div id="9a3630e6" class="cell" data-execution_count="4">
+<div id="57ccae30" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -469,7 +469,7 @@ Summary Statistics
 <p>Non Customer Mean: 3.62 Customer Mean: 4.09</p>
 <p>From the histograms and mean calculations, it appears that <em>customers of Blueprinty tend to have a slightly higher average number of patents compared to non-customers</em>. This could suggest a positive impact of using Blueprinty’s software on patent success, though other factors like firm age or region might also influence these results.</p>
 <p><strong>Comparing Regions</strong></p>
-<div id="e198556e" class="cell" data-execution_count="5">
+<div id="09edf85a" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -507,8 +507,8 @@ L(\lambda | Y_1, Y_2, \dots, Y_n) = \prod_{i=1}^{n} \frac{e^{-\lambda} \lambda^{
 \]</span></p>
 <p>Maximizing this log-likelihood function with respect to <span class="math inline">\(\lambda\)</span> gives us the MLE of <span class="math inline">\(\lambda\)</span>, which is particularly straightforward in the case of the Poisson distribution since the derivative of the log-likelihood function leads to a simple solution.</p>
 <p>Using the statsmodels module we can easily implement the above, while taking into account the <code>iscustomer</code> status as a predictor for <span class="math inline">\(\lambda\)</span>.</p>
-<div id="25723cf0" class="cell" data-inclue="false" data-execution_count="6">
-<div class="cell-output cell-output-display" data-execution_count="6">
+<div id="a17b7aa8" class="cell" data-inclue="false" data-execution_count="6">
+<div class="cell-output cell-output-display" data-execution_count="35">
 <div>
 <table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>Generalized Linear Model Regression Results</caption>
@@ -551,7 +551,7 @@ L(\lambda | Y_1, Y_2, \dots, Y_n) = \prod_{i=1}^{n} \frac{e^{-\lambda} \lambda^{
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Time:</td>
-<td>19:15:01</td>
+<td>19:24:57</td>
 <td data-quarto-table-cell-role="th">Pearson chi2:</td>
 <td>2.25e+03</td>
 </tr>
@@ -620,7 +620,7 @@ L(\lambda | Y_1, Y_2, \dots, Y_n) = \prod_{i=1}^{n} \frac{e^{-\lambda} \lambda^{
 \]</span></p>
 <p>In Python this looks like this:</p>
 <p><code>-lambda * n + sum(Y_i * log(lambda)) - sum(log(Y_i!))</code></p>
-<div id="452e5af9" class="cell" data-execution_count="7">
+<div id="6d97e995" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> poisson_loglikelihood(lambda_, Y):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Calculate the log-likelihood for the Poisson distribution given a lambda and an array of observed counts Y.</span></span>
@@ -634,21 +634,21 @@ L(\lambda | Y_1, Y_2, \dots, Y_n) = \prod_{i=1}^{n} \frac{e^{-\lambda} \lambda^{
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span>lambda_ <span class="op">*</span> <span class="bu">len</span>(Y) <span class="op">+</span> np.<span class="bu">sum</span>(Y <span class="op">*</span> np.log(lambda_)) <span class="op">-</span> np.<span class="bu">sum</span>(gammaln(Y <span class="op">+</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="e3ac3d60" class="cell" data-execution_count="9">
+<div id="3202a8ac" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>log_likelihood <span class="op">=</span> poisson_loglikelihood(lambda_, Y)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>log_likelihood</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="38">
 <pre><code>-3399.0629915336285</code></pre>
 </div>
 </div>
 <p>A log-likelihood of -3399.06 indicates the probability of observing the given patent count data under the assumed Poisson distribution with the computed <span class="math inline">\(\lambda\)</span>. This number by itself is abstract, but it becomes meaningful when used to compare this model against others, such as models with additional variables or different distributions.</p>
 <p><strong>Ploting</strong> <span class="math inline">\(\lambda\)</span></p>
-<div id="ca0190fe" class="cell" data-execution_count="10">
+<div id="77b4eeb1" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>lambda_range <span class="op">=</span> np.linspace(<span class="fl">0.5</span> <span class="op">*</span> lambda_, <span class="fl">1.5</span> <span class="op">*</span> lambda_, <span class="dv">400</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>log_likelihood_values <span class="op">=</span> [poisson_loglikelihood(l, Y) <span class="cf">for</span> l <span class="kw">in</span> lambda_range]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Using the function created we plot <span class="math inline">\(\lambda\)</span> on the horizontal axis and the log-likelihood on the vertical axis for the range of lambdas.</p>
-<div id="17b5028f" class="cell" data-execution_count="11">
+<div id="52ca0bf2" class="cell" data-execution_count="11">
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -685,16 +685,16 @@ L(\lambda | Y_1, Y_2, \dots, Y_n) = \prod_{i=1}^{n} \frac{e^{-\lambda} \lambda^{
 \lambda = \frac{\sum_{i=1}^{n} Y_i}{n}
 \]</span></p>
 <p>Thus, <span class="math inline">\(\lambda_{MLE} = \bar{Y}\)</span>, where <span class="math inline">\(\bar{Y}\)</span> is the sample mean of the observed values <span class="math inline">\(Y\)</span>. This result aligns with our intuition and theoretical understanding, as <span class="math inline">\(\lambda\)</span> in a Poisson distribution represents both the mean and the variance of the distribution.</p>
-<div id="5555b467" class="cell" data-execution_count="12">
+<div id="e8197d00" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>lambda_mle <span class="op">=</span> Y.mean()</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>lambda_mle</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="12">
+<div class="cell-output cell-output-display" data-execution_count="41">
 <pre><code>3.6846666666666668</code></pre>
 </div>
 </div>
 <p>The Maximum Likelihood Estimate (MLE) for lambda based on the observed data is approximately 3.685. This is the average number of patents per firm over the last 5 years, which indeed serves as the MLE of lambda in our Poisson model. This result confirms our theoretical derivation and reflects the natural interpretation of lambda in the Poisson distribution as the average rate (or mean) of occurrence of the event (patents awarded).</p>
 <p><strong>Finding the MLE with <code>scipy.optimize</code></strong></p>
-<div id="f65b1d2c" class="cell" data-execution_count="13">
+<div id="80f6244a" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> poisson_loglikelihood_v2(lambda_, Y):</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Calculate the negative log-likelihood for the Poisson distribution given a lambda and an array of observed counts Y.</span></span>
@@ -711,11 +711,11 @@ L(\lambda | Y_1, Y_2, \dots, Y_n) = \prod_{i=1}^{n} \frac{e^{-\lambda} \lambda^{
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span>(<span class="op">-</span>lambda_ <span class="op">*</span> <span class="bu">len</span>(Y) <span class="op">+</span> np.<span class="bu">sum</span>(Y <span class="op">*</span> np.log(lambda_)) <span class="op">-</span> np.<span class="bu">sum</span>(gammaln(Y <span class="op">+</span> <span class="dv">1</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Updated version of the function above to make the absolute positive.</p>
-<div id="d5024545" class="cell" data-execution_count="15">
+<div id="068c0126" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.optimize <span class="im">import</span> minimize</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> minimize(poisson_loglikelihood_v2, initial_lambda, args<span class="op">=</span>(Y,), method<span class="op">=</span><span class="st">'L-BFGS-B'</span>, bounds<span class="op">=</span>[(<span class="fl">0.001</span>, <span class="va">None</span>)])</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>result</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="15">
+<div class="cell-output cell-output-display" data-execution_count="44">
 <pre><code>  message: CONVERGENCE: REL_REDUCTION_OF_F_&lt;=_FACTR*EPSMCH
   success: True
    status: 0
@@ -739,7 +739,7 @@ L(\lambda | Y_1, Y_2, \dots, Y_n) = \prod_{i=1}^{n} \frac{e^{-\lambda} \lambda^{
 <section id="estimation-of-poisson-regression-model" class="level3">
 <h3 class="anchored" data-anchor-id="estimation-of-poisson-regression-model">Estimation of Poisson Regression Model</h3>
 <p>Next, we extend our simple Poisson model to a Poisson Regression Model such that <span class="math inline">\(Y_i = \text{Poisson}(\lambda_i)\)</span> where <span class="math inline">\(\lambda_i = \exp(X_i'\beta)\)</span>. The interpretation is that the success rate of patent awards is not constant across all firms (<span class="math inline">\(\lambda\)</span>) but rather is a function of firm characteristics <span class="math inline">\(X_i\)</span>. Specifically, we will use the covariates age, age squared, region, and whether the firm is a customer of Blueprinty.</p>
-<div id="592cfa46" class="cell" data-execution_count="16">
+<div id="f6c8fd59" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> poisson_regression_loglikelihood(beta, Y, X):</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Calculate the negative log-likelihood for the Poisson regression model given beta coefficients, observed counts Y, and covariate matrix X.</span></span>
@@ -774,8 +774,8 @@ L(\lambda | Y_1, Y_2, \dots, Y_n) = \prod_{i=1}^{n} \frac{e^{-\lambda} \lambda^{
 <p><strong>Hessian of Poisson Model with Covariats</strong></p>
 <p>The Hessian matrix is a fundamental component in the inference of maximum likelihood estimators. By calculating the inverse of the Hessian matrix at the optimum (MLEs of the parameters), we obtain the covariance matrix of the estimates. The diagonal elements of this matrix provide the variances (and thus standard errors) of the parameter estimates.</p>
 <p>The Hessian also helps confirm the stability and reliability of the optimization process. A well-behaved Hessian (i.e., positive definite at the optimum) suggests that the optimization found a true maximum of the likelihood function. This is crucial for decision making and making statistical inferences.</p>
-<div id="fe003875" class="cell" data-execution_count="21">
-<div class="cell-output cell-output-display" data-execution_count="21">
+<div id="4e0700ca" class="cell" data-execution_count="21">
+<div class="cell-output cell-output-display" data-execution_count="50">
 <div>
 <div>
 
@@ -867,7 +867,83 @@ L(\lambda | Y_1, Y_2, \dots, Y_n) = \prod_{i=1}^{n} \frac{e^{-\lambda} \lambda^{
 </ul>
 <p><strong>Validating Results with Statsmodels glm()</strong></p>
 <p>Up to this point in the analysis, we took a <em>“looking under the hood”</em> approach to this case study. Using the open source statsmodels api we can easily summarize our work.</p>
-<p>Output: | Variable | Coefficient (Manual) | Standard Error (Manual) | Coefficient (GLM) | Standard Error (GLM) | |——————-|———————-|————————-|——————-|———————-| | Intercept | 1.215 | 0.036 | 1.215 | 0.036 | | Age | 1.046 | 0.100 | 1.046 | 0.100 | | Age Squared | -1.141 | 0.102 | -1.141 | 0.102 | | Is Customer | 0.118 | 0.039 | 0.118 | 0.039 | | Region Northeast | 0.099 | 0.042 | 0.099 | 0.042 | | Region Northwest | -0.020 | 0.054 | -0.020 | 0.054 | | Region South | 0.057 | 0.053 | 0.057 | 0.053 | | Region Southwest | 0.051 | 0.047 | 0.051 | 0.047 |</p>
+<table class="table-striped table-hover table">
+<caption>Model Coefficients</caption>
+<colgroup>
+<col style="width: 16%">
+<col style="width: 20%">
+<col style="width: 23%">
+<col style="width: 17%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Coefficient (Manual)</th>
+<th>Standard Error (Manual)</th>
+<th>Coefficient (GLM)</th>
+<th>Standard Error (GLM)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Intercept</td>
+<td>1.215</td>
+<td>0.036</td>
+<td>1.215</td>
+<td>0.036</td>
+</tr>
+<tr class="even">
+<td>Age</td>
+<td>1.046</td>
+<td>0.100</td>
+<td>1.046</td>
+<td>0.100</td>
+</tr>
+<tr class="odd">
+<td>Age Squared</td>
+<td>-1.141</td>
+<td>0.102</td>
+<td>-1.141</td>
+<td>0.102</td>
+</tr>
+<tr class="even">
+<td>Is Customer</td>
+<td>0.118</td>
+<td>0.039</td>
+<td>0.118</td>
+<td>0.039</td>
+</tr>
+<tr class="odd">
+<td>Region Northeast</td>
+<td>0.099</td>
+<td>0.042</td>
+<td>0.099</td>
+<td>0.042</td>
+</tr>
+<tr class="even">
+<td>Region Northwest</td>
+<td>-0.020</td>
+<td>0.054</td>
+<td>-0.020</td>
+<td>0.054</td>
+</tr>
+<tr class="odd">
+<td>Region South</td>
+<td>0.057</td>
+<td>0.053</td>
+<td>0.057</td>
+<td>0.053</td>
+</tr>
+<tr class="even">
+<td>Region Southwest</td>
+<td>0.051</td>
+<td>0.047</td>
+<td>0.051</td>
+<td>0.047</td>
+</tr>
+</tbody>
+</table>
 <ul>
 <li><p>Consistency: The coefficients and standard errors from the <code>statsmodels.GLM</code> function match exactly with those computed manually using the Hessian-based approach. This indicates the correctness of our manual calculations and the model setup.</p></li>
 <li><p>Statistical Significance: The <code>z-values</code> and <code>P&gt;|z|</code> columns from the <code>statsmodels</code> output provide tests for the significance of each predictor. Coefficients with a lower p-value are statistically significant at common significance levels (e.g., 0.05), confirming the impact of those variables on the response variable.</p></li>
@@ -944,7 +1020,7 @@ Interactive Airbnb Dataset
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="3af387ed" class="cell" data-execution_count="23">
+<div id="36f110f4" class="cell" data-execution_count="23">
 <div class="cell-output cell-output-display">
 <div>
 <style>.itables table td {
@@ -971,7 +1047,7 @@ Interactive Airbnb Dataset
 </style>
 <div class="itables">
 
-<table id="b984daec-2588-4965-bb19-57853d3b24cf" class="display nowrap table table-sm table-striped small" data-quarto-postprocess="true">
+<table id="d500a963-9a5b-4ea1-8763-3e123e32ca03" class="display nowrap table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header" style="text-align: right;">
 <th data-quarto-table-cell-role="th">Unnamed: 0</th>
@@ -1026,7 +1102,7 @@ Interactive Airbnb Dataset
 
     $(document).ready(function () {
         
-        $('#b984daec-2588-4965-bb19-57853d3b24cf').DataTable(dt_args);
+        $('#d500a963-9a5b-4ea1-8763-3e123e32ca03').DataTable(dt_args);
     });
 </script>
 </div>
@@ -1048,8 +1124,8 @@ Summary Statistics
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="fad108a8" class="cell" data-execution_count="24">
-<div class="cell-output cell-output-display" data-execution_count="24">
+<div id="656cd159" class="cell" data-execution_count="24">
+<div class="cell-output cell-output-display" data-execution_count="53">
 <div>
 <div>
 
@@ -1197,8 +1273,8 @@ Exploring null values
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="576dc835" class="cell" data-execution_count="25">
-<div class="cell-output cell-output-display" data-execution_count="25">
+<div id="e3eb7958" class="cell" data-execution_count="25">
+<div class="cell-output cell-output-display" data-execution_count="54">
 <pre><code>Unnamed: 0                       0
 id                               0
 days                             0
@@ -1258,7 +1334,7 @@ Interactive “Cleaned” Airbnb Dataset
 </div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="51045f17" class="cell" data-execution_count="27">
+<div id="31a0d2cc" class="cell" data-execution_count="27">
 <div class="cell-output cell-output-display">
 <div>
 <style>.itables table td {
@@ -1285,7 +1361,7 @@ Interactive “Cleaned” Airbnb Dataset
 </style>
 <div class="itables">
 
-<table id="4616bf0a-6527-4a3e-aac9-8b5dcd5cbfa0" class="display nowrap table table-sm table-striped small" data-quarto-postprocess="true">
+<table id="02994fd8-9354-4ca2-beda-3e8bd4c154a6" class="display nowrap table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header" style="text-align: right;">
 <th data-quarto-table-cell-role="th">id</th>
@@ -1332,7 +1408,7 @@ Interactive “Cleaned” Airbnb Dataset
 
     $(document).ready(function () {
         
-        $('#4616bf0a-6527-4a3e-aac9-8b5dcd5cbfa0').DataTable(dt_args);
+        $('#02994fd8-9354-4ca2-beda-3e8bd4c154a6').DataTable(dt_args);
     });
 </script>
 </div>
@@ -1348,11 +1424,11 @@ Interactive “Cleaned” Airbnb Dataset
 </ul>
 <p>The dataset is now complete with no missing values across all columns.</p>
 <p><strong>Poisson Regression</strong></p>
-<div id="a3c0f237" class="cell" data-execution_count="29">
+<div id="b0da5fe4" class="cell" data-execution_count="29">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>formula <span class="op">=</span> <span class="st">'number_of_reviews ~ days + room_type + bathrooms + bedrooms + price + instant_bookable'</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> glm(formula<span class="op">=</span>formula, data<span class="op">=</span>data_cleaned, family<span class="op">=</span>sm.families.Poisson()).fit()</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="29">
+<div class="cell-output cell-output-display" data-execution_count="58">
 <div>
 <table class="simpletable table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>Generalized Linear Model Regression Results</caption>
@@ -1395,7 +1471,7 @@ Interactive “Cleaned” Airbnb Dataset
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Time:</td>
-<td>19:15:02</td>
+<td>19:24:57</td>
 <td data-quarto-table-cell-role="th">Pearson chi2:</td>
 <td>2.10e+06</td>
 </tr>
