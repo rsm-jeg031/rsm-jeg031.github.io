@@ -1,0 +1,457 @@
+---
+title: "Multinomial Logit Examples"
+author: "Jesus Gonzalez"
+date: May 16, 2024
+---
+
+
+In this article we use the MNL model to analyze (1) yogurt purchase data made by consumers at a retail location, and (2) conjoint data about consumer preferences for minivans.
+
+```{python}
+#| echo: false
+import pandas as pd 
+import numpy as np 
+import matplotlib.pyplot as plt
+import seaborn as sns
+import os 
+from warnings import filterwarnings
+filterwarnings('ignore')
+from itables import show
+from scipy.optimize import minimize
+```
+
+## 1. Estimating Yogurt Preferences
+
+### Likelihood for the Multi-nomial Logit (MNL) Model
+
+Suppose we have $i=1,\ldots,n$ consumers who each select exactly one product $j$ from a set of $J$ products. The outcome variable is the identity of the product chosen $y_i \in \{1, \ldots, J\}$ or equivalently a vector of $J-1$ zeros and $1$ one, where the $1$ indicates the selected product. For example, if the third product was chosen out of 4 products, then either $y=3$ or $y=(0,0,1,0)$ depending on how we want to represent it. Suppose also that we have a vector of data on each product $x_j$ (eg, size, price, etc.). 
+
+We model the consumer's decision as the selection of the product that provides the most utility, and we'll specify the utility function as a linear function of the product characteristics:
+
+$$ U_{ij} = x_j'\beta + \epsilon_{ij} $$
+
+where $\epsilon_{ij}$ is an i.i.d. extreme value error term. 
+
+The choice of the i.i.d. extreme value error term leads to a closed-form expression for the probability that consumer $i$ chooses product $j$:
+
+$$ \mathbb{P}_i(j) = \frac{e^{x_j'\beta}}{\sum_{k=1}^Je^{x_k'\beta}} $$
+
+For example, if there are 4 products, the probability that consumer $i$ chooses product 3 is:
+
+$$ \mathbb{P}_i(3) = \frac{e^{x_3'\beta}}{e^{x_1'\beta} + e^{x_2'\beta} + e^{x_3'\beta} + e^{x_4'\beta}} $$
+
+A clever way to write the individual likelihood function for consumer $i$ is the product of the $J$ probabilities, each raised to the power of an indicator variable ($\delta_{ij}$) that indicates the chosen product:
+
+$$ L_i(\beta) = \prod_{j=1}^J \mathbb{P}_i(j)^{\delta_{ij}} = \mathbb{P}_i(1)^{\delta_{i1}} \times \ldots \times \mathbb{P}_i(J)^{\delta_{iJ}}$$
+
+Notice that if the consumer selected product $j=3$, then $\delta_{i3}=1$ while $\delta_{i1}=\delta_{i2}=\delta_{i4}=0$ and the likelihood is:
+
+$$ L_i(\beta) = \mathbb{P}_i(1)^0 \times \mathbb{P}_i(2)^0 \times \mathbb{P}_i(3)^1 \times \mathbb{P}_i(4)^0 = \mathbb{P}_i(3) = \frac{e^{x_3'\beta}}{\sum_{k=1}^Je^{x_k'\beta}} $$
+
+The joint likelihood (across all consumers) is the product of the $n$ individual likelihoods:
+
+$$ L_n(\beta) = \prod_{i=1}^n L_i(\beta) = \prod_{i=1}^n \prod_{j=1}^J \mathbb{P}_i(j)^{\delta_{ij}} $$
+
+And the joint log-likelihood function is:
+
+$$ \ell_n(\beta) = \sum_{i=1}^n \sum_{j=1}^J \delta_{ij} \log(\mathbb{P}_i(j)) $$
+
+
+### Yogurt Dataset
+
+We will use the `yogurt_data` dataset, which provides anonymized consumer identifiers (`id`), a vector indicating the chosen product (`y1`:`y4`), a vector indicating if any products were "featured" in the store as a form of advertising (`f1`:`f4`), and the products' prices (`p1`:`p4`). For example, consumer 1 purchased yogurt 4 at a price of 0.079/oz and none of the yogurts were featured/advertised at the time of consumer 1's purchase.  Consumers 2 through 7 each bought yogurt 2, etc.
+
+::::{.callout-note collapse="true"}
+### Interactive Raw Yogurt Dataset
+```{python}
+#| echo: false
+yogurt_data = pd.read_csv("../../files/Assignment3/yogurt_data.csv")
+show(yogurt_data)
+```
+::::
+
+Let the vector of product features include brand dummy variables for yogurts 1-3 (we'll omit a dummy for product 4 to avoid multi-collinearity), a dummy variable to indicate if a yogurt was featured, and a continuous variable for the yogurts' prices:  
+
+$$ x_j' = [\mathbbm{1}(\text{Yogurt 1}), \mathbbm{1}(\text{Yogurt 2}), \mathbbm{1}(\text{Yogurt 3}), X_f, X_p] $$
+
+The "hard part" of the MNL likelihood function is organizing the data, as we need to keep track of 3 dimensions (consumer $i$, covariate $k$, and product $j$) instead of the typical 2 dimensions for cross-sectional regression models (consumer $i$ and covariate $k$). 
+
+What we would like to do is reorganize the data from a "wide" shape with $n$ rows and multiple columns for each covariate, to a "long" shape with $n \times J$ rows and a single column for each covariate.  As part of this re-organization, we'll add binary variables to indicate the first 3 products; the variables for featured and price are included in the dataset and simply need to be "pivoted" or "melted" from wide to long.  
+
+::::{.callout-note collapse="true"}
+### Interactive Cleaned Yogurt Dataset
+```{python}
+#| echo: false
+yogurt_long = pd.melt(yogurt_data, id_vars=['id'], value_vars=['y1', 'y2', 'y3', 'y4'], 
+                      var_name='product', value_name='chosen')
+yogurt_long['product'] = yogurt_long['product'].str.extract('(\d)').astype(int)
+features = pd.melt(yogurt_data, id_vars=['id'], value_vars=['f1', 'f2', 'f3', 'f4'], 
+                   var_name='f_product', value_name='featured')
+features['f_product'] = features['f_product'].str.extract('(\d)').astype(int)
+prices = pd.melt(yogurt_data, id_vars=['id'], value_vars=['p1', 'p2', 'p3', 'p4'], 
+                 var_name='p_product', value_name='price')
+prices['p_product'] = prices['p_product'].str.extract('(\d)').astype(int)
+yogurt_long = yogurt_long.merge(features, left_on=['id', 'product'], right_on=['id', 'f_product'])
+yogurt_long = yogurt_long.merge(prices, left_on=['id', 'product'], right_on=['id', 'p_product'])
+yogurt_long.drop(columns=['f_product', 'p_product'], inplace=True)
+show(yogurt_long)
+```
+::::
+
+
+### Estimation
+
+::::{.callout-note collapse="true"}
+### log_likelihood()
+```{python}
+def log_likelihood(beta, data):
+    """
+    Calculate the log-likelihood of the MNL model.
+
+    Parameters:
+    beta (array): Array of coefficients [β1, β2, β3, βf, βp].
+    data (DataFrame): The reshaped long format data with columns ['id', 'product', 'chosen', 'featured', 'price'].
+
+    Returns:
+    float: The log-likelihood value.
+    """
+    beta1, beta2, beta3, beta_f, beta_p = beta
+    data['yogurt1'] = (data['product'] == 1).astype(int)
+    data['yogurt2'] = (data['product'] == 2).astype(int)
+    data['yogurt3'] = (data['product'] == 3).astype(int)
+    data['utility'] = (beta1 * data['yogurt1'] + 
+                       beta2 * data['yogurt2'] + 
+                       beta3 * data['yogurt3'] + 
+                       beta_f * data['featured'] + 
+                       beta_p * data['price'])
+    data['exp_utility'] = np.exp(data['utility'])
+    data['sum_exp_utility'] = data.groupby('id')['exp_utility'].transform('sum')
+    data['probability'] = data['exp_utility'] / data['sum_exp_utility']
+    data['log_likelihood'] = data['chosen'] * np.log(data['probability'])
+    return -data['log_likelihood'].sum()
+```
+::::
+
+```{python}
+initial_beta = np.zeros(5)
+log_likelihood(initial_beta, yogurt_long)
+```
+
+
+Using `optim()` in R or `optimize()` in Python to find the MLEs for the 5 parameters ($\beta_1, \beta_2, \beta_3, \beta_f, \beta_p$).
+
+```{python}
+result = minimize(log_likelihood, initial_beta, args=(yogurt_long,), method='BFGS')
+estimated_beta = result.x
+estimated_beta
+```
+
+### Discussion
+
+We learn the following...
+
+1. **Product Intercepts**:
+
+   - **($\beta_1$) (Yogurt 1):** The positive coefficient suggests that Yogurt 1 is relatively preferred.
+   
+   - **($\beta_2$) (Yogurt 2):** This positive coefficient also indicates a relative preference for Yogurt 2, but it's lower than Yogurt 1.
+   
+   - **($\beta_3$) (Yogurt 3):** The negative coefficient suggests that Yogurt 3 is less preferred compared to the omitted category (Yogurt 4).
+
+2. **Featured ($\beta_f$):** The positive coefficient 0.487 implies that featuring a yogurt increases its utility and thus its probability of being chosen.
+
+3. **Price ($\beta_p$):** The large negative coefficient -37.058 indicates a strong negative effect of price on the utility, meaning higher prices significantly reduce the likelihood of a yogurt being chosen.
+
+
+Using the estimated price coefficient as a dollar-per-util conversion to calculate the dollar benefit between the most-preferred yogurt (the one with the highest intercept) and the least preferred yogurt (the one with the lowest intercept). This is a per-unit monetary measure of brand value.
+
+```{python}
+conversion_factor = -1 / estimated_beta[4]
+utility_difference = estimated_beta[0] - estimated_beta[2]
+monetary_value = utility_difference * conversion_factor
+monetary_value
+```
+
+❗
+The monetary benefit between the most-preferred yogurt (Yogurt 1) and the least-preferred yogurt (Yogurt 3) is approximately $0.12 per unit. This means `consumers value Yogurt 1 about $0.12 more per unit than Yogurt 3`, based on the estimated utilities. ❗
+
+---
+
+One benefit of the MNL model is that we can simulate counterfactuals (eg, what if the price of yogurt 1 was $0.10/oz instead of $0.08/oz).
+
+Calculating market shares in the market at the time the data were collected.  Then, increasing the price of yogurt 1 by $0.10 and using the fitted model to predict p(y|x) for each consumer and each product.
+
+::::{.callout-note collapse="true"}
+### predict_market_shares()
+```{python}
+def predict_market_shares(beta, data):
+    """
+    Predict market shares using the estimated beta coefficients.
+
+    Parameters:
+    beta (array): Array of coefficients [β1, β2, β3, βf, βp].
+    data (DataFrame): The reshaped long format data with columns ['id', 'product', 'chosen', 'featured', 'price'].
+
+    Returns:
+    DataFrame: The predicted market shares for each product.
+    """
+    data['yogurt1'] = (data['product'] == 1).astype(int)
+    data['yogurt2'] = (data['product'] == 2).astype(int)
+    data['yogurt3'] = (data['product'] == 3).astype(int)
+    data['utility'] = (beta[0] * data['yogurt1'] + 
+                       beta[1] * data['yogurt2'] + 
+                       beta[2] * data['yogurt3'] + 
+                       beta[3] * data['featured'] + 
+                       beta[4] * data['price'])
+    data['exp_utility'] = np.exp(data['utility'])
+    data['sum_exp_utility'] = data.groupby('id')['exp_utility'].transform('sum')
+    data['probability'] = data['exp_utility'] / data['sum_exp_utility']
+    market_shares = data.groupby('product')['probability'].mean().reset_index()
+    market_shares.columns = ['product', 'market_share']
+    return market_shares
+```
+::::
+
+```{python}
+#| echo: false
+original_market_shares = predict_market_shares(estimated_beta, yogurt_long)
+yogurt_long_adjusted = yogurt_long.copy()
+yogurt_long_adjusted.loc[yogurt_long_adjusted['product'] == 1, 'price'] += 0.10
+adjusted_market_shares = predict_market_shares(estimated_beta, yogurt_long_adjusted)
+original_market_shares, adjusted_market_shares
+```
+
+**Market Shares Analysis**
+
+The market shares before and after the price increase of Yogurt 1 are as follows:
+
+**Original Market Shares:**
+
+- Yogurt 1: 34.20% 
+
+- Yogurt 2: 40.12% 
+
+- Yogurt 3: 2.92% 
+
+- Yogurt 4: 22.76% 
+
+**Adjusted Market Shares (after $0.10 price increase for Yogurt 1):**
+
+- Yogurt 1: 2.11% 
+
+- Yogurt 2: 59.11%
+
+- Yogurt 3: 4.40%
+
+- Yogurt 4: 34.37%
+
+Increasing the price of Yogurt 1 by $0.10 drastically decreases its market share from 34.20% to 2.11%. Meanwhile, the market shares for Yogurt 2, Yogurt 3, and Yogurt 4 increase, with Yogurt 2 seeing the most significant rise from 40.12% to 59.11%.
+
+
+## 2. Estimating Minivan Preferences
+
+
+### Data
+
+::::{.callout-note collapse="true"}
+### Interactive Conjoint Dataset
+```{python}
+#| echo: false
+conjoint_data = pd.read_csv("../../files/Assignment3/rintro-chapter13conjoint.csv")
+show(conjoint_data)
+```
+::::
+
+::::{.callout-note collapse="true"}
+### Cojoint Variables
+- `resp.id`: Respondent identifier.
+- `ques`: Choice task number.
+- `alt`: Alternative number within the choice task.
+- `carpool`: Carpool option (yes/no).
+- `seat`: Number of seats (6, 7, 8).
+- `cargo`: Cargo space (2ft, 3ft).
+- `eng`: Engine type (gas, hybrid).
+- `price`: Price in thousands of dollars.
+- `choice`: Indicator for whether the alternative was chosen (1 if chosen, 0 otherwise).
+::::
+
+The attributes (levels) were number of seats (6,7,8), cargo space (2ft, 3ft), engine type (gas, hybrid, electric), and price (in thousands of dollars).
+
+- Number of respondents: 200
+- Number of choice tasks per respondent: 15
+- Number of alternatives presented in each choice task: 3
+
+Each respondent in the survey completed 15 choice tasks, with each task presenting 3 different alternatives to choose from.
+
+### Model
+
+We'll estimate an MNL model omitting the following levels to avoid multicollinearity:
+
+- 6 seats
+
+- 2ft cargo
+
+- Gas engine
+
+The variables we will include in our model are:
+
+- `seat_7`: Dummy variable for 7 seats.
+
+- `seat_8`: Dummy variable for 8 seats.
+
+- `cargo_3ft`: Dummy variable for 3ft cargo space.
+
+- `eng_hyb`: Dummy variable for hybrid engine.
+
+- `price`: Continuous variable for price in thousands of dollars.
+
+```{python}
+#| echo: false
+conjoint_data['seat_7'] = (conjoint_data['seat'] == 7).astype(int)
+conjoint_data['seat_8'] = (conjoint_data['seat'] == 8).astype(int)
+conjoint_data['cargo_3ft'] = (conjoint_data['cargo'] == '3ft').astype(int)
+conjoint_data['eng_hyb'] = (conjoint_data['eng'] == 'hyb').astype(int)
+```
+
+
+::::{.callout-note collapse="true"}
+### conjoint_log_likelihood()
+```{python}
+def conjoint_log_likelihood(beta, data):
+    """
+    Calculate the log-likelihood of the MNL model for the conjoint data.
+
+    Parameters:
+    beta (array): Array of coefficients [β_seat_7, β_seat_8, β_cargo_3ft, β_eng_hyb, β_price].
+    data (DataFrame): The conjoint data with dummy variables.
+
+    Returns:
+    float: The log-likelihood value.
+    """
+    beta_seat_7, beta_seat_8, beta_cargo_3ft, beta_eng_hyb, beta_price = beta
+    data['utility'] = (beta_seat_7 * data['seat_7'] +
+                       beta_seat_8 * data['seat_8'] +
+                       beta_cargo_3ft * data['cargo_3ft'] +
+                       beta_eng_hyb * data['eng_hyb'] +
+                       beta_price * data['price'])
+    data['exp_utility'] = np.exp(data['utility'])
+    data['sum_exp_utility'] = data.groupby(['resp.id', 'ques'])['exp_utility'].transform('sum')
+    data['probability'] = data['exp_utility'] / data['sum_exp_utility']
+    data['log_likelihood'] = data['choice'] * np.log(data['probability'])
+    return -data['log_likelihood'].sum()
+```
+::::
+
+```{python}
+initial_beta_conjoint = np.zeros(5)
+conjoint_result = minimize(conjoint_log_likelihood, initial_beta_conjoint, args=(conjoint_data,), method='BFGS')
+estimated_beta_conjoint = conjoint_result.x
+estimated_beta_conjoint
+```
+
+The estimated coefficients for the MNL model are as follows:
+
+- beta seat 7: -0.486
+
+- beta seat 8: -0.283
+
+- beta cargo 3ft: 0.412
+
+- beta hybrid engine: -0.105
+
+- beta sprice: -0.156
+
+### Results
+
+1. **Seats:**
+   
+   - **(7 seats):** The negative coefficient suggests that 7 seats are less preferred compared to the baseline category (6 seats).
+   
+   - **(8 seats):** The negative coefficient suggests that 8 seats are also less preferred compared to 6 seats, but less so than 7 seats.
+
+2. **Cargo Space:**
+   
+   - **(3ft cargo):** The positive coefficient indicates that 3ft of cargo space is preferred over 2ft of cargo space.
+
+3. **Engine:**
+   
+   - **(Hybrid Engine):** The negative coefficient suggests that hybrid engines are less preferred compared to gas engines.
+
+4. **Price:**
+   
+   - **(Price):** The negative coefficient indicates that higher prices decrease the utility of the minivan, making it less likely to be chosen.
+
+
+
+```{python}
+conversion_factor_conjoint = -1 / estimated_beta_conjoint[4]
+utility_difference_cargo = estimated_beta_conjoint[2]
+monetary_value_cargo = utility_difference_cargo * conversion_factor_conjoint
+monetary_value_cargo
+```
+
+The dollar value of having 3ft of cargo space compared to 2ft of cargo space is approximately $2,645. This means that, on average, consumers value the additional cargo space at $2,645.
+
+
+Let's assume the market consists of the following 6 minivans.
+
+| Minivan | Seats | Cargo | Engine | Price |
+|---------|-------|-------|--------|-------|
+| A       | 7     | 2     | Hyb    | 30    |
+| B       | 6     | 2     | Gas    | 30    |
+| C       | 8     | 2     | Gas    | 30    |
+| D       | 7     | 3     | Gas    | 40    |
+| E       | 6     | 2     | Elec   | 40    |
+| F       | 7     | 2     | Hyb    | 35    |
+
+We will use the estimated model to predict the market shares of these six minivans.
+
+::::{.callout-note collapse="true"}
+### Code block
+```{python}
+market_configurations = pd.DataFrame({
+    'minivan': ['A', 'B', 'C', 'D', 'E', 'F'],
+    'seat': [7, 6, 8, 7, 6, 7],
+    'cargo': ['2ft', '2ft', '2ft', '3ft', '2ft', '2ft'],
+    'eng': ['hyb', 'gas', 'gas', 'gas', 'elec', 'hyb'],
+    'price': [30, 30, 30, 40, 40, 35]
+})
+market_configurations['seat_7'] = (market_configurations['seat'] == 7).astype(int)
+market_configurations['seat_8'] = (market_configurations['seat'] == 8).astype(int)
+market_configurations['cargo_3ft'] = (market_configurations['cargo'] == '3ft').astype(int)
+market_configurations['eng_hyb'] = (market_configurations['eng'] == 'hyb').astype(int)
+market_configurations['utility'] = (estimated_beta_conjoint[0] * market_configurations['seat_7'] +
+                                    estimated_beta_conjoint[1] * market_configurations['seat_8'] +
+                                    estimated_beta_conjoint[2] * market_configurations['cargo_3ft'] +
+                                    estimated_beta_conjoint[3] * market_configurations['eng_hyb'] +
+                                    estimated_beta_conjoint[4] * market_configurations['price'])
+market_configurations['exp_utility'] = np.exp(market_configurations['utility'])
+market_configurations['market_share'] = market_configurations['exp_utility'] / market_configurations['exp_utility'].sum()
+```
+::::
+
+_Note: Our professor took this example from the "R 4 Marketing Research" book by Chapman and Feit._ 🙂
+
+```{python}
+#| inclue: false
+#| echo: false
+#| eval: false
+market_configurations[['minivan', 'market_share']]
+```
+
+The predicted market shares for the six minivan configurations are as follows:
+
+| Minivan | Market Share |
+|---------|---------------|
+| A       | 18.66%        |
+| B       | 33.70%        |
+| C       | 25.38%        |
+| D       | 6.59%         |
+| E       | 7.10%         |
+| F       | 8.56%         |
+
+- **Minivan B** (6 seats, 2ft cargo, gas engine, $30k) has the highest predicted market share at 33.70%.
+
+- **Minivan C** (8 seats, 2ft cargo, gas engine, $30k) and **Minivan A** (7 seats, 2ft cargo, hybrid engine, $30k) also have substantial market shares at 25.38% and 18.66%, respectively.
+
+- Minivans with higher prices or different engine types (like hybrid or electric) tend to have lower market shares.

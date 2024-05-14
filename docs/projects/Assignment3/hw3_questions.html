@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.552">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jesus Gonzalez">
+<meta name="dcterms.date" content="2024-05-16">
+
+<title>Jesus Gonzalez - Multinomial Logit Examples</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-B730JHHC8P"></script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-B730JHHC8P', { 'anonymize_ip': false});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"interstitial",
+  "consent_type":"implied",
+  "palette":"dark",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Jesus Gonzalez</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../projects.html"> 
+<span class="menu-text">Projects</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#estimating-yogurt-preferences" id="toc-estimating-yogurt-preferences" class="nav-link active" data-scroll-target="#estimating-yogurt-preferences">1. Estimating Yogurt Preferences</a>
+  <ul class="collapse">
+  <li><a href="#likelihood-for-the-multi-nomial-logit-mnl-model" id="toc-likelihood-for-the-multi-nomial-logit-mnl-model" class="nav-link" data-scroll-target="#likelihood-for-the-multi-nomial-logit-mnl-model">Likelihood for the Multi-nomial Logit (MNL) Model</a></li>
+  <li><a href="#yogurt-dataset" id="toc-yogurt-dataset" class="nav-link" data-scroll-target="#yogurt-dataset">Yogurt Dataset</a></li>
+  <li><a href="#estimation" id="toc-estimation" class="nav-link" data-scroll-target="#estimation">Estimation</a></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
+  </ul></li>
+  <li><a href="#estimating-minivan-preferences" id="toc-estimating-minivan-preferences" class="nav-link" data-scroll-target="#estimating-minivan-preferences">2. Estimating Minivan Preferences</a>
+  <ul class="collapse">
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  <li><a href="#model" id="toc-model" class="nav-link" data-scroll-target="#model">Model</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Multinomial Logit Examples</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Jesus Gonzalez </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 16, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In this article we use the MNL model to analyze (1) yogurt purchase data made by consumers at a retail location, and (2) conjoint data about consumer preferences for minivans.</p>
+<section id="estimating-yogurt-preferences" class="level2">
+<h2 class="anchored" data-anchor-id="estimating-yogurt-preferences">1. Estimating Yogurt Preferences</h2>
+<section id="likelihood-for-the-multi-nomial-logit-mnl-model" class="level3">
+<h3 class="anchored" data-anchor-id="likelihood-for-the-multi-nomial-logit-mnl-model">Likelihood for the Multi-nomial Logit (MNL) Model</h3>
+<p>Suppose we have <span class="math inline">\(i=1,\ldots,n\)</span> consumers who each select exactly one product <span class="math inline">\(j\)</span> from a set of <span class="math inline">\(J\)</span> products. The outcome variable is the identity of the product chosen <span class="math inline">\(y_i \in \{1, \ldots, J\}\)</span> or equivalently a vector of <span class="math inline">\(J-1\)</span> zeros and <span class="math inline">\(1\)</span> one, where the <span class="math inline">\(1\)</span> indicates the selected product. For example, if the third product was chosen out of 4 products, then either <span class="math inline">\(y=3\)</span> or <span class="math inline">\(y=(0,0,1,0)\)</span> depending on how we want to represent it. Suppose also that we have a vector of data on each product <span class="math inline">\(x_j\)</span> (eg, size, price, etc.).</p>
+<p>We model the consumer’s decision as the selection of the product that provides the most utility, and we’ll specify the utility function as a linear function of the product characteristics:</p>
+<p><span class="math display">\[ U_{ij} = x_j'\beta + \epsilon_{ij} \]</span></p>
+<p>where <span class="math inline">\(\epsilon_{ij}\)</span> is an i.i.d. extreme value error term.</p>
+<p>The choice of the i.i.d. extreme value error term leads to a closed-form expression for the probability that consumer <span class="math inline">\(i\)</span> chooses product <span class="math inline">\(j\)</span>:</p>
+<p><span class="math display">\[ \mathbb{P}_i(j) = \frac{e^{x_j'\beta}}{\sum_{k=1}^Je^{x_k'\beta}} \]</span></p>
+<p>For example, if there are 4 products, the probability that consumer <span class="math inline">\(i\)</span> chooses product 3 is:</p>
+<p><span class="math display">\[ \mathbb{P}_i(3) = \frac{e^{x_3'\beta}}{e^{x_1'\beta} + e^{x_2'\beta} + e^{x_3'\beta} + e^{x_4'\beta}} \]</span></p>
+<p>A clever way to write the individual likelihood function for consumer <span class="math inline">\(i\)</span> is the product of the <span class="math inline">\(J\)</span> probabilities, each raised to the power of an indicator variable (<span class="math inline">\(\delta_{ij}\)</span>) that indicates the chosen product:</p>
+<p><span class="math display">\[ L_i(\beta) = \prod_{j=1}^J \mathbb{P}_i(j)^{\delta_{ij}} = \mathbb{P}_i(1)^{\delta_{i1}} \times \ldots \times \mathbb{P}_i(J)^{\delta_{iJ}}\]</span></p>
+<p>Notice that if the consumer selected product <span class="math inline">\(j=3\)</span>, then <span class="math inline">\(\delta_{i3}=1\)</span> while <span class="math inline">\(\delta_{i1}=\delta_{i2}=\delta_{i4}=0\)</span> and the likelihood is:</p>
+<p><span class="math display">\[ L_i(\beta) = \mathbb{P}_i(1)^0 \times \mathbb{P}_i(2)^0 \times \mathbb{P}_i(3)^1 \times \mathbb{P}_i(4)^0 = \mathbb{P}_i(3) = \frac{e^{x_3'\beta}}{\sum_{k=1}^Je^{x_k'\beta}} \]</span></p>
+<p>The joint likelihood (across all consumers) is the product of the <span class="math inline">\(n\)</span> individual likelihoods:</p>
+<p><span class="math display">\[ L_n(\beta) = \prod_{i=1}^n L_i(\beta) = \prod_{i=1}^n \prod_{j=1}^J \mathbb{P}_i(j)^{\delta_{ij}} \]</span></p>
+<p>And the joint log-likelihood function is:</p>
+<p><span class="math display">\[ \ell_n(\beta) = \sum_{i=1}^n \sum_{j=1}^J \delta_{ij} \log(\mathbb{P}_i(j)) \]</span></p>
+</section>
+<section id="yogurt-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="yogurt-dataset">Yogurt Dataset</h3>
+<p>We will use the <code>yogurt_data</code> dataset, which provides anonymized consumer identifiers (<code>id</code>), a vector indicating the chosen product (<code>y1</code>:<code>y4</code>), a vector indicating if any products were “featured” in the store as a form of advertising (<code>f1</code>:<code>f4</code>), and the products’ prices (<code>p1</code>:<code>p4</code>). For example, consumer 1 purchased yogurt 4 at a price of 0.079/oz and none of the yogurts were featured/advertised at the time of consumer 1’s purchase. Consumers 2 through 7 each bought yogurt 2, etc.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interactive Raw Yogurt Dataset
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="6d659bed" class="cell" data-execution_count="2">
+<div class="cell-output cell-output-display">
+<div>
+<style>.itables table td {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.itables table th {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.itables thead input {
+    width: 100%;
+    padding: 3px;
+    box-sizing: border-box;
+}
+
+.itables tfoot input {
+    width: 100%;
+    padding: 3px;
+    box-sizing: border-box;
+}
+</style>
+<div class="itables">
+
+<table id="2cd45fd9-49d7-4aab-85b5-8fc1e5246e5f" class="display nowrap table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">y1</th>
+<th data-quarto-table-cell-role="th">y2</th>
+<th data-quarto-table-cell-role="th">y3</th>
+<th data-quarto-table-cell-role="th">y4</th>
+<th data-quarto-table-cell-role="th">f1</th>
+<th data-quarto-table-cell-role="th">f2</th>
+<th data-quarto-table-cell-role="th">f3</th>
+<th data-quarto-table-cell-role="th">f4</th>
+<th data-quarto-table-cell-role="th">p1</th>
+<th data-quarto-table-cell-role="th">p2</th>
+<th data-quarto-table-cell-role="th">p3</th>
+<th data-quarto-table-cell-role="th">p4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Loading... (need <a href="https://mwouts.github.io/itables/troubleshooting.html">help</a>?)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+<script type="module">
+    // Import jquery and DataTable
+    import 'https://code.jquery.com/jquery-3.6.0.min.js';
+    import dt from 'https://cdn.datatables.net/1.12.1/js/jquery.dataTables.mjs';
+    dt($);
+
+    // Define the table data
+    const data = [[1, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.061, 0.079], [2, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.098, 0.064, 0.075], [3, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.098, 0.061, 0.086], [4, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.098, 0.061, 0.086], [5, 0, 1, 0, 0, 0, 0, 0, 0, 0.125, 0.098, 0.049, 0.079], [6, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.092, 0.05, 0.079], [7, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [8, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.086, 0.054, 0.079], [9, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.098, 0.05, 0.079], [10, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.098, 0.05, 0.079], [11, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.098, 0.05, 0.079], [12, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.098, 0.05, 0.079], [13, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.086], [14, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.086], [15, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [16, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [17, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [18, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [19, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [20, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.081], [21, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [22, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [23, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [24, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.081], [25, 0, 0, 0, 1, 0, 0, 0, 0, 0.112, 0.081, 0.05, 0.079], [26, 0, 0, 0, 1, 0, 0, 0, 0, 0.112, 0.081, 0.05, 0.079], [27, 0, 0, 0, 1, 0, 0, 0, 0, 0.112, 0.081, 0.05, 0.079], [28, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.081], [29, 0, 1, 0, 0, 0, 0, 0, 0, 0.11, 0.049, 0.061, 0.079], [30, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.044, 0.049, 0.079], [31, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.044, 0.049, 0.079], [32, 1, 0, 0, 0, 0, 0, 0, 0, 0.032, 0.095, 0.058, 0.103], [33, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.095, 0.058, 0.103], [34, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.095, 0.058, 0.103], [35, 1, 0, 0, 0, 0, 0, 0, 0, 0.055, 0.086, 0.054, 0.079], [36, 1, 0, 0, 0, 0, 0, 0, 0, 0.083, 0.086, 0.054, 0.079], [37, 1, 0, 0, 0, 0, 0, 0, 0, 0.083, 0.086, 0.054, 0.079], [38, 1, 0, 0, 0, 0, 0, 0, 1, 0.115, 0.086, 0.056, 0.063], [39, 1, 0, 0, 0, 0, 0, 0, 1, 0.032, 0.086, 0.056, 0.063], [40, 0, 0, 0, 1, 0, 0, 0, 1, 0.115, 0.086, 0.061, 0.063], [41, 0, 1, 0, 0, 0, 0, 0, 0, 0.115, 0.055, 0.061, 0.064], [42, 0, 1, 0, 0, 0, 0, 1, 0, 0.115, 0.063, 0.061, 0.079], [43, 0, 1, 0, 0, 0, 0, 0, 1, 0.042, 0.031, 0.061, 0.063], [44, 0, 0, 1, 0, 0, 0, 0, 0, 0.11, 0.081, 0.066, 0.079], [45, 0, 0, 1, 0, 0, 0, 0, 0, 0.11, 0.081, 0.066, 0.079], [46, 0, 1, 0, 0, 0, 0, 0, 0, 0.135, 0.081, 0.066, 0.079], [47, 0, 1, 0, 0, 0, 0, 0, 0, 0.135, 0.081, 0.066, 0.079], [48, 0, 0, 1, 0, 0, 0, 0, 0, 0.11, 0.081, 0.061, 0.079], [49, 0, 0, 1, 0, 0, 0, 0, 0, 0.11, 0.081, 0.061, 0.079], [50, 0, 0, 1, 0, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [51, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.05, 0.079], [52, 0, 1, 0, 0, 0, 0, 1, 0, 0.112, 0.086, 0.061, 0.079], [53, 1, 0, 0, 0, 0, 0, 0, 0, 0.025, 0.086, 0.054, 0.079], [54, 1, 0, 0, 0, 0, 0, 1, 0, 0.058, 0.086, 0.025, 0.079], [55, 1, 0, 0, 0, 0, 0, 1, 0, 0.058, 0.086, 0.025, 0.079], [56, 0, 0, 0, 1, 0, 0, 0, 1, 0.115, 0.086, 0.061, 0.063], [57, 0, 1, 0, 0, 0, 0, 0, 0, 0.11, 0.019, 0.054, 0.079], [58, 1, 0, 0, 0, 0, 0, 0, 0, 0.103, 0.098, 0.049, 0.079], [59, 1, 0, 0, 0, 0, 0, 0, 0, 0.103, 0.098, 0.049, 0.079], [60, 1, 0, 0, 0, 0, 0, 0, 0, 0.103, 0.098, 0.049, 0.079], [61, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.054, 0.079], [62, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.054, 0.079], [63, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.054, 0.079], [64, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.054, 0.079], [65, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.054, 0.079], [66, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.054, 0.079], [67, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.054, 0.079], [68, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.025, 0.079], [69, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.025, 0.079], [70, 0, 1, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.05, 0.086], [71, 1, 0, 0, 0, 0, 0, 0, 0, 0.125, 0.086, 0.05, 0.086], [72, 0, 0, 0, 1, 0, 0, 0, 1, 0.115, 0.086, 0.061, 0.074], [73, 0, 0, 0, 1, 0, 0, 0, 1, 0.115, 0.086, 0.061, 0.074], [74, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.069, 0.061, 0.086], [75, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.069, 0.061, 0.086], [76, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.051, 0.066, 0.086], [77, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.051, 0.066, 0.086], [78, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.081, 0.066, 0.081], [79, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.081, 0.066, 0.081], [80, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.081, 0.061, 0.081], [81, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.081, 0.061, 0.081], [82, 1, 0, 0, 0, 0, 0, 0, 0, 0.112, 0.081, 0.061, 0.081], [83, 1, 0, 0, 0, 0, 0, 0, 0, 0.112, 0.081, 0.061, 0.081], [84, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [85, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [86, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [87, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [88, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [89, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [90, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [91, 0, 1, 0, 0, 0, 0, 0, 0, 0.11, 0.074, 0.061, 0.081], [92, 0, 1, 0, 0, 0, 0, 0, 0, 0.11, 0.074, 0.061, 0.081], [93, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.066, 0.081], [94, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.066, 0.079], [95, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.066, 0.079], [96, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.066, 0.079], [97, 0, 1, 0, 0, 0, 0, 0, 0, 0.125, 0.081, 0.066, 0.079], [98, 0, 1, 0, 0, 0, 0, 0, 0, 0.125, 0.081, 0.066, 0.079], [99, 1, 0, 0, 0, 0, 0, 0, 0, 0.02, 0.098, 0.049, 0.079], [100, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [101, 0, 1, 0, 0, 0, 1, 0, 0, 0.103, 0.061, 0.049, 0.079], [102, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [103, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [104, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [105, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [106, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [107, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [108, 0, 1, 0, 0, 0, 0, 0, 0, 0.115, 0.081, 0.043, 0.079], [109, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.063, 0.05, 0.079], [110, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.051, 0.05, 0.079], [111, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.047, 0.05, 0.079], [112, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.074, 0.061, 0.081], [113, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.074, 0.061, 0.081], [114, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.074, 0.061, 0.081], [115, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.074, 0.061, 0.081], [116, 0, 1, 0, 0, 0, 0, 0, 0, 0.125, 0.081, 0.066, 0.079], [117, 0, 1, 0, 0, 0, 0, 0, 0, 0.125, 0.081, 0.066, 0.079], [118, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [119, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [120, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [121, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [122, 0, 1, 0, 0, 0, 0, 0, 0, 0.125, 0.081, 0.049, 0.079], [123, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [124, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [125, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [126, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [127, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [128, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [129, 0, 1, 0, 0, 0, 1, 0, 0, 0.103, 0.061, 0.049, 0.079], [130, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [131, 0, 1, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.05, 0.086], [132, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.054, 0.079], [133, 0, 1, 0, 0, 0, 0, 0, 1, 0.055, 0.086, 0.05, 0.069], [134, 0, 1, 0, 0, 0, 0, 0, 1, 0.055, 0.086, 0.05, 0.069], [135, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.054, 0.079], [136, 0, 1, 0, 0, 0, 0, 0, 0, 0.088, 0.063, 0.061, 0.063], [137, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.081, 0.061, 0.081], [138, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.081, 0.061, 0.081], [139, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.081, 0.061, 0.081], [140, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.081, 0.049, 0.079], [141, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.061, 0.081], [142, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.061, 0.081], [143, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.081, 0.061, 0.081], [144, 1, 0, 0, 0, 0, 0, 0, 0, 0.115, 0.081, 0.049, 0.079], [145, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.061, 0.081], [146, 1, 0, 0, 0, 0, 0, 0, 0, 0.115, 0.081, 0.049, 0.079], [147, 1, 0, 0, 0, 0, 0, 0, 0, 0.115, 0.081, 0.049, 0.079], [148, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.061, 0.086], [149, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.087, 0.068, 0.094], [150, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.054, 0.079], [151, 1, 0, 0, 0, 0, 0, 0, 0, 0.022, 0.081, 0.061, 0.086], [152, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.091], [153, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.091], [154, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [155, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [156, 0, 1, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [157, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [158, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [159, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [160, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.081, 0.061, 0.086], [161, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.081, 0.061, 0.086], [162, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [163, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [164, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [165, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [166, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [167, 0, 1, 0, 0, 0, 1, 0, 0, 0.103, 0.061, 0.049, 0.079], [168, 0, 1, 0, 0, 0, 1, 0, 0, 0.103, 0.061, 0.049, 0.079], [169, 0, 1, 0, 0, 0, 0, 0, 0, 0.115, 0.086, 0.054, 0.079], [170, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.054, 0.079], [171, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.054, 0.079], [172, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.054, 0.079], [173, 0, 1, 0, 0, 0, 1, 0, 0, 0.057, 0.063, 0.054, 0.081], [174, 0, 1, 0, 0, 0, 0, 0, 1, 0.115, 0.041, 0.061, 0.063], [175, 0, 1, 0, 0, 0, 0, 1, 0, 0.115, 0.063, 0.061, 0.079], [176, 0, 1, 0, 0, 0, 0, 0, 0, 0.115, 0.063, 0.061, 0.063], [177, 0, 1, 0, 0, 0, 0, 0, 0, 0.115, 0.063, 0.061, 0.063], [178, 0, 1, 0, 0, 0, 0, 0, 0, 0.11, 0.086, 0.044, 0.081], [179, 0, 1, 0, 0, 0, 0, 0, 0, 0.11, 0.086, 0.044, 0.081], [180, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.054, 0.079], [181, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.054, 0.079], [182, 0, 0, 0, 1, 0, 0, 0, 0, 0.11, 0.086, 0.061, 0.081], [183, 0, 1, 0, 0, 0, 0, 0, 0, 0.11, 0.086, 0.061, 0.081], [184, 0, 0, 1, 0, 0, 0, 1, 0, 0.11, 0.086, 0.031, 0.081], [185, 0, 0, 1, 0, 0, 0, 1, 0, 0.11, 0.086, 0.031, 0.081], [186, 0, 1, 0, 0, 0, 0, 0, 0, 0.11, 0.086, 0.029, 0.061], [187, 0, 1, 0, 0, 0, 0, 0, 0, 0.11, 0.086, 0.029, 0.061], [188, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.064, 0.081], [189, 0, 1, 0, 0, 0, 0, 0, 0, 0.116, 0.081, 0.05, 0.08], [190, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.061, 0.079], [191, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [192, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.081], [193, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.081], [194, 0, 1, 0, 0, 0, 0, 0, 0, 0.109, 0.081, 0.05, 0.085], [195, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.081], [196, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.081], [197, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.074, 0.061, 0.081], [198, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.064, 0.081], [199, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [200, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [201, 1, 0, 0, 0, 0, 0, 0, 0, 0.037, 0.081, 0.049, 0.079], [202, 1, 0, 0, 0, 0, 0, 0, 0, 0.098, 0.081, 0.049, 0.079], [203, 1, 0, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [204, 1, 0, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [205, 1, 0, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [206, 0, 1, 0, 0, 0, 0, 0, 0, 0.115, 0.081, 0.049, 0.079], [207, 1, 0, 0, 0, 0, 0, 0, 0, 0.008, 0.092, 0.05, 0.079], [208, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.092, 0.05, 0.079], [209, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.098, 0.05, 0.079], [210, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.098, 0.05, 0.079], [211, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.098, 0.05, 0.079], [212, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [213, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [214, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.063, 0.05, 0.079], [215, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.063, 0.05, 0.079], [216, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.063, 0.05, 0.079], [217, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.05, 0.079], [218, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.05, 0.079], [219, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.042, 0.05, 0.079], [220, 0, 0, 0, 1, 0, 0, 0, 0, 0.125, 0.074, 0.061, 0.081], [221, 0, 0, 0, 1, 0, 0, 0, 0, 0.125, 0.074, 0.061, 0.081], [222, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.074, 0.061, 0.081], [223, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.074, 0.061, 0.081], [224, 1, 0, 0, 0, 0, 0, 0, 0, 0.103, 0.098, 0.066, 0.079], [225, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.098, 0.066, 0.079], [226, 1, 0, 0, 0, 0, 0, 0, 0, 0.103, 0.098, 0.066, 0.079], [227, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.098, 0.066, 0.079], [228, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.098, 0.066, 0.079], [229, 1, 0, 0, 0, 0, 0, 0, 0, 0.103, 0.098, 0.066, 0.079], [230, 1, 0, 0, 0, 0, 0, 0, 0, 0.103, 0.098, 0.066, 0.079], [231, 1, 0, 0, 0, 0, 0, 0, 0, 0.103, 0.098, 0.066, 0.079], [232, 1, 0, 0, 0, 0, 0, 0, 0, 0.103, 0.098, 0.066, 0.079], [233, 1, 0, 0, 0, 0, 0, 0, 0, 0.103, 0.098, 0.066, 0.079], [234, 1, 0, 0, 0, 0, 0, 0, 0, 0.103, 0.098, 0.066, 0.079], [235, 1, 0, 0, 0, 0, 0, 0, 0, 0.103, 0.098, 0.066, 0.079], [236, 1, 0, 0, 0, 0, 0, 0, 0, 0.103, 0.098, 0.066, 0.079], [237, 1, 0, 0, 0, 0, 0, 0, 0, 0.103, 0.098, 0.066, 0.079], [238, 1, 0, 0, 0, 0, 0, 0, 0, 0.103, 0.098, 0.049, 0.079], [239, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [240, 1, 0, 0, 0, 0, 0, 0, 0, 0.062, 0.098, 0.049, 0.079], [241, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [242, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [243, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [244, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [245, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [246, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [247, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [248, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [249, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [250, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [251, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [252, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [253, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [254, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [255, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [256, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [257, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [258, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [259, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [260, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [261, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [262, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [263, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [264, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [265, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [266, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [267, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [268, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [269, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [270, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [271, 0, 0, 0, 1, 0, 1, 0, 0, 0.103, 0.061, 0.049, 0.079], [272, 0, 0, 0, 1, 0, 1, 0, 0, 0.103, 0.061, 0.049, 0.079], [273, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.066, 0.049, 0.079], [274, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.068, 0.049, 0.079], [275, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.066, 0.049, 0.079], [276, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [277, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [278, 0, 0, 0, 1, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [279, 0, 0, 0, 1, 0, 0, 0, 0, 0.193, 0.092, 0.05, 0.079], [280, 0, 0, 0, 1, 0, 0, 0, 0, 0.193, 0.092, 0.05, 0.079], [281, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.049, 0.079], [282, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.081, 0.049, 0.079], [283, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.081, 0.049, 0.079], [284, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.081, 0.049, 0.079], [285, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.081, 0.049, 0.079], [286, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.081, 0.049, 0.079], [287, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.081, 0.049, 0.079], [288, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.081, 0.049, 0.079], [289, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.081, 0.049, 0.079], [290, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.081, 0.049, 0.079], [291, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.081, 0.049, 0.079], [292, 0, 1, 0, 0, 0, 0, 0, 0, 0.115, 0.081, 0.049, 0.079], [293, 0, 0, 0, 1, 0, 0, 1, 0, 0.115, 0.081, 0.033, 0.079], [294, 0, 0, 0, 1, 0, 0, 1, 0, 0.115, 0.081, 0.033, 0.079], [295, 0, 0, 0, 1, 0, 0, 1, 0, 0.115, 0.081, 0.033, 0.079], [296, 1, 0, 0, 0, 0, 0, 0, 0, 0.115, 0.081, 0.037, 0.079], [297, 1, 0, 0, 0, 0, 0, 0, 0, 0.115, 0.081, 0.037, 0.079], [298, 0, 0, 0, 1, 0, 0, 0, 0, 0.11, 0.081, 0.036, 0.079], [299, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.083, 0.043, 0.079], [300, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.086, 0.054, 0.079], [301, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.086, 0.054, 0.079], [302, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.086, 0.054, 0.079], [303, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.086, 0.054, 0.079], [304, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.086, 0.054, 0.079], [305, 0, 0, 0, 1, 1, 0, 0, 0, 0.091, 0.086, 0.054, 0.079], [306, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.086, 0.054, 0.079], [307, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.086, 0.054, 0.079], [308, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.086, 0.054, 0.079], [309, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.086, 0.054, 0.079], [310, 0, 0, 0, 1, 1, 0, 0, 0, 0.087, 0.086, 0.054, 0.079], [311, 0, 0, 0, 1, 1, 0, 0, 0, 0.087, 0.086, 0.054, 0.079], [312, 0, 0, 0, 1, 1, 0, 0, 0, 0.087, 0.086, 0.054, 0.079], [313, 0, 0, 0, 1, 0, 0, 0, 0, 0.107, 0.09, 0.059, 0.079], [314, 0, 0, 0, 1, 0, 0, 0, 0, 0.107, 0.09, 0.059, 0.079], [315, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.086, 0.054, 0.079], [2116, 0, 0, 1, 0, 0, 0, 1, 0, 0.112, 0.086, 0.025, 0.086], [2117, 0, 0, 1, 0, 0, 0, 0, 0, 0.083, 0.086, 0.054, 0.079], [2118, 0, 0, 1, 0, 0, 0, 1, 0, 0.112, 0.086, 0.042, 0.079], [2119, 0, 0, 1, 0, 0, 0, 1, 0, 0.108, 0.086, 0.025, 0.079], [2120, 0, 0, 1, 0, 0, 0, 1, 0, 0.112, 0.086, 0.042, 0.079], [2121, 0, 1, 0, 0, 0, 0, 0, 0, 0.118, 0.086, 0.054, 0.079], [2122, 0, 0, 1, 0, 0, 0, 1, 0, 0.112, 0.086, 0.031, 0.079], [2123, 0, 0, 0, 1, 0, 0, 0, 1, 0.115, 0.041, 0.061, 0.063], [2124, 1, 0, 0, 0, 1, 0, 0, 0, 0.083, 0.086, 0.061, 0.043], [2125, 0, 1, 0, 0, 0, 0, 0, 1, 0.057, 0.025, 0.061, 0.063], [2126, 1, 0, 0, 0, 0, 0, 0, 0, 0.083, 0.063, 0.061, 0.063], [2127, 1, 0, 0, 0, 0, 0, 1, 0, 0.008, 0.086, 0.025, 0.079], [2128, 0, 0, 1, 0, 0, 0, 1, 0, 0.132, 0.086, 0.025, 0.079], [2129, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.045, 0.079], [2130, 1, 0, 0, 0, 1, 0, 0, 0, 0.083, 0.086, 0.054, 0.079], [2131, 1, 0, 0, 0, 0, 0, 0, 0, 0.083, 0.086, 0.054, 0.079], [2132, 1, 0, 0, 0, 0, 0, 0, 0, 0.083, 0.086, 0.054, 0.079], [2133, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.054, 0.079], [2134, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.054, 0.084], [2135, 1, 0, 0, 0, 1, 0, 0, 0, 0.122, 0.086, 0.054, 0.086], [2136, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.056, 0.054, 0.086], [2137, 1, 0, 0, 0, 0, 0, 0, 0, 0.115, 0.086, 0.061, 0.065], [2138, 0, 0, 0, 1, 0, 0, 1, 0, 0.115, 0.063, 0.061, 0.079], [2139, 0, 0, 0, 1, 0, 0, 1, 0, 0.115, 0.063, 0.061, 0.079], [2140, 1, 0, 0, 0, 0, 0, 0, 0, 0.115, 0.086, 0.061, 0.079], [2141, 1, 0, 0, 0, 1, 0, 0, 0, 0.083, 0.086, 0.061, 0.079], [2142, 0, 1, 0, 0, 0, 0, 0, 0, 0.11, 0.081, 0.042, 0.079], [2143, 0, 1, 0, 0, 0, 0, 0, 0, 0.11, 0.081, 0.042, 0.079], [2144, 0, 1, 0, 0, 0, 0, 0, 0, 0.11, 0.081, 0.042, 0.079], [2145, 0, 1, 0, 0, 0, 0, 0, 0, 0.104, 0.081, 0.049, 0.088], [2146, 0, 1, 0, 0, 0, 0, 0, 0, 0.112, 0.081, 0.066, 0.079], [2147, 0, 1, 0, 0, 0, 0, 0, 0, 0.112, 0.081, 0.066, 0.079], [2148, 0, 1, 0, 0, 0, 0, 0, 0, 0.115, 0.081, 0.066, 0.079], [2149, 0, 1, 0, 0, 0, 0, 0, 0, 0.115, 0.081, 0.066, 0.079], [2150, 0, 1, 0, 0, 0, 0, 0, 0, 0.115, 0.081, 0.066, 0.079], [2151, 0, 1, 0, 0, 0, 0, 0, 0, 0.115, 0.081, 0.066, 0.079], [2152, 0, 1, 0, 0, 0, 0, 0, 0, 0.112, 0.081, 0.066, 0.079], [2153, 0, 1, 0, 0, 0, 0, 0, 0, 0.112, 0.081, 0.066, 0.079], [2154, 0, 1, 0, 0, 0, 0, 1, 0, 0.112, 0.081, 0.066, 0.086], [2155, 0, 1, 0, 0, 0, 0, 0, 0, 0.112, 0.086, 0.054, 0.086], [2156, 0, 1, 0, 0, 0, 0, 0, 0, 0.112, 0.086, 0.054, 0.079], [2157, 0, 1, 0, 0, 0, 0, 0, 0, 0.112, 0.086, 0.054, 0.079], [2158, 0, 1, 0, 0, 0, 0, 0, 0, 0.112, 0.086, 0.054, 0.079], [2159, 0, 1, 0, 0, 0, 0, 1, 0, 0.115, 0.086, 0.031, 0.079], [2160, 0, 1, 0, 0, 0, 0, 0, 0, 0.112, 0.086, 0.054, 0.079], [2161, 0, 1, 0, 0, 0, 0, 0, 0, 0.112, 0.086, 0.054, 0.079], [2162, 0, 1, 0, 0, 0, 0, 0, 0, 0.112, 0.086, 0.054, 0.079], [2163, 0, 1, 0, 0, 0, 0, 1, 0, 0.112, 0.086, 0.033, 0.079], [2164, 0, 1, 0, 0, 0, 0, 1, 0, 0.112, 0.086, 0.033, 0.079], [2165, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.074, 0.05, 0.079], [2166, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.074, 0.05, 0.079], [2167, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.074, 0.05, 0.079], [2168, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.074, 0.05, 0.079], [2169, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.074, 0.05, 0.079], [2170, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.074, 0.05, 0.079], [2171, 0, 0, 0, 1, 0, 1, 0, 0, 0.108, 0.052, 0.05, 0.031], [2172, 0, 0, 0, 1, 0, 1, 0, 0, 0.108, 0.052, 0.05, 0.031], [2173, 0, 0, 0, 1, 0, 1, 0, 0, 0.108, 0.052, 0.05, 0.031], [2174, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [2175, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [2176, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [2177, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [2178, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [2179, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [2180, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [2181, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [2182, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [2183, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [2184, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [2185, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [2186, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [2187, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.061, 0.05, 0.079], [2188, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.061, 0.05, 0.079], [2189, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.061, 0.05, 0.079], [2190, 0, 1, 0, 0, 0, 1, 0, 0, 0.103, 0.081, 0.049, 0.079], [2191, 0, 1, 0, 0, 0, 1, 0, 0, 0.108, 0.061, 0.05, 0.079], [2192, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [2193, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [2194, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [2195, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [2196, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [2197, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [2198, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [2199, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [2200, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [2201, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [2202, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [2203, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [2204, 1, 0, 0, 0, 0, 1, 0, 0, 0.108, 0.044, 0.05, 0.079], [2205, 1, 0, 0, 0, 0, 1, 0, 0, 0.108, 0.044, 0.05, 0.079], [2206, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.063, 0.05, 0.079], [2207, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.063, 0.05, 0.079], [2208, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.063, 0.05, 0.079], [2209, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.05, 0.079], [2210, 1, 0, 0, 0, 0, 0, 0, 0, 0.025, 0.063, 0.05, 0.079], [2211, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.063, 0.05, 0.079], [2212, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.063, 0.05, 0.079], [2213, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.063, 0.05, 0.004], [2214, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.051, 0.05, 0.079], [2215, 1, 0, 0, 0, 0, 0, 0, 0, 0.008, 0.06, 0.05, 0.079], [2216, 1, 0, 0, 0, 0, 0, 0, 0, 0.125, 0.098, 0.049, 0.079], [2217, 1, 0, 0, 0, 0, 0, 0, 0, 0.103, 0.098, 0.049, 0.079], [2218, 1, 0, 0, 0, 0, 0, 0, 0, 0.103, 0.098, 0.049, 0.079], [2219, 1, 0, 0, 0, 0, 0, 0, 0, 0.103, 0.098, 0.049, 0.079], [2220, 1, 0, 0, 0, 0, 0, 0, 0, 0.103, 0.098, 0.049, 0.079], [2221, 0, 0, 1, 0, 0, 0, 0, 0, 0.108, 0.081, 0.049, 0.079], [2222, 0, 0, 1, 0, 0, 0, 0, 0, 0.108, 0.081, 0.049, 0.079], [2223, 1, 0, 0, 0, 0, 0, 1, 0, 0.108, 0.081, 0.031, 0.079], [2224, 1, 0, 0, 0, 0, 0, 1, 0, 0.115, 0.081, 0.031, 0.079], [2225, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.054, 0.079], [2226, 1, 0, 0, 0, 0, 0, 0, 0, 0.11, 0.061, 0.066, 0.079], [2227, 1, 0, 0, 0, 0, 0, 0, 0, 0.068, 0.081, 0.066, 0.079], [2228, 1, 0, 0, 0, 0, 0, 0, 0, 0.078, 0.049, 0.054, 0.081], [2229, 0, 0, 1, 0, 0, 0, 0, 0, 0.11, 0.082, 0.041, 0.079], [2230, 0, 1, 0, 0, 0, 0, 1, 0, 0.11, 0.061, 0.031, 0.079], [2231, 0, 1, 0, 0, 0, 0, 0, 0, 0.11, 0.086, 0.026, 0.081], [2232, 0, 1, 0, 0, 0, 0, 1, 0, 0.11, 0.086, 0.036, 0.081], [2233, 0, 1, 0, 0, 0, 0, 1, 0, 0.11, 0.086, 0.036, 0.081], [2234, 0, 0, 1, 0, 0, 0, 1, 0, 0.11, 0.081, 0.031, 0.079], [2235, 0, 1, 0, 0, 0, 0, 0, 0, 0.11, 0.086, 0.025, 0.079], [2236, 0, 1, 0, 0, 0, 0, 0, 0, 0.11, 0.086, 0.025, 0.079], [2237, 1, 0, 0, 0, 0, 0, 0, 0, 0.112, 0.081, 0.055, 0.079], [2238, 0, 0, 1, 0, 0, 0, 0, 0, 0.11, 0.082, 0.031, 0.079], [2239, 0, 0, 1, 0, 0, 0, 0, 0, 0.11, 0.082, 0.031, 0.079], [2240, 1, 0, 0, 0, 0, 0, 1, 0, 0.115, 0.081, 0.031, 0.079], [2241, 1, 0, 0, 0, 0, 0, 0, 0, 0.115, 0.086, 0.061, 0.079], [2242, 1, 0, 0, 0, 0, 1, 0, 0, 0.115, 0.063, 0.061, 0.079], [2243, 1, 0, 0, 0, 0, 1, 0, 0, 0.115, 0.086, 0.061, 0.079], [2244, 1, 0, 0, 0, 0, 0, 1, 0, 0.115, 0.086, 0.061, 0.079], [2245, 1, 0, 0, 0, 0, 0, 0, 0, 0.115, 0.063, 0.061, 0.041], [2246, 1, 0, 0, 0, 0, 0, 0, 0, 0.115, 0.063, 0.061, 0.041], [2247, 1, 0, 0, 0, 0, 0, 0, 0, 0.115, 0.064, 0.061, 0.063], [2248, 1, 0, 0, 0, 0, 0, 0, 0, 0.115, 0.064, 0.061, 0.063], [2249, 1, 0, 0, 0, 0, 0, 0, 0, 0.083, 0.066, 0.061, 0.063], [2250, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.08, 0.05, 0.086], [2251, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.08, 0.05, 0.086], [2252, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.081], [2253, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.081], [2254, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.081], [2255, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.081], [2256, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.081], [2257, 1, 0, 0, 0, 0, 0, 0, 0, 0.115, 0.081, 0.049, 0.079], [2258, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.081], [2259, 1, 0, 0, 0, 0, 0, 0, 0, 0.081, 0.081, 0.05, 0.081], [2260, 1, 0, 0, 0, 0, 0, 0, 0, 0.042, 0.081, 0.05, 0.081], [2261, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.061, 0.081], [2262, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.082, 0.05, 0.088], [2263, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.082, 0.05, 0.088], [2264, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.082, 0.05, 0.088], [2265, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.111, 0.05, 0.089], [2266, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.111, 0.05, 0.089], [2267, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.111, 0.05, 0.089], [2268, 1, 0, 0, 0, 0, 0, 0, 0, 0.115, 0.081, 0.036, 0.079], [2269, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.111, 0.05, 0.089], [2270, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.081, 0.05, 0.084], [2271, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.084], [2272, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.084], [2273, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.05, 0.086], [2274, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.05, 0.086], [2275, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.05, 0.086], [2276, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.05, 0.086], [2277, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.05, 0.086], [2278, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.05, 0.086], [2279, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.05, 0.086], [2280, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.05, 0.086], [2281, 0, 1, 0, 0, 0, 0, 0, 0, 0.122, 0.0, 0.054, 0.086], [2282, 1, 0, 0, 0, 0, 0, 0, 0, 0.115, 0.068, 0.061, 0.079], [2283, 1, 0, 0, 0, 0, 0, 0, 0, 0.115, 0.086, 0.061, 0.079], [2284, 1, 0, 0, 0, 1, 0, 0, 0, 0.083, 0.086, 0.054, 0.079], [2285, 1, 0, 0, 0, 1, 0, 0, 0, 0.083, 0.086, 0.061, 0.063], [2286, 1, 0, 0, 0, 1, 0, 0, 0, 0.083, 0.086, 0.054, 0.071], [2287, 0, 0, 0, 1, 0, 0, 0, 1, 0.115, 0.086, 0.061, 0.063], [2288, 1, 0, 0, 0, 0, 0, 0, 0, 0.055, 0.063, 0.054, 0.063], [2289, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.05, 0.086], [2290, 0, 0, 1, 0, 0, 0, 0, 0, 0.103, 0.081, 0.066, 0.079], [2291, 0, 0, 1, 0, 0, 0, 0, 0, 0.103, 0.081, 0.066, 0.079], [2292, 0, 0, 1, 0, 0, 0, 0, 0, 0.103, 0.081, 0.066, 0.079], [2293, 0, 0, 1, 0, 0, 0, 0, 0, 0.103, 0.081, 0.066, 0.079], [2294, 0, 1, 0, 0, 0, 1, 0, 0, 0.108, 0.049, 0.05, 0.079], [2295, 0, 1, 0, 0, 0, 0, 1, 0, 0.108, 0.086, 0.025, 0.079], [2296, 0, 1, 0, 0, 0, 0, 1, 0, 0.108, 0.086, 0.025, 0.079], [2297, 0, 1, 0, 0, 1, 0, 0, 0, 0.108, 0.086, 0.054, 0.079], [2298, 0, 1, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [2299, 0, 1, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.054, 0.079], [2300, 0, 1, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.054, 0.079], [2301, 0, 1, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.054, 0.079], [2302, 0, 1, 0, 0, 0, 1, 0, 0, 0.057, 0.063, 0.054, 0.081], [2303, 0, 1, 0, 0, 0, 1, 0, 0, 0.057, 0.063, 0.054, 0.081], [2304, 0, 1, 0, 0, 0, 0, 0, 0, 0.122, 0.063, 0.054, 0.086], [2305, 0, 1, 0, 0, 0, 0, 0, 0, 0.122, 0.063, 0.054, 0.086], [2306, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.036, 0.079], [2307, 0, 1, 0, 0, 0, 0, 0, 1, 0.115, 0.041, 0.061, 0.063], [2308, 0, 1, 0, 0, 0, 0, 0, 1, 0.115, 0.041, 0.061, 0.063], [2309, 0, 1, 0, 0, 0, 1, 0, 0, 0.115, 0.063, 0.061, 0.079], [2310, 0, 1, 0, 0, 0, 0, 1, 0, 0.115, 0.031, 0.061, 0.079], [2311, 0, 1, 0, 0, 0, 0, 1, 0, 0.115, 0.031, 0.061, 0.079], [2312, 0, 1, 0, 0, 0, 0, 1, 0, 0.115, 0.031, 0.061, 0.079], [2313, 0, 1, 0, 0, 0, 0, 1, 0, 0.115, 0.031, 0.061, 0.079], [2314, 0, 1, 0, 0, 0, 0, 0, 1, 0.057, 0.025, 0.061, 0.063], [2315, 0, 1, 0, 0, 0, 0, 0, 1, 0.057, 0.025, 0.061, 0.063], [2316, 0, 1, 0, 0, 0, 0, 0, 1, 0.057, 0.025, 0.061, 0.063], [2317, 0, 1, 0, 0, 0, 0, 0, 0, 0.132, 0.063, 0.054, 0.063], [2318, 0, 0, 0, 1, 0, 0, 0, 1, 0.108, 0.081, 0.061, 0.074], [2319, 0, 0, 0, 1, 0, 0, 0, 1, 0.108, 0.081, 0.061, 0.074], [2320, 0, 0, 0, 1, 0, 0, 0, 0, 0.115, 0.081, 0.061, 0.086], [2321, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.086], [2322, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.05, 0.086], [2323, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.098, 0.061, 0.081], [2324, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.108, 0.05, 0.079], [2325, 1, 0, 0, 0, 0, 1, 0, 0, 0.108, 0.044, 0.05, 0.079], [2326, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.063, 0.05, 0.079], [2327, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.05, 0.079], [2328, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.063, 0.05, 0.079], [2329, 1, 0, 0, 0, 0, 1, 0, 0, 0.108, 0.063, 0.05, 0.079], [2330, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.051, 0.05, 0.079], [2331, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.049, 0.05, 0.079], [2332, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.049, 0.05, 0.079], [2333, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.049, 0.05, 0.079], [2334, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.05, 0.079], [2335, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.05, 0.079], [2336, 1, 0, 0, 0, 0, 0, 1, 0, 0.108, 0.086, 0.031, 0.079], [2337, 1, 0, 0, 0, 1, 0, 0, 0, 0.115, 0.086, 0.054, 0.079], [2338, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.054, 0.079], [2339, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.054, 0.079], [2340, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.054, 0.079], [2341, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.054, 0.079], [2342, 1, 0, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.054, 0.081], [2343, 1, 0, 0, 0, 1, 0, 0, 0, 0.083, 0.086, 0.061, 0.079], [2344, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.066, 0.079], [2345, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.066, 0.079], [2346, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.081, 0.049, 0.079], [2347, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.061, 0.086], [2348, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.061, 0.086], [2349, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.061, 0.081], [2350, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.061, 0.081], [2351, 0, 1, 0, 0, 0, 0, 0, 0, 0.125, 0.086, 0.05, 0.086], [2352, 0, 1, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [2353, 0, 0, 0, 1, 1, 0, 0, 0, 0.122, 0.086, 0.061, 0.069], [2354, 0, 0, 0, 1, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [2355, 0, 1, 0, 0, 1, 0, 0, 0, 0.112, 0.086, 0.061, 0.086], [2356, 0, 1, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [2357, 0, 1, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [2358, 0, 1, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [2359, 0, 1, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [2360, 0, 1, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [2361, 0, 1, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.091], [2362, 0, 1, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [2363, 0, 1, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [2364, 0, 1, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [2365, 0, 1, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [2366, 0, 1, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [2367, 0, 1, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [2368, 0, 1, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [2369, 0, 1, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [2370, 0, 1, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [2371, 0, 1, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [2372, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.05, 0.079], [2373, 0, 1, 0, 0, 0, 1, 0, 0, 0.108, 0.024, 0.05, 0.079], [2374, 0, 1, 0, 0, 0, 1, 0, 0, 0.108, 0.024, 0.05, 0.079], [2375, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.086, 0.05, 0.079], [2376, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.086, 0.05, 0.079], [2377, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.086, 0.05, 0.079], [2378, 1, 0, 0, 0, 0, 0, 0, 0, 0.008, 0.049, 0.05, 0.079], [2379, 0, 0, 0, 1, 0, 1, 0, 0, 0.108, 0.054, 0.05, 0.079], [2380, 0, 0, 0, 1, 0, 1, 0, 0, 0.108, 0.054, 0.05, 0.079], [2381, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.06, 0.05, 0.079], [2382, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.063, 0.05, 0.079], [2383, 0, 0, 0, 1, 0, 0, 1, 0, 0.108, 0.086, 0.031, 0.016], [2384, 0, 0, 0, 1, 0, 0, 1, 0, 0.108, 0.086, 0.031, 0.079], [2385, 0, 0, 0, 1, 0, 0, 0, 0, 0.122, 0.086, 0.05, 0.086], [2386, 0, 0, 0, 1, 0, 0, 1, 0, 0.108, 0.086, 0.031, 0.048], [2387, 0, 0, 0, 1, 0, 0, 0, 1, 0.115, 0.086, 0.061, 0.025], [2388, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.086, 0.043, 0.079], [2389, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.086, 0.043, 0.079], [2390, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.098, 0.05, 0.079], [2391, 0, 1, 0, 0, 0, 1, 0, 0, 0.108, 0.061, 0.05, 0.079], [2392, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.044, 0.05, 0.079], [2393, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.044, 0.05, 0.079], [2394, 0, 0, 0, 1, 0, 1, 0, 0, 0.108, 0.057, 0.05, 0.079], [2395, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.047, 0.05, 0.079], [2396, 1, 0, 0, 0, 0, 0, 0, 0, 0.108, 0.047, 0.05, 0.079], [2397, 1, 0, 0, 0, 0, 0, 0, 0, 0.103, 0.098, 0.049, 0.079], [2398, 1, 0, 0, 0, 0, 0, 0, 0, 0.103, 0.098, 0.049, 0.079], [2399, 1, 0, 0, 0, 0, 0, 0, 0, 0.003, 0.098, 0.049, 0.079], [2400, 1, 0, 0, 0, 0, 0, 0, 0, 0.053, 0.098, 0.049, 0.079], [2401, 0, 1, 0, 0, 0, 0, 0, 0, 0.103, 0.061, 0.049, 0.079], [2402, 0, 1, 0, 0, 0, 0, 0, 0, 0.115, 0.081, 0.049, 0.079], [2403, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.086, 0.054, 0.079], [2404, 1, 0, 0, 0, 0, 0, 0, 0, 0.025, 0.086, 0.054, 0.079], [2405, 1, 0, 0, 0, 1, 0, 0, 0, 0.108, 0.086, 0.054, 0.079], [2406, 0, 0, 1, 0, 0, 1, 0, 0, 0.122, 0.06, 0.054, 0.084], [2407, 0, 1, 0, 0, 0, 0, 0, 0, 0.122, 0.086, 0.054, 0.086], [2408, 0, 0, 1, 0, 0, 0, 0, 1, 0.083, 0.086, 0.054, 0.063], [2409, 1, 0, 0, 0, 0, 0, 0, 0, 0.115, 0.086, 0.061, 0.079], [2410, 1, 0, 0, 0, 0, 0, 0, 0, 0.115, 0.063, 0.061, 0.063], [2411, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.063, 0.05, 0.086], [2412, 0, 1, 0, 0, 0, 0, 0, 0, 0.115, 0.081, 0.05, 0.081], [2413, 0, 1, 0, 0, 0, 0, 0, 0, 0.115, 0.081, 0.05, 0.081], [2414, 0, 1, 0, 0, 0, 0, 0, 0, 0.115, 0.081, 0.05, 0.081], [2415, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.061, 0.081], [2416, 0, 1, 0, 0, 0, 0, 0, 0, 0.108, 0.081, 0.061, 0.081], [2417, 0, 1, 0, 0, 1, 0, 0, 0, 0.122, 0.086, 0.05, 0.086], [2418, 0, 0, 0, 1, 0, 0, 0, 0, 0.122, 0.086, 0.05, 0.086], [2419, 0, 0, 0, 1, 0, 0, 0, 0, 0.122, 0.086, 0.05, 0.086], [2420, 0, 0, 0, 1, 0, 0, 0, 0, 0.122, 0.086, 0.05, 0.086], [2421, 0, 0, 0, 1, 0, 0, 0, 0, 0.122, 0.086, 0.05, 0.024], [2422, 0, 0, 0, 1, 0, 0, 0, 0, 0.122, 0.086, 0.05, 0.024], [2423, 0, 0, 0, 1, 0, 0, 0, 0, 0.122, 0.086, 0.05, 0.086], [2424, 0, 0, 0, 1, 0, 0, 0, 0, 0.122, 0.081, 0.061, 0.086], [2425, 0, 0, 0, 1, 0, 0, 0, 0, 0.11, 0.086, 0.061, 0.086], [2426, 0, 0, 0, 1, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [2427, 0, 0, 0, 1, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [2428, 0, 0, 0, 1, 0, 0, 0, 0, 0.122, 0.086, 0.061, 0.086], [2429, 0, 0, 0, 1, 0, 0, 0, 0, 0.122, 0.086, 0.05, 0.086], [2430, 0, 0, 0, 1, 0, 0, 0, 0, 0.108, 0.086, 0.043, 0.079]];
+
+    // Define the dt_args
+    let dt_args = {"order": [], "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) { return sPre + ' (<a href="https://mwouts.github.io/itables/downsampling.html">downsampled</a> from 2,430x13 to 630x13 as maxBytes=65536)'; }};
+    dt_args["data"] = data;
+
+    $(document).ready(function () {
+        
+        $('#2cd45fd9-49d7-4aab-85b5-8fc1e5246e5f').DataTable(dt_args);
+    });
+</script>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Let the vector of product features include brand dummy variables for yogurts 1-3 (we’ll omit a dummy for product 4 to avoid multi-collinearity), a dummy variable to indicate if a yogurt was featured, and a continuous variable for the yogurts’ prices:</p>
+<p><span class="math display">\[ x_j' = [\mathbbm{1}(\text{Yogurt 1}), \mathbbm{1}(\text{Yogurt 2}), \mathbbm{1}(\text{Yogurt 3}), X_f, X_p] \]</span></p>
+<p>The “hard part” of the MNL likelihood function is organizing the data, as we need to keep track of 3 dimensions (consumer <span class="math inline">\(i\)</span>, covariate <span class="math inline">\(k\)</span>, and product <span class="math inline">\(j\)</span>) instead of the typical 2 dimensions for cross-sectional regression models (consumer <span class="math inline">\(i\)</span> and covariate <span class="math inline">\(k\)</span>).</p>
+<p>What we would like to do is reorganize the data from a “wide” shape with <span class="math inline">\(n\)</span> rows and multiple columns for each covariate, to a “long” shape with <span class="math inline">\(n \times J\)</span> rows and a single column for each covariate. As part of this re-organization, we’ll add binary variables to indicate the first 3 products; the variables for featured and price are included in the dataset and simply need to be “pivoted” or “melted” from wide to long.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interactive Cleaned Yogurt Dataset
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="06b8e86b" class="cell" data-execution_count="3">
+<div class="cell-output cell-output-display">
+<div>
+<style>.itables table td {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.itables table th {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.itables thead input {
+    width: 100%;
+    padding: 3px;
+    box-sizing: border-box;
+}
+
+.itables tfoot input {
+    width: 100%;
+    padding: 3px;
+    box-sizing: border-box;
+}
+</style>
+<div class="itables">
+
+<table id="9917daf9-e097-4b84-ad83-c8ff57951ab1" class="display nowrap table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">product</th>
+<th data-quarto-table-cell-role="th">chosen</th>
+<th data-quarto-table-cell-role="th">featured</th>
+<th data-quarto-table-cell-role="th">price</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Loading... (need <a href="https://mwouts.github.io/itables/troubleshooting.html">help</a>?)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+<script type="module">
+    // Import jquery and DataTable
+    import 'https://code.jquery.com/jquery-3.6.0.min.js';
+    import dt from 'https://cdn.datatables.net/1.12.1/js/jquery.dataTables.mjs';
+    dt($);
+
+    // Define the table data
+    const data = [[1, 1, 0, 0, 0.108], [2, 1, 0, 0, 0.108], [3, 1, 0, 0, 0.108], [4, 1, 0, 0, 0.108], [5, 1, 0, 0, 0.125], [6, 1, 0, 0, 0.108], [7, 1, 0, 0, 0.103], [8, 1, 0, 0, 0.108], [9, 1, 1, 0, 0.108], [10, 1, 1, 0, 0.108], [11, 1, 1, 0, 0.108], [12, 1, 1, 0, 0.108], [13, 1, 0, 0, 0.108], [14, 1, 0, 0, 0.108], [15, 1, 0, 0, 0.108], [16, 1, 0, 0, 0.108], [17, 1, 0, 0, 0.108], [18, 1, 0, 0, 0.108], [19, 1, 0, 0, 0.108], [20, 1, 0, 0, 0.108], [21, 1, 0, 0, 0.108], [22, 1, 0, 0, 0.108], [23, 1, 0, 0, 0.108], [24, 1, 0, 0, 0.108], [25, 1, 0, 0, 0.112], [26, 1, 0, 0, 0.112], [27, 1, 0, 0, 0.112], [28, 1, 0, 0, 0.108], [29, 1, 0, 0, 0.11], [30, 1, 0, 0, 0.103], [31, 1, 0, 0, 0.103], [32, 1, 1, 0, 0.032], [33, 1, 1, 0, 0.108], [34, 1, 1, 0, 0.108], [35, 1, 1, 0, 0.055], [36, 1, 1, 0, 0.083], [37, 1, 1, 0, 0.083], [38, 1, 1, 0, 0.115], [39, 1, 1, 0, 0.032], [40, 1, 0, 0, 0.115], [41, 1, 0, 0, 0.115], [42, 1, 0, 0, 0.115], [43, 1, 0, 0, 0.042], [44, 1, 0, 0, 0.11], [45, 1, 0, 0, 0.11], [46, 1, 0, 0, 0.135], [47, 1, 0, 0, 0.135], [48, 1, 0, 0, 0.11], [49, 1, 0, 0, 0.11], [50, 1, 0, 0, 0.103], [51, 1, 0, 0, 0.108], [52, 1, 0, 0, 0.112], [53, 1, 1, 0, 0.025], [54, 1, 1, 0, 0.058], [55, 1, 1, 0, 0.058], [56, 1, 0, 0, 0.115], [57, 1, 0, 0, 0.11], [58, 1, 1, 0, 0.103], [59, 1, 1, 0, 0.103], [60, 1, 1, 0, 0.103], [61, 1, 0, 0, 0.108], [62, 1, 0, 0, 0.108], [63, 1, 0, 0, 0.108], [64, 1, 1, 0, 0.108], [65, 1, 1, 0, 0.108], [66, 1, 0, 0, 0.108], [67, 1, 0, 0, 0.108], [68, 1, 0, 0, 0.108], [69, 1, 0, 0, 0.108], [70, 1, 0, 0, 0.122], [71, 1, 1, 0, 0.125], [72, 1, 0, 0, 0.115], [73, 1, 0, 0, 0.115], [74, 1, 0, 0, 0.108], [75, 1, 0, 0, 0.108], [76, 1, 0, 0, 0.115], [77, 1, 0, 0, 0.115], [78, 1, 0, 0, 0.115], [79, 1, 0, 0, 0.115], [80, 1, 0, 0, 0.115], [81, 1, 0, 0, 0.115], [82, 1, 1, 0, 0.112], [83, 1, 1, 0, 0.112], [84, 1, 1, 0, 0.122], [85, 1, 1, 0, 0.122], [86, 1, 1, 0, 0.122], [87, 1, 1, 0, 0.122], [88, 1, 1, 0, 0.122], [89, 1, 1, 0, 0.122], [90, 1, 1, 0, 0.122], [91, 1, 0, 0, 0.11], [92, 1, 0, 0, 0.11], [93, 1, 0, 0, 0.103], [94, 1, 0, 0, 0.103], [95, 1, 0, 0, 0.103], [96, 1, 0, 0, 0.103], [97, 1, 0, 0, 0.125], [98, 1, 0, 0, 0.125], [99, 1, 1, 0, 0.02], [100, 1, 0, 0, 0.103], [101, 1, 0, 0, 0.103], [102, 1, 1, 0, 0.108], [103, 1, 1, 0, 0.108], [104, 1, 0, 0, 0.108], [105, 1, 0, 0, 0.108], [106, 1, 0, 0, 0.108], [107, 1, 1, 0, 0.108], [108, 1, 0, 0, 0.115], [109, 1, 0, 0, 0.108], [110, 1, 1, 0, 0.108], [111, 1, 1, 0, 0.108], [112, 1, 0, 0, 0.103], [113, 1, 0, 0, 0.103], [114, 1, 0, 0, 0.103], [115, 1, 0, 0, 0.103], [116, 1, 0, 0, 0.125], [117, 1, 0, 0, 0.125], [118, 1, 0, 0, 0.103], [119, 1, 0, 0, 0.103], [120, 1, 0, 0, 0.103], [121, 1, 0, 0, 0.103], [122, 1, 0, 0, 0.125], [123, 1, 0, 0, 0.108], [124, 1, 0, 0, 0.103], [125, 1, 0, 0, 0.103], [126, 1, 0, 0, 0.103], [127, 1, 0, 0, 0.103], [128, 1, 0, 0, 0.103], [129, 1, 0, 0, 0.103], [130, 1, 0, 0, 0.108], [131, 1, 0, 0, 0.122], [132, 1, 0, 0, 0.108], [133, 1, 0, 0, 0.055], [134, 1, 0, 0, 0.055], [135, 1, 0, 0, 0.108], [136, 1, 0, 0, 0.088], [137, 1, 0, 0, 0.115], [138, 1, 0, 0, 0.115], [139, 1, 0, 0, 0.115], [140, 1, 0, 0, 0.115], [141, 1, 0, 0, 0.108], [142, 1, 0, 0, 0.108], [143, 1, 0, 0, 0.115], [144, 1, 1, 0, 0.115], [145, 1, 0, 0, 0.108], [146, 1, 1, 0, 0.115], [147, 1, 1, 0, 0.115], [148, 1, 1, 0, 0.108], [149, 1, 1, 0, 0.108], [150, 1, 1, 0, 0.108], [151, 1, 1, 0, 0.022], [152, 1, 1, 0, 0.122], [153, 1, 1, 0, 0.122], [154, 1, 1, 0, 0.122], [155, 1, 1, 0, 0.122], [156, 1, 0, 0, 0.122], [157, 1, 1, 0, 0.122], [158, 1, 1, 0, 0.122], [159, 1, 1, 0, 0.122], [160, 1, 1, 0, 0.122], [161, 1, 1, 0, 0.122], [162, 1, 1, 0, 0.122], [163, 1, 1, 0, 0.122], [164, 1, 0, 0, 0.103], [165, 1, 0, 0, 0.103], [166, 1, 0, 0, 0.103], [167, 1, 0, 0, 0.103], [168, 1, 0, 0, 0.103], [169, 1, 0, 0, 0.115], [170, 1, 0, 0, 0.108], [171, 1, 0, 0, 0.108], [172, 1, 0, 0, 0.108], [173, 1, 0, 0, 0.057], [174, 1, 0, 0, 0.115], [175, 1, 0, 0, 0.115], [176, 1, 0, 0, 0.115], [177, 1, 0, 0, 0.115], [178, 1, 0, 0, 0.11], [179, 1, 0, 0, 0.11], [180, 1, 1, 0, 0.108], [181, 1, 1, 0, 0.108], [182, 1, 0, 0, 0.11], [183, 1, 0, 0, 0.11], [184, 1, 0, 0, 0.11], [185, 1, 0, 0, 0.11], [186, 1, 0, 0, 0.11], [187, 1, 0, 0, 0.11], [188, 1, 0, 0, 0.103], [189, 1, 0, 0, 0.116], [190, 1, 0, 0, 0.108], [191, 1, 0, 0, 0.108], [192, 1, 0, 0, 0.108], [193, 1, 0, 0, 0.108], [194, 1, 0, 0, 0.109], [195, 1, 0, 0, 0.108], [196, 1, 0, 0, 0.108], [197, 1, 0, 0, 0.103], [198, 1, 0, 0, 0.103], [199, 1, 0, 0, 0.103], [200, 1, 0, 0, 0.103], [201, 1, 1, 0, 0.037], [202, 1, 1, 0, 0.098], [203, 1, 1, 0, 0.103], [204, 1, 1, 0, 0.103], [205, 1, 1, 0, 0.103], [206, 1, 0, 0, 0.115], [207, 1, 1, 0, 0.008], [208, 1, 1, 0, 0.108], [209, 1, 1, 0, 0.108], [210, 1, 1, 0, 0.108], [211, 1, 1, 0, 0.108], [212, 1, 1, 0, 0.108], [213, 1, 1, 0, 0.108], [214, 1, 1, 0, 0.108], [215, 1, 1, 0, 0.108], [216, 1, 1, 0, 0.108], [217, 1, 1, 0, 0.108], [218, 1, 1, 0, 0.108], [219, 1, 1, 0, 0.108], [220, 1, 0, 0, 0.125], [221, 1, 0, 0, 0.125], [222, 1, 0, 0, 0.103], [223, 1, 0, 0, 0.103], [224, 1, 1, 0, 0.103], [225, 1, 0, 0, 0.103], [226, 1, 1, 0, 0.103], [227, 1, 0, 0, 0.103], [228, 1, 0, 0, 0.103], [229, 1, 1, 0, 0.103], [230, 1, 1, 0, 0.103], [231, 1, 1, 0, 0.103], [232, 1, 1, 0, 0.103], [233, 1, 1, 0, 0.103], [234, 1, 1, 0, 0.103], [235, 1, 1, 0, 0.103], [236, 1, 1, 0, 0.103], [237, 1, 1, 0, 0.103], [238, 1, 1, 0, 0.103], [239, 1, 0, 0, 0.103], [240, 1, 1, 0, 0.062], [241, 1, 0, 0, 0.103], [242, 1, 0, 0, 0.103], [243, 1, 0, 0, 0.103], [244, 1, 0, 0, 0.103], [245, 1, 0, 0, 0.103], [246, 1, 0, 0, 0.103], [247, 1, 0, 0, 0.103], [248, 1, 0, 0, 0.103], [249, 1, 0, 0, 0.103], [250, 1, 0, 0, 0.103], [251, 1, 0, 0, 0.103], [252, 1, 0, 0, 0.103], [253, 1, 0, 0, 0.103], [254, 1, 0, 0, 0.103], [255, 1, 0, 0, 0.103], [256, 1, 0, 0, 0.103], [257, 1, 0, 0, 0.103], [258, 1, 0, 0, 0.103], [259, 1, 0, 0, 0.103], [260, 1, 0, 0, 0.103], [261, 1, 0, 0, 0.103], [262, 1, 0, 0, 0.103], [263, 1, 0, 0, 0.103], [264, 1, 0, 0, 0.103], [265, 1, 0, 0, 0.103], [266, 1, 0, 0, 0.103], [267, 1, 0, 0, 0.103], [268, 1, 0, 0, 0.103], [269, 1, 0, 0, 0.103], [270, 1, 0, 0, 0.103], [271, 1, 0, 0, 0.103], [272, 1, 0, 0, 0.103], [273, 1, 0, 0, 0.103], [274, 1, 0, 0, 0.103], [275, 1, 0, 0, 0.103], [276, 1, 0, 0, 0.103], [277, 1, 0, 0, 0.103], [278, 1, 0, 0, 0.103], [279, 1, 0, 0, 0.193], [280, 1, 0, 0, 0.193], [281, 1, 0, 0, 0.108], [282, 1, 0, 0, 0.115], [283, 1, 0, 0, 0.115], [284, 1, 0, 0, 0.115], [285, 1, 0, 0, 0.115], [286, 1, 0, 0, 0.115], [287, 1, 0, 0, 0.115], [288, 1, 0, 0, 0.115], [289, 1, 0, 0, 0.115], [290, 1, 0, 0, 0.115], [291, 1, 0, 0, 0.115], [292, 1, 0, 0, 0.115], [293, 1, 0, 0, 0.115], [294, 1, 0, 0, 0.115], [295, 1, 0, 0, 0.115], [296, 1, 1, 0, 0.115], [297, 1, 1, 0, 0.115], [298, 1, 0, 0, 0.11], [299, 1, 0, 0, 0.115], [300, 1, 0, 0, 0.115], [301, 1, 0, 0, 0.115], [302, 1, 0, 0, 0.115], [303, 1, 0, 0, 0.115], [304, 1, 0, 0, 0.115], [305, 1, 0, 1, 0.091], [306, 1, 0, 0, 0.115], [307, 1, 0, 0, 0.115], [308, 1, 0, 0, 0.115], [309, 1, 0, 0, 0.115], [310, 1, 0, 1, 0.087], [311, 1, 0, 1, 0.087], [312, 1, 0, 1, 0.087], [313, 1, 0, 0, 0.107], [314, 1, 0, 0, 0.107], [315, 1, 0, 0, 0.108], [316, 1, 0, 0, 0.108], [317, 1, 0, 0, 0.108], [318, 1, 0, 0, 0.108], [319, 1, 0, 0, 0.108], [320, 1, 0, 0, 0.108], [321, 1, 0, 0, 0.108], [322, 1, 0, 0, 0.108], [323, 1, 0, 0, 0.108], [324, 1, 0, 0, 0.108], [325, 1, 0, 0, 0.108], [326, 1, 0, 0, 0.108], [327, 1, 0, 0, 0.108], [328, 1, 0, 0, 0.108], [329, 1, 0, 0, 0.108], [330, 1, 0, 0, 0.108], [331, 1, 0, 0, 0.108], [332, 1, 0, 0, 0.108], [333, 1, 0, 0, 0.108], [334, 1, 0, 0, 0.108], [335, 1, 0, 0, 0.108], [336, 1, 0, 0, 0.108], [337, 1, 0, 1, 0.108], [338, 1, 0, 0, 0.122], [339, 1, 1, 1, 0.108], [340, 1, 1, 0, 0.108], [341, 1, 1, 0, 0.108], [342, 1, 1, 0, 0.108], [343, 1, 1, 0, 0.108], [344, 1, 1, 0, 0.108], [345, 1, 1, 0, 0.108], [346, 1, 1, 0, 0.108], [347, 1, 1, 0, 0.108], [348, 1, 1, 0, 0.108], [349, 1, 1, 0, 0.122], [350, 1, 1, 1, 0.025], [351, 1, 1, 1, 0.108], [352, 1, 1, 1, 0.108], [353, 1, 0, 0, 0.108], [354, 1, 0, 0, 0.108], [355, 1, 1, 0, 0.108], [356, 1, 1, 0, 0.108], [357, 1, 0, 0, 0.122], [358, 1, 1, 0, 0.122], [359, 1, 1, 0, 0.122], [360, 1, 0, 0, 0.122], [361, 1, 1, 1, 0.122], [362, 1, 1, 0, 0.122], [363, 1, 1, 0, 0.122], [364, 1, 0, 0, 0.122], [365, 1, 0, 0, 0.122], [366, 1, 1, 0, 0.122], [367, 1, 0, 0, 0.122], [368, 1, 0, 0, 0.122], [369, 1, 1, 0, 0.122], [370, 1, 0, 0, 0.118], [371, 1, 1, 0, 0.122], [372, 1, 0, 0, 0.115], [373, 1, 0, 0, 0.115], [374, 1, 0, 0, 0.083], [375, 1, 0, 0, 0.083], [376, 1, 0, 0, 0.115], [377, 1, 1, 0, 0.115], [378, 1, 0, 0, 0.115], [379, 1, 0, 0, 0.115], [380, 1, 1, 0, 0.115], [381, 1, 0, 0, 0.115], [382, 1, 1, 0, 0.115], [383, 1, 1, 0, 0.115], [384, 1, 1, 0, 0.115], [385, 1, 1, 0, 0.115], [386, 1, 1, 0, 0.115], [387, 1, 0, 0, 0.115], [388, 1, 0, 0, 0.115], [389, 1, 0, 0, 0.115], [390, 1, 0, 1, 0.115], [391, 1, 0, 1, 0.115], [392, 1, 0, 1, 0.115], [393, 1, 0, 1, 0.115], [394, 1, 1, 1, 0.083], [395, 1, 1, 1, 0.083], [396, 1, 1, 1, 0.083], [397, 1, 0, 0, 0.115], [398, 1, 0, 0, 0.115], [399, 1, 0, 0, 0.057], [400, 1, 0, 0, 0.115], [401, 1, 0, 0, 0.057], [402, 1, 0, 0, 0.057], [403, 1, 0, 0, 0.088], [404, 1, 0, 0, 0.083], [405, 1, 0, 0, 0.103], [406, 1, 0, 0, 0.115], [407, 1, 0, 0, 0.122], [408, 1, 0, 0, 0.108], [409, 1, 0, 0, 0.108], [410, 1, 0, 0, 0.108], [411, 1, 0, 0, 0.108], [412, 1, 0, 0, 0.108], [413, 1, 0, 0, 0.115], [414, 1, 1, 0, 0.108], [415, 1, 0, 0, 0.108], [416, 1, 0, 1, 0.091], [417, 1, 0, 1, 0.091], [418, 1, 0, 1, 0.091], [419, 1, 1, 0, 0.122], [420, 1, 0, 0, 0.122], [421, 1, 0, 0, 0.122], [422, 1, 0, 0, 0.122], [423, 1, 1, 0, 0.122], [424, 1, 1, 0, 0.122], [425, 1, 1, 1, 0.122], [426, 1, 1, 1, 0.122], [427, 1, 0, 1, 0.122], [428, 1, 0, 0, 0.122], [429, 1, 1, 0, 0.122], [430, 1, 1, 0, 0.122], [431, 1, 1, 0, 0.122], [432, 1, 1, 0, 0.122], [433, 1, 1, 0, 0.122], [434, 1, 1, 0, 0.122], [435, 1, 1, 0, 0.122], [436, 1, 0, 0, 0.122], [437, 1, 1, 0, 0.122], [438, 1, 1, 0, 0.122], [439, 1, 0, 0, 0.122], [440, 1, 0, 0, 0.122], [441, 1, 1, 0, 0.122], [442, 1, 1, 0, 0.122], [443, 1, 0, 0, 0.122], [444, 1, 1, 0, 0.122], [445, 1, 0, 0, 0.122], [446, 1, 1, 0, 0.122], [447, 1, 0, 0, 0.122], [448, 1, 1, 0, 0.122], [449, 1, 1, 0, 0.122], [450, 1, 1, 0, 0.122], [451, 1, 1, 0, 0.122], [452, 1, 0, 0, 0.122], [453, 1, 1, 0, 0.122], [454, 1, 1, 0, 0.122], [455, 1, 0, 0, 0.108], [456, 1, 0, 0, 0.108], [457, 1, 0, 0, 0.108], [458, 1, 1, 0, 0.115], [459, 1, 1, 0, 0.115], [460, 1, 0, 0, 0.125], [461, 1, 0, 0, 0.125], [462, 1, 0, 0, 0.125], [463, 1, 0, 0, 0.098], [464, 1, 0, 0, 0.098], [465, 1, 0, 0, 0.098], [466, 1, 0, 0, 0.098], [467, 1, 0, 0, 0.125], [468, 1, 0, 0, 0.125], [469, 1, 0, 0, 0.125], [470, 1, 0, 0, 0.125], [471, 1, 1, 0, -0.002], [472, 1, 1, 0, -0.002], [473, 1, 1, 0, 0.098], [474, 1, 0, 0, 0.11], [475, 1, 0, 0, 0.11], [476, 1, 0, 0, 0.125], [477, 1, 0, 0, 0.125], [478, 1, 0, 0, 0.103], [479, 1, 0, 0, 0.103], [480, 1, 0, 0, 0.103], [481, 1, 0, 0, 0.098], [482, 1, 1, 0, 0.103], [483, 1, 0, 0, 0.103], [484, 1, 0, 0, 0.103], [485, 1, 0, 0, 0.108], [486, 1, 0, 0, 0.108], [487, 1, 0, 0, 0.108], [488, 1, 0, 0, 0.115], [489, 1, 0, 0, 0.115], [490, 1, 1, 0, 0.115], [491, 1, 0, 0, 0.115], [492, 1, 0, 0, 0.115], [493, 1, 0, 0, 0.115], [494, 1, 0, 0, 0.115], [495, 1, 0, 0, 0.115], [496, 1, 0, 1, 0.115], [497, 1, 0, 0, 0.115], [498, 1, 0, 0, 0.115], [499, 1, 0, 0, 0.108], [500, 1, 0, 0, 0.108], [501, 1, 0, 0, 0.108], [502, 1, 0, 0, 0.108], [503, 1, 0, 0, 0.108], [504, 1, 0, 1, 0.108], [505, 1, 0, 1, 0.108], [506, 1, 0, 0, 0.108], [507, 1, 0, 0, 0.108], [508, 1, 0, 0, 0.108], [509, 1, 0, 1, 0.083], [510, 1, 0, 0, 0.122], [511, 1, 0, 0, 0.122], [512, 1, 0, 0, 0.122], [513, 1, 0, 0, 0.085], [514, 1, 0, 0, 0.085], [515, 1, 0, 0, 0.122], [516, 1, 0, 0, 0.083], [517, 1, 0, 0, 0.083], [518, 1, 0, 0, 0.112], [519, 1, 0, 0, 0.115], [520, 1, 0, 0, 0.115], [521, 1, 0, 0, 0.115], [522, 1, 0, 0, 0.115], [523, 1, 0, 0, 0.115], [524, 1, 0, 0, 0.115], [525, 1, 0, 1, 0.115], [526, 1, 0, 1, 0.115], [527, 1, 0, 0, 0.072], [528, 1, 0, 0, 0.115], [529, 1, 0, 0, 0.115], [530, 1, 1, 0, 0.01], [531, 1, 1, 0, 0.0], [532, 1, 1, 0, 0.108], [533, 1, 1, 0, 0.067], [534, 1, 1, 0, 0.07], [535, 1, 1, 0, 0.07], [536, 1, 1, 0, 0.074], [537, 1, 1, 0, 0.074], [538, 1, 1, 0, 0.04], [539, 1, 1, 0, 0.04], [540, 1, 0, 0, 0.108], [541, 1, 1, 0, 0.0], [542, 1, 1, 0, 0.0], [543, 1, 1, 0, 0.0], [544, 1, 1, 0, 0.0], [545, 1, 1, 0, 0.0], [546, 1, 1, 0, 0.07], [547, 1, 1, 0, 0.07], [548, 1, 1, 0, 0.0], [549, 1, 1, 0, 0.108], [550, 1, 1, 0, 0.0], [551, 1, 1, 0, 0.108], [552, 1, 1, 0, 0.112], [553, 1, 1, 0, 0.025], [554, 1, 1, 0, 0.108], [555, 1, 0, 0, 0.115], [556, 1, 1, 0, 0.067], [557, 1, 0, 0, 0.112], [558, 1, 0, 0, 0.112], [559, 1, 0, 0, 0.112], [560, 1, 1, 0, 0.108], [561, 1, 1, 0, 0.058], [562, 1, 1, 0, 0.108], [563, 1, 0, 1, 0.108], [564, 1, 0, 0, 0.132], [565, 1, 0, 0, 0.108], [566, 1, 0, 0, 0.108], [567, 1, 0, 0, 0.122], [568, 1, 0, 0, 0.122], [569, 1, 1, 0, 0.122], [570, 1, 0, 0, 0.122], [571, 1, 0, 0, 0.118], [572, 1, 0, 0, 0.118], [573, 1, 1, 0, 0.115], [574, 1, 1, 0, 0.115], [575, 1, 1, 0, 0.115], [576, 1, 1, 0, 0.115], [577, 1, 0, 0, 0.115], [578, 1, 0, 0, 0.115], [579, 1, 1, 1, 0.083], [580, 1, 1, 1, 0.083], [581, 1, 0, 0, 0.045], [582, 1, 1, 0, 0.115], [583, 1, 1, 0, 0.115], [584, 1, 1, 0, 0.015], [585, 1, 1, 0, 0.115], [586, 1, 1, 0, 0.122], [587, 1, 1, 0, 0.115], [588, 1, 1, 0, 0.122], [589, 1, 0, 0, 0.103], [590, 1, 0, 0, 0.125], [591, 1, 0, 0, 0.125], [592, 1, 0, 0, 0.125], [593, 1, 0, 0, 0.125], [594, 1, 0, 0, 0.103], [595, 1, 0, 0, 0.103], [596, 1, 0, 0, 0.108], [597, 1, 0, 0, 0.108], [598, 1, 0, 0, 0.103], [599, 1, 0, 0, 0.103], [600, 1, 0, 0, 0.103], [601, 1, 0, 0, 0.103], [602, 1, 0, 0, 0.103], [603, 1, 0, 0, 0.115], [604, 1, 0, 0, 0.115], [605, 1, 0, 0, 0.115], [606, 1, 0, 0, 0.115], [607, 1, 1, 0, 0.115], [608, 1, 1, 1, 0.115], [609, 1, 1, 1, 0.115], [610, 1, 1, 1, 0.042], [611, 1, 0, 0, 0.108], [612, 1, 1, 0, 0.108], [613, 1, 0, 0, 0.108], [614, 1, 1, 0, 0.122], [615, 1, 1, 0, 0.022], [616, 1, 1, 0, 0.122], [617, 1, 0, 0, 0.122], [618, 1, 0, 0, 0.122], [619, 1, 0, 0, 0.115], [620, 1, 1, 0, 0.115], [621, 1, 0, 0, 0.115], [622, 1, 0, 0, 0.122], [623, 1, 0, 0, 0.122], [624, 1, 0, 0, 0.122], [625, 1, 0, 0, 0.058], [626, 1, 0, 0, 0.055], [627, 1, 0, 0, 0.055], [628, 1, 0, 0, 0.122], [629, 1, 0, 0, 0.122], [630, 1, 0, 0, 0.122], [631, 1, 0, 0, 0.122], [632, 1, 0, 0, 0.11], [633, 1, 0, 0, 0.11], [634, 1, 0, 0, 0.11], [635, 1, 0, 0, 0.103], [636, 1, 1, 0, 0.103], [637, 1, 0, 0, 0.108], [638, 1, 0, 0, 0.115], [639, 1, 1, 0, 0.055], [640, 1, 1, 0, 0.055], [641, 1, 1, 0, 0.108], [642, 1, 1, 0, 0.042], [643, 1, 1, 0, -0.012], [644, 1, 0, 0, 0.056], [645, 1, 0, 0, 0.056], [646, 1, 0, 0, 0.056], [647, 1, 1, 0, 0.055], [648, 1, 0, 0, 0.083], [649, 1, 0, 0, 0.083], [650, 1, 1, 1, 0.083], [651, 1, 1, 1, 0.083], [652, 1, 0, 0, 0.132], [653, 1, 0, 0, 0.132], [654, 1, 0, 0, 0.132], [655, 1, 1, 1, 0.083], [656, 1, 1, 1, 0.083], [657, 1, 1, 1, 0.083], [658, 1, 0, 0, 0.055], [659, 1, 0, 0, 0.055], [660, 1, 0, 0, 0.103], [661, 1, 0, 1, 0.115], [662, 1, 1, 1, 0.008], [663, 1, 1, 0, 0.055], [664, 1, 0, 0, 0.09], [665, 1, 1, 0, 0.083], [666, 1, 0, 0, 0.108], [667, 1, 0, 0, 0.108], [668, 1, 0, 0, 0.108], [669, 1, 0, 0, 0.108], [670, 1, 0, 0, 0.108], [671, 1, 0, 0, 0.103], [672, 1, 0, 0, 0.103], [673, 1, 0, 0, 0.103], [674, 1, 0, 0, 0.108], [675, 1, 0, 0, 0.108], [676, 1, 0, 0, 0.103], [677, 1, 0, 0, 0.103], [678, 1, 0, 0, 0.103], [679, 1, 0, 0, 0.108], [680, 1, 0, 0, 0.103], [681, 1, 0, 0, 0.103], [682, 1, 0, 0, 0.103], [683, 1, 0, 0, 0.108], [684, 1, 0, 0, 0.108], [685, 1, 0, 0, 0.103], [686, 1, 0, 0, 0.103], [687, 1, 0, 0, 0.103], [688, 1, 0, 0, 0.115], [689, 1, 0, 0, 0.115], [690, 1, 0, 0, 0.115], [691, 1, 0, 0, 0.115], [692, 1, 0, 0, 0.115], [693, 1, 0, 0, 0.108], [694, 1, 0, 0, 0.108], [695, 1, 0, 0, 0.122], [696, 1, 0, 0, 0.117], [697, 1, 0, 0, 0.108], [698, 1, 0, 0, 0.11], [699, 1, 0, 0, 0.11], [700, 1, 0, 0, 0.112], [701, 1, 0, 0, 0.112], [702, 1, 0, 0, 0.115], [703, 1, 0, 0, 0.115], [704, 1, 0, 0, 0.115], [705, 1, 0, 0, 0.115], [706, 1, 0, 0, 0.115], [707, 1, 0, 0, 0.115], [708, 1, 0, 0, 0.112], [709, 1, 0, 0, 0.103], [710, 1, 0, 0, 0.103], [711, 1, 0, 0, 0.103], [712, 1, 0, 0, 0.103], [713, 1, 0, 0, 0.103], [714, 1, 0, 0, 0.103], [715, 1, 0, 0, 0.108], [716, 1, 0, 0, 0.11], [717, 1, 0, 0, 0.109], [718, 1, 0, 0, 0.109], [719, 1, 1, 1, 0.083], [720, 1, 1, 0, 0.108], [721, 1, 0, 1, 0.108], [722, 1, 1, 0, 0.122], [723, 1, 1, 0, 0.122], [724, 1, 1, 0, 0.122], [725, 1, 1, 0, 0.122], [726, 1, 1, 0, 0.122], [727, 1, 1, 0, 0.122], [728, 1, 1, 0, 0.055], [729, 1, 1, 0, 0.055], [730, 1, 1, 0, 0.055], [731, 1, 1, 0, 0.055], [732, 1, 1, 1, 0.092], [733, 1, 1, 0, 0.122], [734, 1, 1, 0, 0.122], [735, 1, 1, 0, 0.122], [736, 1, 1, 0, 0.083], [737, 1, 1, 0, 0.083], [738, 1, 1, 0, 0.122], [739, 1, 1, 0, 0.115], [740, 1, 1, 0, 0.115], [741, 1, 1, 0, 0.115], [742, 1, 1, 0, 0.115], [743, 1, 1, 0, 0.115], [744, 1, 1, 0, 0.122], [745, 1, 1, 0, 0.122], [746, 1, 1, 0, 0.115], [747, 1, 1, 0, 0.115], [748, 1, 1, 0, 0.115], [749, 1, 1, 0, 0.122], [750, 1, 1, 0, 0.122], [751, 1, 1, 0, 0.122], [752, 1, 1, 0, 0.122], [753, 1, 1, 0, 0.108], [754, 1, 1, 1, 0.115], [755, 1, 0, 0, 0.115], [756, 1, 1, 0, 0.115], [757, 1, 1, 0, 0.108], [758, 1, 0, 0, 0.108], [759, 1, 1, 0, 0.108], [760, 1, 1, 0, 0.108], [761, 1, 1, 0, 0.108], [762, 1, 1, 0, 0.108], [763, 1, 1, 0, 0.108], [764, 1, 0, 0, 0.133], [765, 1, 0, 0, 0.128], [766, 1, 0, 0, 0.107], [767, 1, 0, 0, 0.108], [768, 1, 0, 0, 0.108], [769, 1, 0, 0, 0.108], [770, 1, 0, 0, 0.113], [771, 1, 0, 0, 0.108], [772, 1, 0, 0, 0.113], [773, 1, 0, 0, 0.108], [774, 1, 0, 0, 0.108], [775, 1, 0, 0, 0.108], [776, 1, 0, 0, 0.108], [777, 1, 0, 0, 0.108], [778, 1, 0, 0, 0.107], [779, 1, 0, 0, 0.108], [780, 1, 0, 0, 0.108], [781, 1, 0, 0, 0.108], [782, 1, 0, 0, 0.108], [783, 1, 0, 0, 0.108], [784, 1, 0, 0, 0.108], [785, 1, 0, 0, 0.108], [786, 1, 0, 0, 0.108], [787, 1, 0, 0, 0.108], [788, 1, 0, 0, 0.108], [789, 1, 0, 0, 0.108], [790, 1, 0, 0, 0.108], [791, 1, 0, 0, 0.108], [792, 1, 0, 0, 0.11], [793, 1, 0, 0, 0.108], [794, 1, 0, 0, 0.108], [795, 1, 0, 0, 0.115], [796, 1, 0, 0, 0.108], [797, 1, 0, 0, 0.108], [798, 1, 0, 0, 0.108], [799, 1, 0, 0, 0.115], [800, 1, 0, 0, 0.108], [801, 1, 0, 0, 0.108], [802, 1, 0, 0, 0.103], [803, 1, 0, 0, 0.108], [804, 1, 0, 0, 0.108], [805, 1, 0, 0, 0.108], [806, 1, 0, 0, 0.115], [807, 1, 0, 0, 0.115], [808, 1, 0, 0, 0.11], [809, 1, 0, 0, 0.108], [810, 1, 0, 0, 0.108], [811, 1, 0, 0, 0.115], [812, 1, 0, 0, 0.115], [813, 1, 0, 0, 0.108], [814, 1, 0, 0, 0.108], [815, 1, 0, 0, 0.108], [816, 1, 0, 0, 0.108], [817, 1, 0, 0, 0.115], [818, 1, 0, 0, 0.115], [819, 1, 0, 0, 0.115], [1612, 4, 0, 0, 0.079], [1613, 4, 0, 0, 0.079], [1614, 4, 0, 0, 0.079], [1615, 4, 0, 0, 0.079], [1616, 4, 0, 0, 0.079], [1617, 4, 0, 0, 0.079], [1618, 4, 0, 0, 0.086], [1619, 4, 0, 0, 0.086], [1620, 4, 0, 0, 0.086], [1621, 4, 0, 0, 0.086], [1622, 4, 0, 0, 0.086], [1623, 4, 0, 0, 0.086], [1624, 4, 0, 0, 0.086], [1625, 4, 0, 0, 0.086], [1626, 4, 0, 0, 0.086], [1627, 4, 1, 0, 0.086], [1628, 4, 0, 0, 0.086], [1629, 4, 0, 0, 0.086], [1630, 4, 0, 0, 0.086], [1631, 4, 0, 0, 0.086], [1632, 4, 0, 0, 0.086], [1633, 4, 0, 0, 0.086], [1634, 4, 0, 0, 0.086], [1635, 4, 0, 0, 0.086], [1636, 4, 0, 0, 0.086], [1637, 4, 0, 0, 0.081], [1638, 4, 0, 0, 0.081], [1639, 4, 0, 0, 0.081], [1640, 4, 0, 0, 0.079], [1641, 4, 0, 0, 0.079], [1642, 4, 0, 0, 0.079], [1643, 4, 0, 0, 0.079], [1644, 4, 0, 0, 0.079], [1645, 4, 0, 0, 0.079], [1646, 4, 0, 0, 0.079], [1647, 4, 0, 0, 0.079], [1648, 4, 0, 0, 0.079], [1649, 4, 0, 0, 0.079], [1650, 4, 0, 0, 0.061], [1651, 4, 0, 0, 0.088], [1652, 4, 0, 0, 0.079], [1653, 4, 0, 0, 0.079], [1654, 4, 0, 0, 0.079], [1655, 4, 0, 0, 0.079], [1656, 4, 0, 0, 0.079], [1657, 4, 0, 0, 0.079], [1658, 4, 0, 0, 0.079], [1659, 4, 1, 0, 0.086], [1660, 4, 1, 0, 0.086], [1661, 4, 1, 0, 0.086], [1662, 4, 1, 0, 0.086], [1663, 4, 1, 0, 0.086], [1664, 4, 1, 0, 0.086], [1665, 4, 1, 0, 0.079], [1666, 4, 1, 0, 0.079], [1667, 4, 1, 0, 0.079], [1668, 4, 1, 0, 0.079], [1669, 4, 1, 0, 0.079], [1670, 4, 1, 0, 0.079], [1671, 4, 1, 0, 0.079], [1672, 4, 1, 0, 0.079], [1673, 4, 1, 0, 0.079], [1674, 4, 1, 0, 0.079], [1675, 4, 1, 0, 0.079], [1676, 4, 1, 0, 0.079], [1677, 4, 1, 0, 0.029], [1678, 4, 1, 0, 0.079], [1679, 4, 1, 0, 0.079], [1680, 4, 1, 0, 0.079], [1681, 4, 1, 0, 0.079], [1682, 4, 1, 0, 0.079], [1683, 4, 1, 0, 0.079], [1684, 4, 1, 0, 0.079], [1685, 4, 1, 0, 0.048], [1686, 4, 1, 0, 0.079], [1687, 4, 1, 0, 0.079], [1688, 4, 1, 1, 0.074], [1689, 4, 1, 1, 0.074], [1690, 4, 1, 0, 0.086], [1691, 4, 1, 0, 0.086], [1692, 4, 1, 0, 0.086], [1693, 4, 1, 0, 0.086], [1694, 4, 1, 0, 0.086], [1695, 4, 1, 0, 0.086], [1696, 4, 1, 0, 0.086], [1697, 4, 1, 0, 0.086], [1698, 4, 1, 0, 0.086], [1699, 4, 1, 0, 0.079], [1700, 4, 1, 0, 0.079], [1701, 4, 1, 0, 0.079], [1702, 4, 1, 0, 0.086], [1703, 4, 1, 0, 0.079], [1704, 4, 1, 0, 0.086], [1705, 4, 1, 0, 0.086], [1706, 4, 1, 0, 0.086], [1707, 4, 1, 0, 0.086], [1708, 4, 1, 0, 0.081], [1709, 4, 1, 0, 0.081], [1710, 4, 1, 0, 0.079], [1711, 4, 1, 0, 0.079], [1712, 4, 1, 0, 0.081], [1713, 4, 1, 0, 0.081], [1714, 4, 1, 0, 0.081], [1715, 4, 1, 0, 0.081], [1716, 4, 1, 0, 0.081], [1717, 4, 1, 0, 0.081], [1718, 4, 1, 0, 0.081], [1719, 4, 1, 0, 0.081], [1720, 4, 1, 0, 0.081], [1721, 4, 1, 0, 0.081], [1722, 4, 1, 0, 0.081], [1723, 4, 1, 0, 0.081], [1724, 4, 1, 0, 0.081], [1725, 4, 1, 0, 0.086], [1726, 4, 1, 0, 0.086], [1727, 4, 1, 0, 0.086], [1728, 4, 1, 0, 0.086], [1729, 4, 1, 0, 0.086], [1730, 4, 1, 0, 0.086], [1731, 4, 1, 0, 0.086], [1732, 4, 1, 0, 0.086], [1733, 4, 1, 0, 0.086], [1734, 4, 1, 0, 0.086], [1735, 4, 1, 0, 0.086], [1736, 4, 1, 0, 0.079], [1737, 4, 1, 0, 0.086], [1738, 4, 1, 0, 0.086], [1739, 4, 1, 0, 0.086], [1740, 4, 1, 0, 0.086], [1741, 4, 1, 0, 0.086], [1742, 4, 1, 0, 0.086], [1743, 4, 1, 0, 0.086], [1744, 4, 1, 0, 0.079], [1745, 4, 1, 1, 0.086], [1746, 4, 1, 1, 0.086], [1747, 4, 1, 1, 0.086], [1748, 4, 1, 0, 0.068], [1749, 4, 1, 0, 0.068], [1750, 4, 1, 0, 0.086], [1751, 4, 1, 0, 0.079], [1752, 4, 1, 0, 0.086], [1753, 4, 1, 0, 0.086], [1754, 4, 1, 0, 0.086], [1755, 4, 1, 0, 0.086], [1756, 4, 1, 0, 0.086], [1757, 4, 1, 0, 0.086], [1758, 4, 1, 0, 0.086], [1759, 4, 1, 0, 0.086], [1760, 4, 1, 0, 0.086], [1761, 4, 1, 0, 0.086], [1762, 4, 1, 0, 0.086], [1763, 4, 1, 0, 0.086], [1764, 4, 1, 0, 0.086], [1765, 4, 1, 0, 0.086], [1766, 4, 1, 0, 0.086], [1767, 4, 1, 0, 0.086], [1768, 4, 1, 0, 0.086], [1769, 4, 1, 0, 0.086], [1770, 4, 1, 0, 0.086], [1771, 4, 1, 0, 0.086], [1772, 4, 1, 0, 0.086], [1773, 4, 1, 0, 0.086], [1774, 4, 1, 0, 0.086], [1775, 4, 1, 0, 0.086], [1776, 4, 1, 0, 0.086], [1777, 4, 1, 0, 0.086], [1778, 4, 1, 0, 0.086], [1779, 4, 1, 0, 0.086], [1780, 4, 1, 0, 0.086], [1781, 4, 1, 0, 0.086], [1782, 4, 1, 0, 0.086], [1783, 4, 1, 0, 0.086], [1784, 4, 1, 0, 0.086], [1785, 4, 1, 0, 0.086], [1786, 4, 0, 0, 0.079], [1787, 4, 0, 0, 0.079], [1788, 4, 0, 0, 0.079], [1789, 4, 0, 0, 0.079], [1790, 4, 0, 0, 0.079], [1791, 4, 0, 0, 0.079], [1792, 4, 0, 0, 0.079], [1793, 4, 0, 0, 0.079], [1794, 4, 0, 0, 0.081], [1795, 4, 0, 0, 0.081], [1796, 4, 0, 0, 0.079], [1797, 4, 0, 0, 0.079], [1798, 4, 0, 0, 0.079], [1799, 4, 0, 0, 0.079], [1800, 4, 0, 0, 0.079], [1801, 4, 0, 0, 0.079], [1802, 4, 0, 0, 0.079], [1803, 4, 0, 0, 0.079], [1804, 4, 0, 0, 0.079], [1805, 4, 0, 0, 0.079], [1806, 4, 0, 0, 0.079], [1807, 4, 0, 0, 0.079], [1808, 4, 0, 0, 0.079], [1809, 4, 0, 0, 0.079], [1810, 4, 0, 0, 0.079], [1811, 4, 0, 0, 0.079], [1812, 4, 0, 0, 0.079], [1813, 4, 0, 0, 0.079], [1814, 4, 0, 0, 0.079], [1815, 4, 0, 1, 0.074], [1816, 4, 0, 0, 0.086], [1817, 4, 0, 0, 0.079], [1818, 4, 0, 0, 0.079], [1819, 4, 0, 0, 0.086], [1820, 4, 0, 0, 0.086], [1821, 4, 0, 0, 0.086], [1822, 4, 0, 0, 0.086], [1823, 4, 0, 0, 0.086], [1824, 4, 0, 0, 0.086], [1825, 4, 0, 0, 0.084], [1826, 4, 0, 0, 0.084], [1827, 4, 0, 0, 0.081], [1828, 4, 0, 0, 0.081], [1829, 4, 0, 0, 0.079], [1830, 4, 0, 0, 0.081], [1831, 4, 0, 0, 0.081], [1832, 4, 0, 0, 0.081], [1833, 4, 0, 0, 0.081], [1834, 4, 0, 0, 0.081], [1835, 4, 0, 0, 0.081], [1836, 4, 0, 0, 0.081], [1837, 4, 0, 0, 0.079], [1838, 4, 0, 0, 0.081], [1839, 4, 0, 0, 0.086], [1840, 4, 0, 0, 0.086], [1841, 4, 0, 0, 0.086], [1842, 4, 0, 0, 0.079], [1843, 4, 0, 1, 0.068], [1844, 4, 0, 1, 0.068], [1845, 4, 0, 0, 0.079], [1846, 4, 0, 0, 0.086], [1847, 4, 0, 0, 0.086], [1848, 4, 0, 0, 0.086], [1849, 4, 0, 0, 0.081], [1850, 4, 0, 0, 0.081], [1851, 4, 0, 0, 0.081], [1852, 4, 0, 0, 0.081], [1853, 4, 0, 0, 0.081], [1854, 4, 0, 0, 0.081], [1855, 4, 0, 0, 0.081], [1856, 4, 0, 0, 0.081], [1857, 4, 0, 0, 0.089], [1858, 4, 0, 0, 0.089], [1859, 4, 0, 0, 0.086], [1860, 4, 0, 0, 0.086], [1861, 4, 0, 0, 0.086], [1862, 4, 0, 0, 0.086], [1863, 4, 0, 0, 0.086], [1864, 4, 0, 0, 0.086], [1865, 4, 0, 0, 0.086], [1866, 4, 0, 0, 0.086], [1867, 4, 0, 0, 0.086], [1868, 4, 0, 0, 0.086], [1869, 4, 0, 0, 0.086], [1870, 4, 0, 0, 0.086], [1871, 4, 0, 0, 0.086], [1872, 4, 0, 0, 0.086], [1873, 4, 0, 0, 0.086], [1874, 4, 0, 0, 0.086], [1875, 4, 0, 0, 0.086], [1876, 4, 0, 0, 0.086], [1877, 4, 0, 0, 0.086], [1878, 4, 0, 0, 0.086], [1879, 4, 0, 0, 0.086], [1880, 4, 0, 0, 0.086], [1881, 4, 0, 0, 0.086], [1882, 4, 0, 0, 0.086], [1883, 4, 0, 0, 0.086], [1884, 4, 1, 1, 0.074], [1885, 4, 1, 0, 0.074], [1886, 4, 1, 0, 0.074], [1887, 4, 1, 0, 0.079], [1888, 4, 0, 0, 0.079], [1889, 4, 0, 0, 0.079], [1890, 4, 0, 0, 0.079], [1891, 4, 0, 0, 0.079], [1892, 4, 0, 0, 0.086], [1893, 4, 0, 0, 0.079], [1894, 4, 0, 0, 0.079], [1895, 4, 0, 0, 0.079], [1896, 4, 0, 0, 0.079], [1897, 4, 0, 0, 0.079], [1898, 4, 0, 0, 0.079], [1899, 4, 1, 1, 0.063], [1900, 4, 0, 1, 0.063], [1901, 4, 0, 0, 0.081], [1902, 4, 0, 0, 0.079], [1903, 4, 0, 0, 0.079], [1904, 4, 0, 0, 0.079], [1905, 4, 0, 0, 0.079], [1906, 4, 0, 0, 0.079], [1907, 4, 0, 1, 0.075], [1908, 4, 0, 1, 0.075], [1909, 4, 0, 1, 0.075], [1910, 4, 0, 0, 0.079], [1911, 4, 0, 0, 0.086], [1912, 4, 0, 0, 0.086], [1913, 4, 0, 0, 0.086], [1914, 4, 0, 0, 0.081], [1915, 4, 0, 0, 0.081], [1916, 4, 0, 0, 0.081], [1917, 4, 0, 0, 0.081], [1918, 4, 0, 0, 0.081], [1919, 4, 0, 0, 0.081], [1920, 4, 0, 0, 0.081], [1921, 4, 0, 0, 0.081], [1922, 4, 0, 0, 0.081], [1923, 4, 0, 0, 0.081], [1924, 4, 0, 0, 0.081], [1925, 4, 0, 0, 0.086], [1926, 4, 0, 0, 0.086], [1927, 4, 0, 0, 0.086], [1928, 4, 0, 0, 0.081], [1929, 4, 0, 0, 0.081], [1930, 4, 0, 0, 0.081], [1931, 4, 0, 0, 0.086], [1932, 4, 0, 0, 0.086], [1933, 4, 0, 0, 0.086], [1934, 4, 0, 0, 0.086], [1935, 4, 0, 0, 0.086], [1936, 4, 0, 0, 0.086], [1937, 4, 0, 0, 0.086], [1938, 4, 0, 0, 0.086], [1939, 4, 0, 0, 0.079], [1940, 4, 0, 0, 0.079], [1941, 4, 0, 0, 0.079], [1942, 4, 0, 0, 0.079], [1943, 4, 0, 0, 0.079], [1944, 4, 0, 0, 0.079], [1945, 4, 0, 0, 0.079], [1946, 4, 0, 0, 0.079], [1947, 4, 0, 0, 0.079], [1948, 4, 0, 0, 0.079], [1949, 4, 0, 0, 0.079], [1950, 4, 0, 0, 0.079], [1951, 4, 0, 0, 0.079], [1952, 4, 0, 0, 0.079], [1953, 4, 0, 0, 0.079], [1954, 4, 0, 0, 0.079], [1955, 4, 0, 0, 0.079], [1956, 4, 0, 0, 0.079], [1957, 4, 0, 0, 0.079], [1958, 4, 0, 0, 0.079], [1959, 4, 0, 0, 0.079], [1960, 4, 0, 0, 0.079], [1961, 4, 0, 0, 0.079], [1962, 4, 0, 0, 0.079], [1963, 4, 0, 0, 0.079], [1964, 4, 0, 0, 0.086], [1965, 4, 0, 0, 0.086], [1966, 4, 0, 0, 0.079], [1967, 4, 0, 0, 0.079], [1968, 4, 0, 0, 0.086], [1969, 4, 0, 0, 0.086], [1970, 4, 0, 1, 0.063], [1971, 4, 0, 1, 0.063], [1972, 4, 0, 0, 0.063], [1973, 4, 0, 0, 0.063], [1974, 4, 1, 0, 0.079], [1975, 4, 1, 1, 0.074], [1976, 4, 1, 0, 0.079], [1977, 4, 1, 0, 0.074], [1978, 4, 1, 0, 0.086], [1979, 4, 1, 0, 0.086], [1980, 4, 1, 0, 0.086], [1981, 4, 1, 0, 0.086], [1982, 4, 1, 0, 0.086], [1983, 4, 1, 0, 0.049], [1984, 4, 1, 0, 0.086], [1985, 4, 1, 0, 0.081], [1986, 4, 1, 0, 0.081], [1987, 4, 1, 0, 0.079], [1988, 4, 1, 0, 0.081], [1989, 4, 1, 0, 0.079], [1990, 4, 1, 0, 0.081], [1991, 4, 1, 0, 0.081], [1992, 4, 1, 0, 0.081], [1993, 4, 1, 0, 0.079], [1994, 4, 1, 0, 0.079], [1995, 4, 1, 0, 0.079], [1996, 4, 1, 0, 0.081], [1997, 4, 1, 0, 0.081], [1998, 4, 1, 0, 0.081], [1999, 4, 1, 0, 0.081], [2000, 4, 1, 0, 0.081], [2001, 4, 1, 0, 0.079], [2002, 4, 1, 0, 0.079], [2003, 4, 1, 0, 0.079], [2004, 4, 1, 0, 0.081], [2005, 4, 1, 0, 0.079], [2006, 4, 1, 0, 0.081], [2007, 4, 1, 0, 0.079], [2008, 4, 1, 0, 0.081], [2009, 4, 1, 0, 0.079], [2010, 4, 1, 0, 0.086], [2011, 4, 1, 0, 0.086], [2012, 4, 1, 0, 0.079], [2013, 4, 1, 0, 0.074], [2014, 4, 1, 0, 0.079], [2015, 4, 1, 0, 0.086], [2016, 4, 1, 0, 0.086], [2017, 4, 1, 0, 0.086], [2018, 4, 1, 0, 0.086], [2019, 4, 1, 0, 0.086], [2020, 4, 0, 0, 0.086], [2021, 4, 1, 0, 0.079], [2022, 4, 1, 0, 0.086], [2023, 4, 1, 0, 0.079], [2024, 4, 1, 1, 0.069], [2025, 4, 1, 0, 0.086], [2026, 4, 1, 0, 0.086], [2027, 4, 1, 0, 0.086], [2028, 4, 1, 0, 0.049], [2029, 4, 1, 0, 0.079], [2030, 4, 1, 0, 0.086], [2031, 4, 1, 0, 0.086], [2032, 4, 1, 0, 0.086], [2033, 4, 1, 0, 0.086], [2034, 4, 1, 0, 0.086], [2035, 4, 1, 0, 0.079], [2036, 4, 1, 0, 0.086], [2037, 4, 1, 0, 0.086], [2038, 4, 1, 0, 0.086], [2039, 4, 1, 0, 0.086], [2040, 4, 1, 0, 0.086], [2041, 4, 1, 0, 0.086], [2042, 4, 1, 0, 0.086], [2043, 4, 1, 1, 0.063], [2044, 4, 1, 0, 0.086], [2045, 4, 1, 1, 0.063], [2046, 4, 1, 0, 0.086], [2047, 4, 1, 0, 0.079], [2048, 4, 1, 0, 0.086], [2049, 4, 1, 0, 0.079], [2050, 4, 1, 0, 0.086], [2051, 4, 1, 0, 0.086], [2052, 4, 1, 0, 0.086], [2053, 4, 1, 0, 0.079], [2054, 4, 1, 0, 0.086], [2055, 4, 1, 0, 0.079], [2056, 4, 1, 0, 0.086], [2057, 4, 1, 0, 0.086], [2058, 4, 1, 0, 0.079], [2059, 4, 1, 0, 0.079], [2060, 4, 1, 0, 0.086], [2061, 4, 1, 0, 0.086], [2062, 4, 1, 0, 0.086], [2063, 4, 1, 0, 0.086], [2064, 4, 1, 0, 0.086], [2065, 4, 1, 0, 0.063], [2066, 4, 0, 0, 0.086], [2067, 4, 0, 0, 0.065], [2068, 4, 0, 0, 0.079], [2069, 4, 1, 0, 0.041], [2070, 4, 0, 0, 0.079], [2071, 4, 0, 0, 0.079], [2072, 4, 0, 0, 0.079], [2073, 4, 0, 0, 0.079], [2074, 4, 0, 0, 0.068], [2075, 4, 0, 1, 0.063], [2076, 4, 0, 0, 0.063], [2077, 4, 0, 0, 0.081], [2078, 4, 0, 0, 0.081], [2079, 4, 0, 0, 0.081], [2080, 4, 0, 0, 0.081], [2081, 4, 0, 0, 0.079], [2082, 4, 0, 0, 0.079], [2083, 4, 0, 0, 0.079], [2084, 4, 0, 0, 0.079], [2085, 4, 0, 0, 0.079], [2086, 4, 0, 0, 0.079], [2087, 4, 0, 0, 0.079], [2088, 4, 0, 0, 0.079], [2089, 4, 0, 0, 0.079], [2090, 4, 0, 0, 0.079], [2091, 4, 0, 0, 0.079], [2092, 4, 0, 0, 0.08], [2093, 4, 0, 0, 0.091], [2094, 4, 0, 0, 0.079], [2095, 4, 0, 0, 0.079], [2096, 4, 0, 0, 0.079], [2097, 4, 0, 0, 0.079], [2098, 4, 0, 0, 0.079], [2099, 4, 0, 0, 0.079], [2100, 4, 0, 0, 0.086], [2101, 4, 0, 0, 0.079], [2102, 4, 0, 0, 0.079], [2103, 4, 0, 0, 0.079], [2104, 4, 0, 0, 0.079], [2105, 4, 0, 0, 0.086], [2106, 4, 0, 0, 0.079], [2107, 4, 0, 0, 0.043], [2108, 4, 0, 0, 0.043], [2109, 4, 0, 0, 0.079], [2110, 4, 0, 0, 0.079], [2111, 4, 0, 0, 0.079], [2112, 4, 0, 0, 0.086], [2113, 4, 0, 0, 0.079], [2114, 4, 1, 0, 0.079], [2115, 4, 0, 0, 0.079], [2116, 4, 0, 0, 0.086], [2117, 4, 0, 0, 0.079], [2118, 4, 0, 0, 0.079], [2119, 4, 0, 0, 0.079], [2120, 4, 0, 0, 0.079], [2121, 4, 0, 0, 0.079], [2122, 4, 0, 0, 0.079], [2123, 4, 1, 1, 0.063], [2124, 4, 0, 0, 0.043], [2125, 4, 0, 1, 0.063], [2126, 4, 0, 0, 0.063], [2127, 4, 0, 0, 0.079], [2128, 4, 0, 0, 0.079], [2129, 4, 0, 0, 0.079], [2130, 4, 0, 0, 0.079], [2131, 4, 0, 0, 0.079], [2132, 4, 0, 0, 0.079], [2133, 4, 0, 0, 0.079], [2134, 4, 0, 0, 0.084], [2135, 4, 0, 0, 0.086], [2136, 4, 0, 0, 0.086], [2137, 4, 0, 0, 0.065], [2138, 4, 1, 0, 0.079], [2139, 4, 1, 0, 0.079], [2140, 4, 0, 0, 0.079], [2141, 4, 0, 0, 0.079], [2142, 4, 0, 0, 0.079], [2143, 4, 0, 0, 0.079], [2144, 4, 0, 0, 0.079], [2145, 4, 0, 0, 0.088], [2146, 4, 0, 0, 0.079], [2147, 4, 0, 0, 0.079], [2148, 4, 0, 0, 0.079], [2149, 4, 0, 0, 0.079], [2150, 4, 0, 0, 0.079], [2151, 4, 0, 0, 0.079], [2152, 4, 0, 0, 0.079], [2153, 4, 0, 0, 0.079], [2154, 4, 0, 0, 0.086], [2155, 4, 0, 0, 0.086], [2156, 4, 0, 0, 0.079], [2157, 4, 0, 0, 0.079], [2158, 4, 0, 0, 0.079], [2159, 4, 0, 0, 0.079], [2160, 4, 0, 0, 0.079], [2161, 4, 0, 0, 0.079], [2162, 4, 0, 0, 0.079], [2163, 4, 0, 0, 0.079], [2164, 4, 0, 0, 0.079], [2165, 4, 1, 0, 0.079], [2166, 4, 1, 0, 0.079], [2167, 4, 1, 0, 0.079], [2168, 4, 1, 0, 0.079], [2169, 4, 1, 0, 0.079], [2170, 4, 1, 0, 0.079], [2171, 4, 1, 0, 0.031], [2172, 4, 1, 0, 0.031], [2173, 4, 1, 0, 0.031], [2174, 4, 1, 0, 0.079], [2175, 4, 1, 0, 0.079], [2176, 4, 1, 0, 0.079], [2177, 4, 1, 0, 0.079], [2178, 4, 1, 0, 0.079], [2179, 4, 1, 0, 0.079], [2180, 4, 1, 0, 0.079], [2181, 4, 1, 0, 0.079], [2182, 4, 1, 0, 0.079], [2183, 4, 1, 0, 0.079], [2184, 4, 1, 0, 0.079], [2185, 4, 0, 0, 0.079], [2186, 4, 0, 0, 0.079], [2187, 4, 0, 0, 0.079], [2188, 4, 0, 0, 0.079], [2189, 4, 0, 0, 0.079], [2190, 4, 0, 0, 0.079], [2191, 4, 0, 0, 0.079], [2192, 4, 0, 0, 0.079], [2193, 4, 0, 0, 0.079], [2194, 4, 0, 0, 0.079], [2195, 4, 0, 0, 0.079], [2196, 4, 0, 0, 0.079], [2197, 4, 0, 0, 0.079], [2198, 4, 0, 0, 0.079], [2199, 4, 0, 0, 0.079], [2200, 4, 0, 0, 0.079], [2201, 4, 0, 0, 0.079], [2202, 4, 0, 0, 0.079], [2203, 4, 0, 0, 0.079], [2204, 4, 0, 0, 0.079], [2205, 4, 0, 0, 0.079], [2206, 4, 0, 0, 0.079], [2207, 4, 0, 0, 0.079], [2208, 4, 0, 0, 0.079], [2209, 4, 0, 0, 0.079], [2210, 4, 0, 0, 0.079], [2211, 4, 1, 0, 0.079], [2212, 4, 1, 0, 0.079], [2213, 4, 1, 0, 0.004], [2214, 4, 0, 0, 0.079], [2215, 4, 0, 0, 0.079], [2216, 4, 0, 0, 0.079], [2217, 4, 0, 0, 0.079], [2218, 4, 0, 0, 0.079], [2219, 4, 0, 0, 0.079], [2220, 4, 0, 0, 0.079], [2221, 4, 0, 0, 0.079], [2222, 4, 0, 0, 0.079], [2223, 4, 0, 0, 0.079], [2224, 4, 0, 0, 0.079], [2225, 4, 0, 0, 0.079], [2226, 4, 0, 0, 0.079], [2227, 4, 0, 0, 0.079], [2228, 4, 0, 0, 0.081], [2229, 4, 0, 0, 0.079], [2230, 4, 0, 0, 0.079], [2231, 4, 0, 0, 0.081], [2232, 4, 0, 0, 0.081], [2233, 4, 0, 0, 0.081], [2234, 4, 0, 0, 0.079], [2235, 4, 0, 0, 0.079], [2236, 4, 0, 0, 0.079], [2237, 4, 0, 0, 0.079], [2238, 4, 0, 0, 0.079], [2239, 4, 0, 0, 0.079], [2240, 4, 0, 0, 0.079], [2241, 4, 0, 0, 0.079], [2242, 4, 0, 0, 0.079], [2243, 4, 0, 0, 0.079], [2244, 4, 0, 0, 0.079], [2245, 4, 0, 0, 0.041], [2246, 4, 0, 0, 0.041], [2247, 4, 0, 0, 0.063], [2248, 4, 0, 0, 0.063], [2249, 4, 0, 0, 0.063], [2250, 4, 0, 0, 0.086], [2251, 4, 0, 0, 0.086], [2252, 4, 0, 0, 0.081], [2253, 4, 0, 0, 0.081], [2254, 4, 0, 0, 0.081], [2255, 4, 0, 0, 0.081], [2256, 4, 0, 0, 0.081], [2257, 4, 0, 0, 0.079], [2258, 4, 0, 0, 0.081], [2259, 4, 0, 0, 0.081], [2260, 4, 0, 0, 0.081], [2261, 4, 0, 0, 0.081], [2262, 4, 0, 0, 0.088], [2263, 4, 0, 0, 0.088], [2264, 4, 0, 0, 0.088], [2265, 4, 0, 0, 0.089], [2266, 4, 0, 0, 0.089], [2267, 4, 0, 0, 0.089], [2268, 4, 0, 0, 0.079], [2269, 4, 0, 0, 0.089], [2270, 4, 0, 0, 0.084], [2271, 4, 0, 0, 0.084], [2272, 4, 0, 0, 0.084], [2273, 4, 0, 0, 0.086], [2274, 4, 0, 0, 0.086], [2275, 4, 0, 0, 0.086], [2276, 4, 0, 0, 0.086], [2277, 4, 0, 0, 0.086], [2278, 4, 0, 0, 0.086], [2279, 4, 0, 0, 0.086], [2280, 4, 0, 0, 0.086], [2281, 4, 0, 0, 0.086], [2282, 4, 0, 0, 0.079], [2283, 4, 0, 0, 0.079], [2284, 4, 0, 0, 0.079], [2285, 4, 0, 0, 0.063], [2286, 4, 0, 0, 0.071], [2287, 4, 1, 1, 0.063], [2288, 4, 0, 0, 0.063], [2289, 4, 0, 0, 0.086], [2290, 4, 0, 0, 0.079], [2291, 4, 0, 0, 0.079], [2292, 4, 0, 0, 0.079], [2293, 4, 0, 0, 0.079], [2294, 4, 0, 0, 0.079], [2295, 4, 0, 0, 0.079], [2296, 4, 0, 0, 0.079], [2297, 4, 0, 0, 0.079], [2298, 4, 0, 0, 0.086], [2299, 4, 0, 0, 0.079], [2300, 4, 0, 0, 0.079], [2301, 4, 0, 0, 0.079], [2302, 4, 0, 0, 0.081], [2303, 4, 0, 0, 0.081], [2304, 4, 0, 0, 0.086], [2305, 4, 0, 0, 0.086], [2306, 4, 0, 0, 0.079], [2307, 4, 0, 1, 0.063], [2308, 4, 0, 1, 0.063], [2309, 4, 0, 0, 0.079], [2310, 4, 0, 0, 0.079], [2311, 4, 0, 0, 0.079], [2312, 4, 0, 0, 0.079], [2313, 4, 0, 0, 0.079], [2314, 4, 0, 1, 0.063], [2315, 4, 0, 1, 0.063], [2316, 4, 0, 1, 0.063], [2317, 4, 0, 0, 0.063], [2318, 4, 1, 1, 0.074], [2319, 4, 1, 1, 0.074], [2320, 4, 1, 0, 0.086], [2321, 4, 0, 0, 0.086], [2322, 4, 0, 0, 0.086], [2323, 4, 0, 0, 0.081], [2324, 4, 0, 0, 0.079], [2325, 4, 0, 0, 0.079], [2326, 4, 0, 0, 0.079], [2327, 4, 0, 0, 0.079], [2328, 4, 0, 0, 0.079], [2329, 4, 0, 0, 0.079], [2330, 4, 0, 0, 0.079], [2331, 4, 0, 0, 0.079], [2332, 4, 0, 0, 0.079], [2333, 4, 0, 0, 0.079], [2334, 4, 0, 0, 0.079], [2335, 4, 0, 0, 0.079], [2336, 4, 0, 0, 0.079], [2337, 4, 0, 0, 0.079], [2338, 4, 0, 0, 0.079], [2339, 4, 0, 0, 0.079], [2340, 4, 0, 0, 0.079], [2341, 4, 0, 0, 0.079], [2342, 4, 0, 0, 0.081], [2343, 4, 0, 0, 0.079], [2344, 4, 0, 0, 0.079], [2345, 4, 0, 0, 0.079], [2346, 4, 0, 0, 0.079], [2347, 4, 0, 0, 0.086], [2348, 4, 0, 0, 0.086], [2349, 4, 0, 0, 0.081], [2350, 4, 0, 0, 0.081], [2351, 4, 0, 0, 0.086], [2352, 4, 0, 0, 0.086], [2353, 4, 1, 0, 0.069], [2354, 4, 1, 0, 0.086], [2355, 4, 0, 0, 0.086], [2356, 4, 0, 0, 0.086], [2357, 4, 0, 0, 0.086], [2358, 4, 0, 0, 0.086], [2359, 4, 0, 0, 0.086], [2360, 4, 0, 0, 0.086], [2361, 4, 0, 0, 0.091], [2362, 4, 0, 0, 0.086], [2363, 4, 0, 0, 0.086], [2364, 4, 0, 0, 0.086], [2365, 4, 0, 0, 0.086], [2366, 4, 0, 0, 0.086], [2367, 4, 0, 0, 0.086], [2368, 4, 0, 0, 0.086], [2369, 4, 0, 0, 0.086], [2370, 4, 0, 0, 0.086], [2371, 4, 0, 0, 0.086], [2372, 4, 0, 0, 0.079], [2373, 4, 0, 0, 0.079], [2374, 4, 0, 0, 0.079], [2375, 4, 1, 0, 0.079], [2376, 4, 1, 0, 0.079], [2377, 4, 1, 0, 0.079], [2378, 4, 0, 0, 0.079], [2379, 4, 1, 0, 0.079], [2380, 4, 1, 0, 0.079], [2381, 4, 1, 0, 0.079], [2382, 4, 1, 0, 0.079], [2383, 4, 1, 0, 0.016], [2384, 4, 1, 0, 0.079], [2385, 4, 1, 0, 0.086], [2386, 4, 1, 0, 0.048], [2387, 4, 1, 1, 0.025], [2388, 4, 1, 0, 0.079], [2389, 4, 1, 0, 0.079], [2390, 4, 0, 0, 0.079], [2391, 4, 0, 0, 0.079], [2392, 4, 0, 0, 0.079], [2393, 4, 0, 0, 0.079], [2394, 4, 1, 0, 0.079], [2395, 4, 0, 0, 0.079], [2396, 4, 0, 0, 0.079], [2397, 4, 0, 0, 0.079], [2398, 4, 0, 0, 0.079], [2399, 4, 0, 0, 0.079], [2400, 4, 0, 0, 0.079], [2401, 4, 0, 0, 0.079], [2402, 4, 0, 0, 0.079], [2403, 4, 0, 0, 0.079], [2404, 4, 0, 0, 0.079], [2405, 4, 0, 0, 0.079], [2406, 4, 0, 0, 0.084], [2407, 4, 0, 0, 0.086], [2408, 4, 0, 1, 0.063], [2409, 4, 0, 0, 0.079], [2410, 4, 0, 0, 0.063], [2411, 4, 0, 0, 0.086], [2412, 4, 0, 0, 0.081], [2413, 4, 0, 0, 0.081], [2414, 4, 0, 0, 0.081], [2415, 4, 0, 0, 0.081], [2416, 4, 0, 0, 0.081], [2417, 4, 0, 0, 0.086], [2418, 4, 1, 0, 0.086], [2419, 4, 1, 0, 0.086], [2420, 4, 1, 0, 0.086], [2421, 4, 1, 0, 0.024], [2422, 4, 1, 0, 0.024], [2423, 4, 1, 0, 0.086], [2424, 4, 1, 0, 0.086], [2425, 4, 1, 0, 0.086], [2426, 4, 1, 0, 0.086], [2427, 4, 1, 0, 0.086], [2428, 4, 1, 0, 0.086], [2429, 4, 1, 0, 0.086], [2430, 4, 1, 0, 0.079]];
+
+    // Define the dt_args
+    let dt_args = {"order": [], "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) { return sPre + ' (<a href="https://mwouts.github.io/itables/downsampling.html">downsampled</a> from 9,720x5 to 1,638x5 as maxBytes=65536)'; }};
+    dt_args["data"] = data;
+
+    $(document).ready(function () {
+        
+        $('#9917daf9-e097-4b84-ad83-c8ff57951ab1').DataTable(dt_args);
+    });
+</script>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="estimation" class="level3">
+<h3 class="anchored" data-anchor-id="estimation">Estimation</h3>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+log_likelihood()
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="c2aa276c" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log_likelihood(beta, data):</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Calculate the log-likelihood of the MNL model.</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters:</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">    beta (array): Array of coefficients [β1, β2, β3, βf, βp].</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">    data (DataFrame): The reshaped long format data with columns ['id', 'product', 'chosen', 'featured', 'price'].</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">    float: The log-likelihood value.</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    beta1, beta2, beta3, beta_f, beta_p <span class="op">=</span> beta</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'yogurt1'</span>] <span class="op">=</span> (data[<span class="st">'product'</span>] <span class="op">==</span> <span class="dv">1</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'yogurt2'</span>] <span class="op">=</span> (data[<span class="st">'product'</span>] <span class="op">==</span> <span class="dv">2</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'yogurt3'</span>] <span class="op">=</span> (data[<span class="st">'product'</span>] <span class="op">==</span> <span class="dv">3</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'utility'</span>] <span class="op">=</span> (beta1 <span class="op">*</span> data[<span class="st">'yogurt1'</span>] <span class="op">+</span> </span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>                       beta2 <span class="op">*</span> data[<span class="st">'yogurt2'</span>] <span class="op">+</span> </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>                       beta3 <span class="op">*</span> data[<span class="st">'yogurt3'</span>] <span class="op">+</span> </span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>                       beta_f <span class="op">*</span> data[<span class="st">'featured'</span>] <span class="op">+</span> </span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>                       beta_p <span class="op">*</span> data[<span class="st">'price'</span>])</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'exp_utility'</span>] <span class="op">=</span> np.exp(data[<span class="st">'utility'</span>])</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'sum_exp_utility'</span>] <span class="op">=</span> data.groupby(<span class="st">'id'</span>)[<span class="st">'exp_utility'</span>].transform(<span class="st">'sum'</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'probability'</span>] <span class="op">=</span> data[<span class="st">'exp_utility'</span>] <span class="op">/</span> data[<span class="st">'sum_exp_utility'</span>]</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'log_likelihood'</span>] <span class="op">=</span> data[<span class="st">'chosen'</span>] <span class="op">*</span> np.log(data[<span class="st">'probability'</span>])</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span>data[<span class="st">'log_likelihood'</span>].<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<div id="9d5114ac" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>initial_beta <span class="op">=</span> np.zeros(<span class="dv">5</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>log_likelihood(initial_beta, yogurt_long)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="98">
+<pre><code>3368.6952975213344</code></pre>
+</div>
+</div>
+<p>Using <code>optim()</code> in R or <code>optimize()</code> in Python to find the MLEs for the 5 parameters (<span class="math inline">\(\beta_1, \beta_2, \beta_3, \beta_f, \beta_p\)</span>).</p>
+<div id="90e54475" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> minimize(log_likelihood, initial_beta, args<span class="op">=</span>(yogurt_long,), method<span class="op">=</span><span class="st">'BFGS'</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>estimated_beta <span class="op">=</span> result.x</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>estimated_beta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="99">
+<pre><code>array([  1.38775332,   0.64350491,  -3.08611501,   0.48741354,
+       -37.05792291])</code></pre>
+</div>
+</div>
+</section>
+<section id="discussion" class="level3">
+<h3 class="anchored" data-anchor-id="discussion">Discussion</h3>
+<p>We learn the following…</p>
+<ol type="1">
+<li><p><strong>Product Intercepts</strong>:</p>
+<ul>
+<li><p><strong>(<span class="math inline">\(\beta_1\)</span>) (Yogurt 1):</strong> The positive coefficient suggests that Yogurt 1 is relatively preferred.</p></li>
+<li><p><strong>(<span class="math inline">\(\beta_2\)</span>) (Yogurt 2):</strong> This positive coefficient also indicates a relative preference for Yogurt 2, but it’s lower than Yogurt 1.</p></li>
+<li><p><strong>(<span class="math inline">\(\beta_3\)</span>) (Yogurt 3):</strong> The negative coefficient suggests that Yogurt 3 is less preferred compared to the omitted category (Yogurt 4).</p></li>
+</ul></li>
+<li><p><strong>Featured (<span class="math inline">\(\beta_f\)</span>):</strong> The positive coefficient 0.487 implies that featuring a yogurt increases its utility and thus its probability of being chosen.</p></li>
+<li><p><strong>Price (<span class="math inline">\(\beta_p\)</span>):</strong> The large negative coefficient -37.058 indicates a strong negative effect of price on the utility, meaning higher prices significantly reduce the likelihood of a yogurt being chosen.</p></li>
+</ol>
+<p>Using the estimated price coefficient as a dollar-per-util conversion to calculate the dollar benefit between the most-preferred yogurt (the one with the highest intercept) and the least preferred yogurt (the one with the lowest intercept). This is a per-unit monetary measure of brand value.</p>
+<div id="c7228094" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>conversion_factor <span class="op">=</span> <span class="op">-</span><span class="dv">1</span> <span class="op">/</span> estimated_beta[<span class="dv">4</span>]</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>utility_difference <span class="op">=</span> estimated_beta[<span class="dv">0</span>] <span class="op">-</span> estimated_beta[<span class="dv">2</span>]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>monetary_value <span class="op">=</span> utility_difference <span class="op">*</span> conversion_factor</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>monetary_value</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="100">
+<pre><code>0.12072636520970716</code></pre>
+</div>
+</div>
+<p>❗ The monetary benefit between the most-preferred yogurt (Yogurt 1) and the least-preferred yogurt (Yogurt 3) is approximately $0.12 per unit. This means <code>consumers value Yogurt 1 about $0.12 more per unit than Yogurt 3</code>, based on the estimated utilities. ❗</p>
+<hr>
+<p>One benefit of the MNL model is that we can simulate counterfactuals (eg, what if the price of yogurt 1 was $0.10/oz instead of $0.08/oz).</p>
+<p>Calculating market shares in the market at the time the data were collected. Then, increasing the price of yogurt 1 by $0.10 and using the fitted model to predict p(y|x) for each consumer and each product.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+predict_market_shares()
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="9d32b21a" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict_market_shares(beta, data):</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Predict market shares using the estimated beta coefficients.</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters:</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">    beta (array): Array of coefficients [β1, β2, β3, βf, βp].</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">    data (DataFrame): The reshaped long format data with columns ['id', 'product', 'chosen', 'featured', 'price'].</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">    DataFrame: The predicted market shares for each product.</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'yogurt1'</span>] <span class="op">=</span> (data[<span class="st">'product'</span>] <span class="op">==</span> <span class="dv">1</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'yogurt2'</span>] <span class="op">=</span> (data[<span class="st">'product'</span>] <span class="op">==</span> <span class="dv">2</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'yogurt3'</span>] <span class="op">=</span> (data[<span class="st">'product'</span>] <span class="op">==</span> <span class="dv">3</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'utility'</span>] <span class="op">=</span> (beta[<span class="dv">0</span>] <span class="op">*</span> data[<span class="st">'yogurt1'</span>] <span class="op">+</span> </span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>                       beta[<span class="dv">1</span>] <span class="op">*</span> data[<span class="st">'yogurt2'</span>] <span class="op">+</span> </span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>                       beta[<span class="dv">2</span>] <span class="op">*</span> data[<span class="st">'yogurt3'</span>] <span class="op">+</span> </span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>                       beta[<span class="dv">3</span>] <span class="op">*</span> data[<span class="st">'featured'</span>] <span class="op">+</span> </span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>                       beta[<span class="dv">4</span>] <span class="op">*</span> data[<span class="st">'price'</span>])</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'exp_utility'</span>] <span class="op">=</span> np.exp(data[<span class="st">'utility'</span>])</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'sum_exp_utility'</span>] <span class="op">=</span> data.groupby(<span class="st">'id'</span>)[<span class="st">'exp_utility'</span>].transform(<span class="st">'sum'</span>)</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'probability'</span>] <span class="op">=</span> data[<span class="st">'exp_utility'</span>] <span class="op">/</span> data[<span class="st">'sum_exp_utility'</span>]</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    market_shares <span class="op">=</span> data.groupby(<span class="st">'product'</span>)[<span class="st">'probability'</span>].mean().reset_index()</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    market_shares.columns <span class="op">=</span> [<span class="st">'product'</span>, <span class="st">'market_share'</span>]</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> market_shares</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<div id="8d9bf332" class="cell" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="102">
+<pre><code>(   product  market_share
+ 0        1      0.341975
+ 1        2      0.401235
+ 2        3      0.029218
+ 3        4      0.227572,
+    product  market_share
+ 0        1      0.021118
+ 1        2      0.591145
+ 2        3      0.044040
+ 3        4      0.343697)</code></pre>
+</div>
+</div>
+<p><strong>Market Shares Analysis</strong></p>
+<p>The market shares before and after the price increase of Yogurt 1 are as follows:</p>
+<p><strong>Original Market Shares:</strong></p>
+<ul>
+<li><p>Yogurt 1: 34.20%</p></li>
+<li><p>Yogurt 2: 40.12%</p></li>
+<li><p>Yogurt 3: 2.92%</p></li>
+<li><p>Yogurt 4: 22.76%</p></li>
+</ul>
+<p><strong>Adjusted Market Shares (after $0.10 price increase for Yogurt 1):</strong></p>
+<ul>
+<li><p>Yogurt 1: 2.11%</p></li>
+<li><p>Yogurt 2: 59.11%</p></li>
+<li><p>Yogurt 3: 4.40%</p></li>
+<li><p>Yogurt 4: 34.37%</p></li>
+</ul>
+<p>Increasing the price of Yogurt 1 by $0.10 drastically decreases its market share from 34.20% to 2.11%. Meanwhile, the market shares for Yogurt 2, Yogurt 3, and Yogurt 4 increase, with Yogurt 2 seeing the most significant rise from 40.12% to 59.11%.</p>
+</section>
+</section>
+<section id="estimating-minivan-preferences" class="level2">
+<h2 class="anchored" data-anchor-id="estimating-minivan-preferences">2. Estimating Minivan Preferences</h2>
+<section id="data" class="level3">
+<h3 class="anchored" data-anchor-id="data">Data</h3>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interactive Conjoint Dataset
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="3930e4bd" class="cell" data-execution_count="10">
+<div class="cell-output cell-output-display">
+<div>
+<style>.itables table td {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.itables table th {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.itables thead input {
+    width: 100%;
+    padding: 3px;
+    box-sizing: border-box;
+}
+
+.itables tfoot input {
+    width: 100%;
+    padding: 3px;
+    box-sizing: border-box;
+}
+</style>
+<div class="itables">
+
+<table id="e14c8d69-74b9-4464-9170-0f99f1c383e8" class="display nowrap table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th">resp.id</th>
+<th data-quarto-table-cell-role="th">ques</th>
+<th data-quarto-table-cell-role="th">alt</th>
+<th data-quarto-table-cell-role="th">carpool</th>
+<th data-quarto-table-cell-role="th">seat</th>
+<th data-quarto-table-cell-role="th">cargo</th>
+<th data-quarto-table-cell-role="th">eng</th>
+<th data-quarto-table-cell-role="th">price</th>
+<th data-quarto-table-cell-role="th">choice</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Loading... (need <a href="https://mwouts.github.io/itables/troubleshooting.html">help</a>?)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+<script type="module">
+    // Import jquery and DataTable
+    import 'https://code.jquery.com/jquery-3.6.0.min.js';
+    import dt from 'https://cdn.datatables.net/1.12.1/js/jquery.dataTables.mjs';
+    dt($);
+
+    // Define the table data
+    const data = [[1, 1, 1, "yes", 6, "2ft", "gas", 35, 0], [1, 1, 2, "yes", 8, "3ft", "hyb", 30, 0], [1, 1, 3, "yes", 6, "3ft", "gas", 30, 1], [1, 2, 1, "yes", 6, "2ft", "gas", 30, 0], [1, 2, 2, "yes", 7, "3ft", "gas", 35, 1], [1, 2, 3, "yes", 6, "2ft", "elec", 35, 0], [1, 3, 1, "yes", 8, "3ft", "gas", 35, 1], [1, 3, 2, "yes", 7, "3ft", "elec", 30, 0], [1, 3, 3, "yes", 8, "2ft", "elec", 40, 0], [1, 4, 1, "yes", 7, "3ft", "elec", 40, 1], [1, 4, 2, "yes", 8, "3ft", "gas", 40, 0], [1, 4, 3, "yes", 6, "2ft", "hyb", 30, 0], [1, 5, 1, "yes", 6, "3ft", "elec", 30, 1], [1, 5, 2, "yes", 6, "3ft", "elec", 40, 0], [1, 5, 3, "yes", 6, "3ft", "hyb", 40, 0], [1, 6, 1, "yes", 6, "2ft", "elec", 40, 0], [1, 6, 2, "yes", 7, "2ft", "gas", 35, 1], [1, 6, 3, "yes", 7, "2ft", "hyb", 35, 0], [1, 7, 1, "yes", 6, "3ft", "hyb", 35, 1], [1, 7, 2, "yes", 7, "3ft", "gas", 40, 0], [1, 7, 3, "yes", 6, "2ft", "elec", 30, 0], [1, 8, 1, "yes", 6, "3ft", "elec", 35, 0], [1, 8, 2, "yes", 8, "3ft", "hyb", 40, 0], [1, 8, 3, "yes", 7, "3ft", "hyb", 30, 1], [1, 9, 1, "yes", 6, "2ft", "hyb", 35, 1], [1, 9, 2, "yes", 7, "2ft", "gas", 30, 0], [1, 9, 3, "yes", 7, "2ft", "gas", 40, 0], [1, 10, 1, "yes", 8, "3ft", "elec", 35, 0], [1, 10, 2, "yes", 8, "3ft", "elec", 30, 1], [1, 10, 3, "yes", 7, "2ft", "elec", 35, 0], [1, 11, 1, "yes", 7, "3ft", "hyb", 35, 1], [1, 11, 2, "yes", 8, "2ft", "hyb", 40, 0], [1, 11, 3, "yes", 6, "2ft", "hyb", 40, 0], [1, 12, 1, "yes", 8, "3ft", "elec", 40, 0], [1, 12, 2, "yes", 8, "2ft", "hyb", 35, 0], [1, 12, 3, "yes", 8, "2ft", "gas", 35, 1], [1, 13, 1, "yes", 6, "3ft", "hyb", 30, 0], [1, 13, 2, "yes", 8, "2ft", "hyb", 30, 1], [1, 13, 3, "yes", 8, "3ft", "gas", 30, 0], [1, 14, 1, "yes", 8, "2ft", "gas", 40, 0], [1, 14, 2, "yes", 8, "2ft", "elec", 30, 0], [1, 14, 3, "yes", 7, "2ft", "elec", 30, 1], [1, 15, 1, "yes", 7, "2ft", "hyb", 30, 0], [1, 15, 2, "yes", 7, "3ft", "hyb", 40, 1], [1, 15, 3, "yes", 7, "3ft", "gas", 30, 0], [2, 1, 1, "no", 6, "2ft", "elec", 40, 1], [2, 1, 2, "no", 7, "3ft", "gas", 40, 0], [2, 1, 3, "no", 6, "2ft", "elec", 30, 0], [2, 2, 1, "no", 6, "2ft", "gas", 30, 1], [2, 2, 2, "no", 6, "3ft", "hyb", 40, 0], [2, 2, 3, "no", 7, "2ft", "gas", 30, 0], [2, 3, 1, "no", 7, "3ft", "elec", 30, 0], [2, 3, 2, "no", 8, "3ft", "elec", 35, 1], [2, 3, 3, "no", 7, "3ft", "gas", 35, 0], [2, 4, 1, "no", 8, "3ft", "elec", 30, 1], [2, 4, 2, "no", 6, "2ft", "gas", 35, 0], [2, 4, 3, "no", 8, "3ft", "elec", 40, 0], [2, 5, 1, "no", 7, "2ft", "elec", 40, 0], [2, 5, 2, "no", 7, "2ft", "elec", 35, 0], [2, 5, 3, "no", 6, "2ft", "hyb", 35, 1], [2, 6, 1, "no", 7, "3ft", "elec", 40, 0], [2, 6, 2, "no", 8, "2ft", "elec", 30, 0], [2, 6, 3, "no", 6, "3ft", "hyb", 30, 1], [2, 7, 1, "no", 8, "3ft", "gas", 30, 1], [2, 7, 2, "no", 7, "2ft", "hyb", 35, 0], [2, 7, 3, "no", 6, "2ft", "hyb", 40, 0], [2, 8, 1, "no", 8, "2ft", "gas", 35, 0], [2, 8, 2, "no", 7, "2ft", "hyb", 30, 0], [2, 8, 3, "no", 8, "3ft", "hyb", 30, 1], [2, 9, 1, "no", 8, "3ft", "gas", 35, 1], [2, 9, 2, "no", 7, "3ft", "elec", 35, 0], [2, 9, 3, "no", 6, "3ft", "elec", 40, 0], [2, 10, 1, "no", 7, "3ft", "hyb", 40, 0], [2, 10, 2, "no", 6, "3ft", "gas", 35, 1], [2, 10, 3, "no", 7, "3ft", "hyb", 35, 0], [2, 11, 1, "no", 6, "3ft", "hyb", 35, 0], [2, 11, 2, "no", 8, "3ft", "gas", 40, 1], [2, 11, 3, "no", 6, "3ft", "gas", 40, 0], [2, 12, 1, "no", 8, "2ft", "hyb", 30, 1], [2, 12, 2, "no", 6, "2ft", "hyb", 30, 0], [2, 12, 3, "no", 8, "2ft", "hyb", 35, 0], [2, 13, 1, "no", 8, "2ft", "hyb", 40, 0], [2, 13, 2, "no", 6, "3ft", "elec", 30, 0], [2, 13, 3, "no", 8, "2ft", "gas", 30, 1], [2, 14, 1, "no", 6, "2ft", "elec", 35, 0], [2, 14, 2, "no", 6, "3ft", "gas", 30, 1], [2, 14, 3, "no", 7, "3ft", "hyb", 30, 0], [2, 15, 1, "no", 6, "3ft", "elec", 35, 1], [2, 15, 2, "no", 8, "2ft", "elec", 40, 0], [2, 15, 3, "no", 7, "2ft", "hyb", 40, 0], [3, 1, 1, "no", 8, "3ft", "hyb", 30, 0], [3, 1, 2, "no", 6, "2ft", "elec", 35, 1], [3, 1, 3, "no", 7, "3ft", "elec", 40, 0], [3, 2, 1, "no", 8, "3ft", "gas", 40, 1], [3, 2, 2, "no", 7, "3ft", "gas", 35, 0], [3, 2, 3, "no", 8, "2ft", "hyb", 30, 0], [3, 3, 1, "no", 8, "3ft", "hyb", 35, 0], [3, 3, 2, "no", 6, "3ft", "hyb", 30, 1], [3, 3, 3, "no", 6, "3ft", "elec", 30, 0], [3, 4, 1, "no", 7, "2ft", "elec", 35, 1], [3, 4, 2, "no", 7, "2ft", "hyb", 40, 0], [3, 4, 3, "no", 8, "2ft", "hyb", 40, 0], [3, 5, 1, "no", 8, "2ft", "gas", 35, 0], [3, 5, 2, "no", 6, "3ft", "gas", 30, 1], [3, 5, 3, "no", 8, "3ft", "gas", 30, 0], [3, 6, 1, "no", 8, "3ft", "hyb", 40, 0], [3, 6, 2, "no", 8, "3ft", "elec", 35, 0], [3, 6, 3, "no", 6, "2ft", "gas", 40, 1], [3, 7, 1, "no", 7, "3ft", "hyb", 30, 1], [3, 7, 2, "no", 8, "2ft", "gas", 40, 0], [3, 7, 3, "no", 7, "3ft", "gas", 30, 0], [3, 8, 1, "no", 7, "3ft", "elec", 30, 0], [3, 8, 2, "no", 6, "2ft", "gas", 30, 1], [3, 8, 3, "no", 6, "2ft", "hyb", 40, 0], [3, 9, 1, "no", 6, "2ft", "elec", 40, 0], [3, 9, 2, "no", 8, "2ft", "hyb", 35, 0], [3, 9, 3, "no", 6, "3ft", "gas", 35, 1], [3, 10, 1, "no", 6, "2ft", "gas", 35, 1], [3, 10, 2, "no", 8, "3ft", "elec", 40, 0], [3, 10, 3, "no", 8, "2ft", "elec", 35, 0], [3, 11, 1, "no", 8, "3ft", "elec", 30, 0], [3, 11, 2, "no", 7, "2ft", "gas", 30, 1], [3, 11, 3, "no", 7, "2ft", "gas", 35, 0], [3, 12, 1, "no", 6, "3ft", "elec", 40, 1], [3, 12, 2, "no", 8, "2ft", "elec", 40, 0], [3, 12, 3, "no", 7, "2ft", "gas", 40, 0], [3, 13, 1, "no", 8, "3ft", "gas", 35, 0], [3, 13, 2, "no", 8, "2ft", "elec", 30, 1], [3, 13, 3, "no", 6, "2ft", "hyb", 35, 0], [3, 14, 1, "no", 6, "3ft", "elec", 35, 0], [3, 14, 2, "no", 6, "3ft", "gas", 40, 0], [3, 14, 3, "no", 6, "3ft", "hyb", 40, 1], [3, 15, 1, "no", 7, "2ft", "elec", 30, 0], [3, 15, 2, "no", 6, "3ft", "hyb", 35, 1], [3, 15, 3, "no", 7, "3ft", "hyb", 40, 0], [4, 1, 1, "no", 6, "2ft", "elec", 30, 0], [4, 1, 2, "no", 6, "3ft", "elec", 30, 0], [4, 1, 3, "no", 8, "2ft", "hyb", 30, 1], [4, 2, 1, "no", 7, "2ft", "gas", 35, 0], [4, 2, 2, "no", 7, "2ft", "elec", 35, 0], [4, 2, 3, "no", 6, "2ft", "hyb", 30, 1], [4, 3, 1, "no", 6, "3ft", "gas", 40, 0], [4, 3, 2, "no", 6, "3ft", "gas", 30, 1], [4, 3, 3, "no", 7, "3ft", "gas", 35, 0], [4, 4, 1, "no", 6, "3ft", "elec", 35, 0], [4, 4, 2, "no", 8, "2ft", "gas", 35, 1], [4, 4, 3, "no", 7, "2ft", "hyb", 35, 0], [4, 5, 1, "no", 7, "2ft", "gas", 30, 0], [4, 5, 2, "no", 6, "2ft", "gas", 30, 1], [4, 5, 3, "no", 8, "2ft", "elec", 35, 0], [4, 6, 1, "no", 8, "3ft", "elec", 35, 0], [4, 6, 2, "no", 8, "2ft", "hyb", 35, 1], [4, 6, 3, "no", 6, "2ft", "elec", 35, 0], [4, 7, 1, "no", 6, "2ft", "hyb", 40, 0], [4, 7, 2, "no", 7, "3ft", "elec", 35, 0], [4, 7, 3, "no", 6, "3ft", "hyb", 30, 1], [4, 8, 1, "no", 6, "2ft", "elec", 40, 0], [4, 8, 2, "no", 6, "3ft", "gas", 35, 1], [4, 8, 3, "no", 6, "3ft", "hyb", 35, 0], [4, 9, 1, "no", 8, "3ft", "gas", 40, 0], [4, 9, 2, "no", 7, "3ft", "hyb", 30, 0], [4, 9, 3, "no", 8, "2ft", "gas", 30, 1], [4, 10, 1, "no", 7, "2ft", "elec", 30, 0], [4, 10, 2, "no", 7, "3ft", "gas", 40, 0], [4, 10, 3, "no", 7, "3ft", "gas", 30, 1], [4, 11, 1, "no", 8, "2ft", "elec", 30, 0], [4, 11, 2, "no", 8, "3ft", "hyb", 35, 1], [4, 11, 3, "no", 6, "2ft", "hyb", 35, 0], [4, 12, 1, "no", 6, "3ft", "hyb", 40, 0], [4, 12, 2, "no", 7, "2ft", "hyb", 40, 1], [4, 12, 3, "no", 8, "2ft", "gas", 40, 0], [4, 13, 1, "no", 8, "2ft", "elec", 40, 0], [4, 13, 2, "no", 6, "2ft", "gas", 40, 0], [4, 13, 3, "no", 7, "2ft", "gas", 40, 1], [4, 14, 1, "no", 8, "3ft", "elec", 30, 0], [4, 14, 2, "no", 8, "2ft", "hyb", 40, 1], [4, 14, 3, "no", 7, "3ft", "elec", 40, 0], [4, 15, 1, "no", 8, "3ft", "elec", 40, 0], [4, 15, 2, "no", 7, "3ft", "hyb", 35, 1], [4, 15, 3, "no", 7, "2ft", "elec", 40, 0], [5, 1, 1, "yes", 6, "3ft", "elec", 40, 0], [5, 1, 2, "yes", 7, "3ft", "gas", 40, 0], [5, 1, 3, "yes", 6, "2ft", "hyb", 30, 1], [5, 2, 1, "yes", 8, "2ft", "gas", 35, 1], [5, 2, 2, "yes", 8, "3ft", "hyb", 40, 0], [5, 2, 3, "yes", 8, "2ft", "elec", 35, 0], [5, 3, 1, "yes", 6, "2ft", "hyb", 40, 0], [5, 3, 2, "yes", 8, "2ft", "elec", 40, 0], [5, 3, 3, "yes", 8, "2ft", "gas", 30, 1], [5, 4, 1, "yes", 6, "3ft", "hyb", 30, 1], [5, 4, 2, "yes", 6, "2ft", "elec", 30, 0], [5, 4, 3, "yes", 8, "2ft", "hyb", 40, 0], [5, 5, 1, "yes", 6, "3ft", "gas", 40, 1], [5, 5, 2, "yes", 8, "3ft", "elec", 30, 0], [5, 5, 3, "yes", 6, "3ft", "hyb", 40, 0], [5, 6, 1, "yes", 7, "2ft", "hyb", 30, 1], [5, 6, 2, "yes", 7, "2ft", "gas", 35, 0], [5, 6, 3, "yes", 6, "3ft", "hyb", 35, 0], [5, 7, 1, "yes", 7, "2ft", "gas", 40, 1], [5, 7, 2, "yes", 7, "3ft", "elec", 35, 0], [5, 7, 3, "yes", 6, "2ft", "gas", 35, 0], [5, 8, 1, "yes", 7, "3ft", "elec", 40, 0], [5, 8, 2, "yes", 6, "2ft", "elec", 35, 0], [5, 8, 3, "yes", 6, "3ft", "elec", 30, 1], [5, 9, 1, "yes", 7, "2ft", "elec", 40, 0], [5, 9, 2, "yes", 6, "2ft", "gas", 40, 0], [5, 9, 3, "yes", 8, "2ft", "hyb", 30, 1], [5, 10, 1, "yes", 7, "3ft", "hyb", 35, 0], [5, 10, 2, "yes", 7, "2ft", "hyb", 40, 0], [5, 10, 3, "yes", 8, "3ft", "hyb", 35, 1], [5, 11, 1, "yes", 7, "2ft", "elec", 30, 1], [5, 11, 2, "yes", 6, "3ft", "elec", 35, 0], [5, 11, 3, "yes", 8, "3ft", "elec", 35, 0], [5, 12, 1, "yes", 8, "3ft", "gas", 30, 1], [5, 12, 2, "yes", 7, "3ft", "gas", 30, 0], [5, 12, 3, "yes", 6, "2ft", "gas", 30, 0], [5, 13, 1, "yes", 6, "3ft", "gas", 35, 0], [5, 13, 2, "yes", 8, "3ft", "elec", 40, 0], [5, 13, 3, "yes", 7, "3ft", "gas", 35, 1], [5, 14, 1, "yes", 6, "2ft", "hyb", 35, 0], [5, 14, 2, "yes", 7, "3ft", "hyb", 30, 1], [5, 14, 3, "yes", 8, "2ft", "elec", 30, 0], [5, 15, 1, "yes", 7, "3ft", "elec", 30, 1], [5, 15, 2, "yes", 6, "3ft", "gas", 30, 0], [5, 15, 3, "yes", 7, "2ft", "hyb", 35, 0], [6, 1, 1, "no", 7, "2ft", "elec", 40, 0], [6, 1, 2, "no", 7, "3ft", "gas", 30, 1], [6, 1, 3, "no", 8, "3ft", "elec", 40, 0], [6, 2, 1, "no", 8, "2ft", "elec", 40, 0], [6, 2, 2, "no", 8, "2ft", "gas", 30, 0], [6, 2, 3, "no", 6, "3ft", "gas", 35, 1], [6, 3, 1, "no", 7, "2ft", "elec", 35, 0], [6, 3, 2, "no", 7, "3ft", "elec", 40, 0], [6, 3, 3, "no", 7, "2ft", "hyb", 35, 1], [6, 4, 1, "no", 7, "2ft", "gas", 30, 1], [6, 4, 2, "no", 7, "2ft", "elec", 30, 0], [6, 4, 3, "no", 6, "2ft", "elec", 35, 0], [6, 5, 1, "no", 7, "3ft", "gas", 40, 0], [6, 5, 2, "no", 6, "2ft", "gas", 30, 0], [6, 5, 3, "no", 8, "3ft", "gas", 35, 1], [6, 6, 1, "no", 8, "3ft", "gas", 40, 1], [6, 6, 2, "no", 6, "2ft", "hyb", 30, 0], [6, 6, 3, "no", 6, "2ft", "hyb", 35, 0], [6, 7, 1, "no", 6, "3ft", "gas", 40, 1], [6, 7, 2, "no", 7, "3ft", "hyb", 40, 0], [6, 7, 3, "no", 7, "2ft", "gas", 40, 0], [6, 8, 1, "no", 8, "3ft", "elec", 35, 0], [6, 8, 2, "no", 8, "3ft", "hyb", 35, 1], [6, 8, 3, "no", 8, "2ft", "hyb", 35, 0], [6, 9, 1, "no", 7, "2ft", "hyb", 30, 1], [6, 9, 2, "no", 7, "2ft", "hyb", 40, 0], [6, 9, 3, "no", 7, "3ft", "elec", 30, 0], [6, 10, 1, "no", 8, "2ft", "gas", 40, 0], [6, 10, 2, "no", 8, "2ft", "gas", 35, 1], [6, 10, 3, "no", 7, "3ft", "elec", 35, 0], [6, 11, 1, "no", 7, "3ft", "gas", 35, 1], [6, 11, 2, "no", 6, "3ft", "elec", 30, 0], [6, 11, 3, "no", 8, "2ft", "elec", 35, 0], [6, 12, 1, "no", 8, "2ft", "elec", 30, 0], [6, 12, 2, "no", 6, "3ft", "hyb", 40, 0], [6, 12, 3, "no", 6, "3ft", "elec", 35, 1], [6, 13, 1, "no", 7, "3ft", "hyb", 30, 0], [6, 13, 2, "no", 7, "2ft", "gas", 35, 0], [6, 13, 3, "no", 6, "3ft", "hyb", 30, 1], [6, 14, 1, "no", 7, "3ft", "hyb", 35, 0], [6, 14, 2, "no", 8, "3ft", "gas", 30, 1], [6, 14, 3, "no", 6, "3ft", "elec", 40, 0], [6, 15, 1, "no", 8, "2ft", "hyb", 30, 0], [6, 15, 2, "no", 6, "3ft", "hyb", 35, 0], [6, 15, 3, "no", 8, "3ft", "hyb", 30, 1], [7, 1, 1, "no", 8, "2ft", "gas", 30, 0], [7, 1, 2, "no", 8, "3ft", "elec", 40, 0], [7, 1, 3, "no", 6, "3ft", "elec", 30, 1], [7, 2, 1, "no", 6, "2ft", "gas", 30, 1], [7, 2, 2, "no", 7, "2ft", "hyb", 30, 0], [7, 2, 3, "no", 6, "3ft", "hyb", 40, 0], [7, 3, 1, "no", 6, "3ft", "elec", 40, 1], [7, 3, 2, "no", 8, "2ft", "elec", 35, 0], [7, 3, 3, "no", 8, "2ft", "elec", 40, 0], [7, 4, 1, "no", 7, "3ft", "hyb", 35, 1], [7, 4, 2, "no", 7, "2ft", "hyb", 35, 0], [7, 4, 3, "no", 8, "2ft", "hyb", 30, 0], [7, 5, 1, "no", 8, "3ft", "hyb", 30, 1], [7, 5, 2, "no", 8, "3ft", "hyb", 40, 0], [7, 5, 3, "no", 8, "3ft", "gas", 40, 0], [7, 6, 1, "no", 6, "2ft", "hyb", 35, 0], [7, 6, 2, "no", 7, "2ft", "elec", 30, 1], [7, 6, 3, "no", 6, "2ft", "elec", 30, 0], [7, 7, 1, "no", 7, "2ft", "hyb", 40, 0], [7, 7, 2, "no", 8, "3ft", "gas", 35, 1], [7, 7, 3, "no", 6, "2ft", "gas", 40, 0], [7, 8, 1, "no", 8, "2ft", "hyb", 35, 0], [7, 8, 2, "no", 7, "3ft", "gas", 30, 0], [7, 8, 3, "no", 6, "3ft", "gas", 40, 1], [7, 9, 1, "no", 7, "3ft", "hyb", 40, 0], [7, 9, 2, "no", 7, "2ft", "gas", 35, 1], [7, 9, 3, "no", 8, "2ft", "elec", 30, 0], [7, 10, 1, "no", 6, "3ft", "elec", 35, 0], [7, 10, 2, "no", 6, "2ft", "hyb", 40, 1], [7, 10, 3, "no", 7, "3ft", "hyb", 30, 0], [7, 11, 1, "no", 7, "3ft", "gas", 40, 0], [7, 11, 2, "no", 8, "2ft", "gas", 35, 0], [7, 11, 3, "no", 7, "2ft", "gas", 30, 1], [7, 12, 1, "no", 8, "2ft", "gas", 40, 0], [7, 12, 2, "no", 8, "2ft", "hyb", 40, 0], [7, 12, 3, "no", 6, "2ft", "hyb", 30, 1], [7, 13, 1, "no", 6, "3ft", "gas", 30, 0], [7, 13, 2, "no", 7, "3ft", "elec", 35, 1], [7, 13, 3, "no", 7, "3ft", "gas", 35, 0], [7, 14, 1, "no", 6, "3ft", "gas", 35, 1], [7, 14, 2, "no", 7, "2ft", "gas", 40, 0], [7, 14, 3, "no", 7, "2ft", "elec", 40, 0], [7, 15, 1, "no", 6, "2ft", "elec", 35, 0], [7, 15, 2, "no", 8, "3ft", "hyb", 35, 0], [7, 15, 3, "no", 6, "2ft", "gas", 35, 1], [8, 1, 1, "yes", 8, "3ft", "elec", 30, 0], [8, 1, 2, "yes", 6, "2ft", "gas", 35, 0], [8, 1, 3, "yes", 6, "3ft", "hyb", 40, 1], [8, 2, 1, "yes", 8, "2ft", "elec", 35, 0], [8, 2, 2, "yes", 7, "3ft", "elec", 30, 0], [8, 2, 3, "yes", 8, "2ft", "hyb", 30, 1], [8, 3, 1, "yes", 8, "3ft", "elec", 35, 0], [8, 3, 2, "yes", 8, "3ft", "hyb", 35, 1], [8, 3, 3, "yes", 7, "2ft", "hyb", 35, 0], [8, 4, 1, "yes", 7, "3ft", "hyb", 30, 1], [8, 4, 2, "yes", 6, "2ft", "hyb", 35, 0], [8, 4, 3, "yes", 6, "3ft", "elec", 30, 0], [8, 5, 1, "yes", 7, "3ft", "elec", 40, 0], [8, 5, 2, "yes", 6, "3ft", "hyb", 35, 1], [8, 5, 3, "yes", 6, "2ft", "elec", 40, 0], [8, 6, 1, "yes", 7, "3ft", "gas", 35, 0], [8, 6, 2, "yes", 6, "2ft", "gas", 30, 1], [8, 6, 3, "yes", 6, "2ft", "elec", 30, 0], [8, 7, 1, "yes", 8, "2ft", "elec", 40, 0], [8, 7, 2, "yes", 8, "3ft", "gas", 35, 1], [8, 7, 3, "yes", 6, "2ft", "hyb", 40, 0], [8, 8, 1, "yes", 8, "3ft", "hyb", 30, 1], [8, 8, 2, "yes", 8, "2ft", "gas", 35, 0], [8, 8, 3, "yes", 6, "2ft", "hyb", 30, 0], [8, 9, 1, "yes", 6, "3ft", "gas", 40, 0], [8, 9, 2, "yes", 8, "3ft", "hyb", 40, 1], [8, 9, 3, "yes", 6, "2ft", "elec", 35, 0], [8, 10, 1, "yes", 7, "3ft", "gas", 40, 0], [8, 10, 2, "yes", 8, "2ft", "hyb", 40, 0], [8, 10, 3, "yes", 8, "3ft", "gas", 30, 1], [8, 11, 1, "yes", 6, "3ft", "elec", 40, 0], [8, 11, 2, "yes", 7, "3ft", "elec", 35, 0], [8, 11, 3, "yes", 8, "2ft", "elec", 30, 1], [8, 12, 1, "yes", 8, "3ft", "gas", 40, 0], [8, 12, 2, "yes", 8, "3ft", "elec", 40, 0], [8, 12, 3, "yes", 7, "2ft", "gas", 30, 1], [8, 13, 1, "yes", 7, "3ft", "hyb", 35, 0], [8, 13, 2, "yes", 8, "2ft", "gas", 30, 1], [8, 13, 3, "yes", 7, "2ft", "elec", 30, 0], [8, 14, 1, "yes", 6, "3ft", "gas", 30, 1], [8, 14, 2, "yes", 6, "2ft", "gas", 40, 0], [8, 14, 3, "yes", 7, "2ft", "elec", 35, 0], [8, 15, 1, "yes", 7, "2ft", "elec", 40, 1], [8, 15, 2, "yes", 7, "2ft", "hyb", 40, 0], [8, 15, 3, "yes", 7, "3ft", "hyb", 40, 0], [9, 1, 1, "no", 7, "3ft", "elec", 35, 0], [9, 1, 2, "no", 6, "3ft", "hyb", 30, 1], [9, 1, 3, "no", 8, "3ft", "hyb", 35, 0], [9, 2, 1, "no", 6, "3ft", "hyb", 35, 1], [9, 2, 2, "no", 6, "2ft", "hyb", 35, 0], [9, 2, 3, "no", 7, "2ft", "elec", 40, 0], [9, 3, 1, "no", 7, "3ft", "gas", 40, 0], [9, 3, 2, "no", 6, "2ft", "elec", 35, 0], [9, 3, 3, "no", 8, "3ft", "gas", 40, 1], [9, 4, 1, "no", 8, "3ft", "elec", 40, 0], [9, 4, 2, "no", 6, "3ft", "hyb", 40, 1], [9, 4, 3, "no", 8, "2ft", "elec", 35, 0], [9, 5, 1, "no", 8, "3ft", "elec", 35, 0], [9, 5, 2, "no", 7, "3ft", "gas", 30, 1], [9, 5, 3, "no", 7, "2ft", "elec", 30, 0], [9, 6, 1, "no", 7, "2ft", "hyb", 40, 0], [9, 6, 2, "no", 7, "3ft", "elec", 40, 0], [9, 6, 3, "no", 8, "2ft", "elec", 40, 1], [9, 7, 1, "no", 6, "2ft", "elec", 30, 0], [9, 7, 2, "no", 8, "3ft", "gas", 30, 1], [9, 7, 3, "no", 7, "2ft", "gas", 40, 0], [9, 8, 1, "no", 7, "2ft", "gas", 35, 0], [9, 8, 2, "no", 6, "3ft", "elec", 30, 1], [9, 8, 3, "no", 7, "3ft", "elec", 30, 0], [9, 9, 1, "no", 8, "3ft", "gas", 35, 1], [9, 9, 2, "no", 7, "2ft", "elec", 35, 0], [9, 9, 3, "no", 6, "2ft", "gas", 30, 0], [9, 10, 1, "no", 7, "3ft", "hyb", 40, 0], [9, 10, 2, "no", 6, "3ft", "elec", 35, 0], [9, 10, 3, "no", 6, "2ft", "hyb", 40, 1], [9, 11, 1, "no", 8, "2ft", "gas", 30, 0], [9, 11, 2, "no", 8, "3ft", "elec", 30, 1], [9, 11, 3, "no", 7, "3ft", "gas", 35, 0], [9, 12, 1, "no", 8, "2ft", "hyb", 30, 0], [9, 12, 2, "no", 6, "3ft", "gas", 35, 1], [9, 12, 3, "no", 6, "2ft", "elec", 40, 0], [9, 13, 1, "no", 7, "3ft", "hyb", 30, 0], [9, 13, 2, "no", 6, "2ft", "gas", 35, 1], [9, 13, 3, "no", 8, "2ft", "hyb", 35, 0], [9, 14, 1, "no", 8, "3ft", "hyb", 40, 0], [9, 14, 2, "no", 8, "2ft", "elec", 30, 0], [9, 14, 3, "no", 7, "2ft", "gas", 30, 1], [9, 15, 1, "no", 8, "2ft", "gas", 35, 1], [9, 15, 2, "no", 8, "2ft", "hyb", 40, 0], [9, 15, 3, "no", 6, "3ft", "elec", 40, 0], [10, 1, 1, "no", 8, "3ft", "elec", 40, 0], [10, 1, 2, "no", 6, "2ft", "gas", 40, 1], [10, 1, 3, "no", 7, "3ft", "hyb", 40, 0], [10, 2, 1, "no", 8, "3ft", "elec", 35, 1], [10, 2, 2, "no", 7, "2ft", "elec", 40, 0], [10, 2, 3, "no", 6, "2ft", "hyb", 40, 0], [10, 3, 1, "no", 8, "2ft", "gas", 40, 0], [10, 3, 2, "no", 7, "2ft", "hyb", 30, 0], [10, 3, 3, "no", 6, "2ft", "gas", 30, 1], [10, 4, 1, "no", 6, "3ft", "gas", 40, 0], [10, 4, 2, "no", 7, "3ft", "hyb", 35, 0], [10, 4, 3, "no", 8, "3ft", "gas", 35, 1], [10, 5, 1, "no", 6, "2ft", "hyb", 35, 0], [10, 5, 2, "no", 7, "3ft", "gas", 35, 1], [10, 5, 3, "no", 7, "2ft", "elec", 35, 0], [10, 6, 1, "no", 7, "3ft", "elec", 35, 0], [10, 6, 2, "no", 6, "3ft", "gas", 30, 1], [10, 6, 3, "no", 7, "3ft", "elec", 30, 0], [10, 7, 1, "no", 8, "2ft", "hyb", 30, 0], [10, 7, 2, "no", 7, "2ft", "gas", 35, 1], [10, 7, 3, "no", 7, "2ft", "elec", 30, 0], [10, 8, 1, "no", 8, "2ft", "elec", 35, 0], [10, 8, 2, "no", 8, "3ft", "gas", 40, 0], [10, 8, 3, "no", 6, "2ft", "elec", 40, 1], [10, 9, 1, "no", 8, "3ft", "hyb", 40, 0], [10, 9, 2, "no", 6, "3ft", "gas", 35, 1], [10, 9, 3, "no", 7, "2ft", "hyb", 40, 0], [10, 10, 1, "no", 8, "3ft", "gas", 30, 1], [10, 10, 2, "no", 7, "3ft", "elec", 40, 0], [10, 10, 3, "no", 7, "2ft", "hyb", 35, 0], [10, 11, 1, "no", 8, "3ft", "hyb", 35, 1], [10, 11, 2, "no", 8, "2ft", "hyb", 35, 0], [10, 11, 3, "no", 6, "3ft", "hyb", 30, 0], [10, 12, 1, "no", 8, "2ft", "gas", 35, 0], [10, 12, 2, "no", 6, "3ft", "hyb", 35, 1], [10, 12, 3, "no", 6, "2ft", "gas", 35, 0], [10, 13, 1, "no", 7, "3ft", "hyb", 30, 0], [10, 13, 2, "no", 6, "2ft", "hyb", 30, 0], [10, 13, 3, "no", 6, "2ft", "elec", 30, 1], [10, 14, 1, "no", 8, "3ft", "hyb", 30, 0], [10, 14, 2, "no", 6, "3ft", "elec", 30, 0], [10, 14, 3, "no", 8, "2ft", "gas", 30, 1], [10, 15, 1, "no", 7, "2ft", "gas", 40, 0], [10, 15, 2, "no", 6, "2ft", "elec", 35, 0], [10, 15, 3, "no", 7, "3ft", "gas", 30, 1], [11, 1, 1, "no", 8, "2ft", "gas", 35, 0], [11, 1, 2, "no", 8, "3ft", "hyb", 40, 0], [11, 1, 3, "no", 6, "2ft", "elec", 30, 1], [11, 2, 1, "no", 7, "2ft", "elec", 40, 0], [11, 2, 2, "no", 7, "3ft", "gas", 30, 1], [190, 14, 2, "yes", 7, "2ft", "elec", 35, 0], [190, 14, 3, "yes", 6, "2ft", "elec", 40, 0], [190, 15, 1, "yes", 7, "2ft", "elec", 40, 0], [190, 15, 2, "yes", 7, "3ft", "elec", 30, 0], [190, 15, 3, "yes", 7, "3ft", "hyb", 40, 1], [191, 1, 1, "no", 8, "3ft", "gas", 35, 1], [191, 1, 2, "no", 7, "3ft", "elec", 35, 0], [191, 1, 3, "no", 7, "3ft", "elec", 40, 0], [191, 2, 1, "no", 8, "3ft", "hyb", 35, 0], [191, 2, 2, "no", 8, "2ft", "gas", 30, 1], [191, 2, 3, "no", 8, "2ft", "elec", 35, 0], [191, 3, 1, "no", 6, "3ft", "gas", 40, 1], [191, 3, 2, "no", 6, "3ft", "hyb", 40, 0], [191, 3, 3, "no", 6, "3ft", "hyb", 35, 0], [191, 4, 1, "no", 6, "3ft", "elec", 40, 0], [191, 4, 2, "no", 7, "3ft", "gas", 35, 0], [191, 4, 3, "no", 6, "3ft", "elec", 30, 1], [191, 5, 1, "no", 6, "2ft", "hyb", 35, 1], [191, 5, 2, "no", 8, "2ft", "elec", 40, 0], [191, 5, 3, "no", 6, "3ft", "elec", 35, 0], [191, 6, 1, "no", 8, "3ft", "elec", 35, 0], [191, 6, 2, "no", 7, "2ft", "gas", 35, 1], [191, 6, 3, "no", 8, "3ft", "hyb", 40, 0], [191, 7, 1, "no", 8, "2ft", "gas", 35, 0], [191, 7, 2, "no", 6, "2ft", "hyb", 30, 0], [191, 7, 3, "no", 8, "2ft", "hyb", 30, 1], [191, 8, 1, "no", 6, "3ft", "gas", 30, 1], [191, 8, 2, "no", 7, "2ft", "elec", 40, 0], [191, 8, 3, "no", 6, "2ft", "elec", 35, 0], [191, 9, 1, "no", 7, "3ft", "hyb", 30, 1], [191, 9, 2, "no", 8, "2ft", "hyb", 35, 0], [191, 9, 3, "no", 6, "2ft", "elec", 40, 0], [191, 10, 1, "no", 7, "3ft", "hyb", 40, 0], [191, 10, 2, "no", 8, "3ft", "gas", 30, 1], [191, 10, 3, "no", 7, "3ft", "hyb", 35, 0], [191, 11, 1, "no", 8, "3ft", "elec", 40, 0], [191, 11, 2, "no", 6, "2ft", "elec", 30, 0], [191, 11, 3, "no", 7, "2ft", "gas", 30, 1], [191, 12, 1, "no", 6, "2ft", "gas", 35, 0], [191, 12, 2, "no", 8, "3ft", "elec", 30, 0], [191, 12, 3, "no", 7, "2ft", "hyb", 35, 1], [191, 13, 1, "no", 8, "2ft", "hyb", 40, 0], [191, 13, 2, "no", 8, "3ft", "hyb", 30, 1], [191, 13, 3, "no", 7, "2ft", "elec", 30, 0], [191, 14, 1, "no", 7, "3ft", "elec", 30, 0], [191, 14, 2, "no", 7, "3ft", "gas", 40, 1], [191, 14, 3, "no", 6, "2ft", "hyb", 40, 0], [191, 15, 1, "no", 8, "2ft", "elec", 30, 0], [191, 15, 2, "no", 7, "2ft", "hyb", 40, 0], [191, 15, 3, "no", 6, "3ft", "hyb", 30, 1], [192, 1, 1, "no", 7, "2ft", "hyb", 30, 1], [192, 1, 2, "no", 8, "2ft", "gas", 35, 0], [192, 1, 3, "no", 7, "3ft", "elec", 40, 0], [192, 2, 1, "no", 6, "2ft", "elec", 30, 1], [192, 2, 2, "no", 6, "3ft", "elec", 40, 0], [192, 2, 3, "no", 8, "2ft", "hyb", 40, 0], [192, 3, 1, "no", 7, "2ft", "elec", 40, 1], [192, 3, 2, "no", 8, "2ft", "elec", 30, 0], [192, 3, 3, "no", 8, "3ft", "hyb", 40, 0], [192, 4, 1, "no", 8, "3ft", "gas", 40, 0], [192, 4, 2, "no", 8, "2ft", "elec", 40, 0], [192, 4, 3, "no", 7, "3ft", "elec", 30, 1], [192, 5, 1, "no", 6, "3ft", "gas", 40, 0], [192, 5, 2, "no", 6, "3ft", "gas", 35, 1], [192, 5, 3, "no", 6, "3ft", "hyb", 40, 0], [192, 6, 1, "no", 8, "3ft", "gas", 35, 0], [192, 6, 2, "no", 8, "2ft", "hyb", 30, 0], [192, 6, 3, "no", 6, "2ft", "elec", 40, 1], [192, 7, 1, "no", 6, "2ft", "hyb", 35, 0], [192, 7, 2, "no", 7, "3ft", "gas", 35, 0], [192, 7, 3, "no", 7, "2ft", "elec", 35, 1], [192, 8, 1, "no", 7, "3ft", "elec", 35, 0], [192, 8, 2, "no", 8, "2ft", "gas", 40, 0], [192, 8, 3, "no", 6, "3ft", "elec", 35, 1], [192, 9, 1, "no", 7, "3ft", "gas", 30, 1], [192, 9, 2, "no", 7, "2ft", "hyb", 35, 0], [192, 9, 3, "no", 6, "2ft", "hyb", 40, 0], [192, 10, 1, "no", 8, "3ft", "elec", 30, 0], [192, 10, 2, "no", 6, "2ft", "gas", 40, 0], [192, 10, 3, "no", 7, "2ft", "gas", 30, 1], [192, 11, 1, "no", 7, "2ft", "elec", 30, 0], [192, 11, 2, "no", 6, "2ft", "hyb", 30, 1], [192, 11, 3, "no", 6, "3ft", "hyb", 35, 0], [192, 12, 1, "no", 8, "3ft", "hyb", 35, 0], [192, 12, 2, "no", 8, "3ft", "hyb", 30, 0], [192, 12, 3, "no", 7, "3ft", "hyb", 30, 1], [192, 13, 1, "no", 6, "2ft", "gas", 30, 0], [192, 13, 2, "no", 7, "2ft", "hyb", 40, 0], [192, 13, 3, "no", 6, "3ft", "elec", 30, 1], [192, 14, 1, "no", 7, "2ft", "gas", 35, 0], [192, 14, 2, "no", 6, "3ft", "hyb", 30, 1], [192, 14, 3, "no", 8, "2ft", "hyb", 35, 0], [192, 15, 1, "no", 8, "3ft", "elec", 35, 0], [192, 15, 2, "no", 6, "2ft", "elec", 35, 0], [192, 15, 3, "no", 6, "3ft", "gas", 30, 1], [193, 1, 1, "yes", 6, "2ft", "elec", 40, 0], [193, 1, 2, "yes", 6, "2ft", "gas", 35, 0], [193, 1, 3, "yes", 8, "2ft", "hyb", 30, 1], [193, 2, 1, "yes", 7, "3ft", "elec", 40, 0], [193, 2, 2, "yes", 6, "2ft", "elec", 30, 0], [193, 2, 3, "yes", 6, "2ft", "gas", 30, 1], [193, 3, 1, "yes", 8, "3ft", "elec", 35, 1], [193, 3, 2, "yes", 6, "2ft", "gas", 40, 0], [193, 3, 3, "yes", 7, "2ft", "gas", 35, 0], [193, 4, 1, "yes", 8, "3ft", "hyb", 35, 1], [193, 4, 2, "yes", 6, "2ft", "hyb", 35, 0], [193, 4, 3, "yes", 7, "3ft", "elec", 35, 0], [193, 5, 1, "yes", 8, "2ft", "hyb", 35, 0], [193, 5, 2, "yes", 6, "2ft", "hyb", 40, 0], [193, 5, 3, "yes", 6, "3ft", "hyb", 30, 1], [193, 6, 1, "yes", 6, "2ft", "elec", 35, 1], [193, 6, 2, "yes", 6, "3ft", "elec", 35, 0], [193, 6, 3, "yes", 6, "3ft", "gas", 40, 0], [193, 7, 1, "yes", 7, "3ft", "gas", 30, 1], [193, 7, 2, "yes", 7, "2ft", "elec", 35, 0], [193, 7, 3, "yes", 7, "3ft", "hyb", 40, 0], [193, 8, 1, "yes", 7, "2ft", "hyb", 35, 0], [193, 8, 2, "yes", 6, "3ft", "elec", 40, 1], [193, 8, 3, "yes", 7, "3ft", "gas", 40, 0], [193, 9, 1, "yes", 7, "3ft", "elec", 30, 1], [193, 9, 2, "yes", 6, "2ft", "hyb", 30, 0], [193, 9, 3, "yes", 8, "3ft", "gas", 30, 0], [193, 10, 1, "yes", 8, "2ft", "elec", 30, 0], [193, 10, 2, "yes", 8, "3ft", "elec", 30, 0], [193, 10, 3, "yes", 8, "3ft", "gas", 35, 1], [193, 11, 1, "yes", 7, "2ft", "elec", 40, 0], [193, 11, 2, "yes", 7, "3ft", "gas", 35, 0], [193, 11, 3, "yes", 6, "3ft", "elec", 30, 1], [193, 12, 1, "yes", 7, "2ft", "gas", 30, 1], [193, 12, 2, "yes", 8, "2ft", "gas", 35, 0], [193, 12, 3, "yes", 8, "3ft", "gas", 40, 0], [193, 13, 1, "yes", 7, "2ft", "hyb", 30, 0], [193, 13, 2, "yes", 6, "3ft", "gas", 30, 1], [193, 13, 3, "yes", 7, "2ft", "elec", 30, 0], [193, 14, 1, "yes", 7, "3ft", "hyb", 35, 0], [193, 14, 2, "yes", 7, "2ft", "hyb", 40, 0], [193, 14, 3, "yes", 7, "3ft", "hyb", 30, 1], [193, 15, 1, "yes", 6, "3ft", "hyb", 35, 0], [193, 15, 2, "yes", 6, "3ft", "gas", 35, 1], [193, 15, 3, "yes", 7, "2ft", "gas", 40, 0], [194, 1, 1, "yes", 8, "3ft", "gas", 35, 1], [194, 1, 2, "yes", 6, "2ft", "hyb", 40, 0], [194, 1, 3, "yes", 6, "3ft", "elec", 40, 0], [194, 2, 1, "yes", 6, "3ft", "gas", 35, 1], [194, 2, 2, "yes", 8, "2ft", "gas", 40, 0], [194, 2, 3, "yes", 7, "3ft", "hyb", 40, 0], [194, 3, 1, "yes", 8, "2ft", "elec", 35, 0], [194, 3, 2, "yes", 7, "2ft", "elec", 30, 1], [194, 3, 3, "yes", 8, "2ft", "hyb", 35, 0], [194, 4, 1, "yes", 7, "2ft", "gas", 30, 1], [194, 4, 2, "yes", 6, "3ft", "elec", 30, 0], [194, 4, 3, "yes", 7, "3ft", "elec", 40, 0], [194, 5, 1, "yes", 6, "2ft", "gas", 30, 0], [194, 5, 2, "yes", 7, "2ft", "elec", 35, 0], [194, 5, 3, "yes", 7, "2ft", "hyb", 30, 1], [194, 6, 1, "yes", 8, "2ft", "hyb", 30, 0], [194, 6, 2, "yes", 7, "3ft", "hyb", 35, 0], [194, 6, 3, "yes", 8, "3ft", "gas", 40, 1], [194, 7, 1, "yes", 8, "3ft", "elec", 30, 0], [194, 7, 2, "yes", 8, "3ft", "elec", 35, 0], [194, 7, 3, "yes", 6, "3ft", "hyb", 35, 1], [194, 8, 1, "yes", 8, "3ft", "hyb", 30, 0], [194, 8, 2, "yes", 8, "3ft", "gas", 30, 1], [194, 8, 3, "yes", 6, "3ft", "hyb", 40, 0], [194, 9, 1, "yes", 7, "2ft", "hyb", 35, 1], [194, 9, 2, "yes", 6, "2ft", "elec", 30, 0], [194, 9, 3, "yes", 8, "3ft", "hyb", 40, 0], [194, 10, 1, "yes", 6, "2ft", "elec", 35, 0], [194, 10, 2, "yes", 7, "3ft", "elec", 30, 1], [194, 10, 3, "yes", 6, "3ft", "gas", 40, 0], [194, 11, 1, "yes", 7, "3ft", "gas", 35, 0], [194, 11, 2, "yes", 6, "2ft", "hyb", 30, 0], [194, 11, 3, "yes", 7, "2ft", "gas", 35, 1], [194, 12, 1, "yes", 8, "2ft", "elec", 30, 0], [194, 12, 2, "yes", 6, "3ft", "hyb", 30, 1], [194, 12, 3, "yes", 7, "2ft", "hyb", 40, 0], [194, 13, 1, "yes", 6, "2ft", "hyb", 35, 0], [194, 13, 2, "yes", 6, "3ft", "gas", 30, 1], [194, 13, 3, "yes", 6, "3ft", "elec", 35, 0], [194, 14, 1, "yes", 6, "2ft", "elec", 40, 0], [194, 14, 2, "yes", 8, "3ft", "elec", 40, 0], [194, 14, 3, "yes", 6, "2ft", "gas", 40, 1], [194, 15, 1, "yes", 8, "2ft", "gas", 30, 1], [194, 15, 2, "yes", 7, "2ft", "gas", 40, 0], [194, 15, 3, "yes", 8, "3ft", "hyb", 35, 0], [195, 1, 1, "yes", 7, "3ft", "hyb", 30, 0], [195, 1, 2, "yes", 8, "3ft", "gas", 35, 1], [195, 1, 3, "yes", 6, "3ft", "elec", 40, 0], [195, 2, 1, "yes", 7, "2ft", "elec", 40, 0], [195, 2, 2, "yes", 8, "3ft", "elec", 30, 0], [195, 2, 3, "yes", 8, "2ft", "gas", 40, 1], [195, 3, 1, "yes", 6, "2ft", "hyb", 35, 0], [195, 3, 2, "yes", 7, "2ft", "hyb", 30, 1], [195, 3, 3, "yes", 6, "2ft", "elec", 30, 0], [195, 4, 1, "yes", 7, "2ft", "gas", 40, 0], [195, 4, 2, "yes", 7, "3ft", "gas", 40, 1], [195, 4, 3, "yes", 8, "3ft", "gas", 30, 0], [195, 5, 1, "yes", 7, "2ft", "gas", 30, 1], [195, 5, 2, "yes", 7, "2ft", "elec", 35, 0], [195, 5, 3, "yes", 7, "2ft", "elec", 30, 0], [195, 6, 1, "yes", 6, "2ft", "elec", 40, 0], [195, 6, 2, "yes", 7, "2ft", "hyb", 40, 0], [195, 6, 3, "yes", 6, "2ft", "gas", 40, 1], [195, 7, 1, "yes", 6, "3ft", "hyb", 35, 0], [195, 7, 2, "yes", 8, "3ft", "gas", 40, 1], [195, 7, 3, "yes", 6, "2ft", "gas", 35, 0], [195, 8, 1, "yes", 8, "2ft", "elec", 35, 0], [195, 8, 2, "yes", 6, "3ft", "gas", 30, 0], [195, 8, 3, "yes", 8, "2ft", "hyb", 35, 1], [195, 9, 1, "yes", 8, "3ft", "hyb", 40, 0], [195, 9, 2, "yes", 7, "3ft", "gas", 30, 1], [195, 9, 3, "yes", 7, "2ft", "gas", 35, 0], [195, 10, 1, "yes", 8, "3ft", "hyb", 30, 1], [195, 10, 2, "yes", 6, "3ft", "hyb", 30, 0], [195, 10, 3, "yes", 6, "3ft", "gas", 40, 0], [195, 11, 1, "yes", 7, "3ft", "elec", 35, 0], [195, 11, 2, "yes", 8, "2ft", "elec", 30, 0], [195, 11, 3, "yes", 7, "3ft", "hyb", 40, 1], [195, 12, 1, "yes", 8, "2ft", "hyb", 40, 0], [195, 12, 2, "yes", 8, "3ft", "hyb", 35, 1], [195, 12, 3, "yes", 6, "3ft", "elec", 30, 0], [195, 13, 1, "yes", 8, "2ft", "gas", 35, 1], [195, 13, 2, "yes", 7, "3ft", "hyb", 35, 0], [195, 13, 3, "yes", 7, "3ft", "elec", 40, 0], [195, 14, 1, "yes", 8, "3ft", "elec", 35, 0], [195, 14, 2, "yes", 6, "2ft", "hyb", 40, 0], [195, 14, 3, "yes", 8, "2ft", "gas", 30, 1], [195, 15, 1, "yes", 8, "2ft", "hyb", 30, 1], [195, 15, 2, "yes", 6, "3ft", "hyb", 40, 0], [195, 15, 3, "yes", 6, "2ft", "elec", 35, 0], [196, 1, 1, "yes", 7, "3ft", "gas", 40, 0], [196, 1, 2, "yes", 6, "3ft", "elec", 35, 1], [196, 1, 3, "yes", 7, "2ft", "elec", 35, 0], [196, 2, 1, "yes", 8, "2ft", "gas", 40, 0], [196, 2, 2, "yes", 8, "2ft", "hyb", 30, 1], [196, 2, 3, "yes", 7, "3ft", "hyb", 40, 0], [196, 3, 1, "yes", 8, "2ft", "gas", 30, 1], [196, 3, 2, "yes", 7, "3ft", "gas", 30, 0], [196, 3, 3, "yes", 7, "2ft", "elec", 40, 0], [196, 4, 1, "yes", 6, "2ft", "elec", 30, 0], [196, 4, 2, "yes", 6, "2ft", "gas", 40, 0], [196, 4, 3, "yes", 7, "2ft", "elec", 30, 1], [196, 5, 1, "yes", 6, "2ft", "hyb", 30, 1], [196, 5, 2, "yes", 8, "3ft", "elec", 40, 0], [196, 5, 3, "yes", 6, "3ft", "hyb", 35, 0], [196, 6, 1, "yes", 6, "3ft", "gas", 35, 1], [196, 6, 2, "yes", 8, "3ft", "hyb", 40, 0], [196, 6, 3, "yes", 6, "3ft", "hyb", 40, 0], [196, 7, 1, "yes", 8, "2ft", "gas", 35, 1], [196, 7, 2, "yes", 7, "3ft", "hyb", 30, 0], [196, 7, 3, "yes", 6, "3ft", "elec", 30, 0], [196, 8, 1, "yes", 7, "2ft", "gas", 35, 1], [196, 8, 2, "yes", 7, "2ft", "gas", 40, 0], [196, 8, 3, "yes", 8, "2ft", "hyb", 35, 0], [196, 9, 1, "yes", 7, "2ft", "hyb", 30, 0], [196, 9, 2, "yes", 7, "2ft", "hyb", 40, 0], [196, 9, 3, "yes", 8, "3ft", "elec", 30, 1], [196, 10, 1, "yes", 8, "2ft", "elec", 30, 0], [196, 10, 2, "yes", 8, "2ft", "hyb", 40, 0], [196, 10, 3, "yes", 7, "2ft", "gas", 30, 1], [196, 11, 1, "yes", 8, "3ft", "gas", 40, 1], [196, 11, 2, "yes", 8, "3ft", "hyb", 35, 0], [196, 11, 3, "yes", 7, "3ft", "elec", 30, 0], [196, 12, 1, "yes", 6, "2ft", "hyb", 35, 0], [196, 12, 2, "yes", 8, "3ft", "gas", 30, 1], [196, 12, 3, "yes", 6, "3ft", "hyb", 30, 0], [196, 13, 1, "yes", 8, "2ft", "elec", 35, 0], [196, 13, 2, "yes", 7, "3ft", "elec", 40, 0], [196, 13, 3, "yes", 8, "3ft", "hyb", 30, 1], [196, 14, 1, "yes", 6, "2ft", "hyb", 40, 0], [196, 14, 2, "yes", 8, "3ft", "gas", 35, 1], [196, 14, 3, "yes", 6, "2ft", "gas", 35, 0], [196, 15, 1, "yes", 6, "3ft", "gas", 30, 1], [196, 15, 2, "yes", 8, "2ft", "elec", 40, 0], [196, 15, 3, "yes", 8, "3ft", "elec", 35, 0], [197, 1, 1, "yes", 8, "3ft", "hyb", 30, 0], [197, 1, 2, "yes", 6, "2ft", "elec", 30, 1], [197, 1, 3, "yes", 8, "3ft", "gas", 35, 0], [197, 2, 1, "yes", 6, "3ft", "hyb", 30, 1], [197, 2, 2, "yes", 7, "2ft", "gas", 35, 0], [197, 2, 3, "yes", 8, "3ft", "hyb", 35, 0], [197, 3, 1, "yes", 7, "3ft", "hyb", 30, 1], [197, 3, 2, "yes", 7, "3ft", "elec", 30, 0], [197, 3, 3, "yes", 6, "2ft", "gas", 35, 0], [197, 4, 1, "yes", 6, "3ft", "hyb", 35, 0], [197, 4, 2, "yes", 6, "3ft", "gas", 40, 0], [197, 4, 3, "yes", 8, "3ft", "elec", 30, 1], [197, 5, 1, "yes", 8, "2ft", "gas", 35, 1], [197, 5, 2, "yes", 6, "2ft", "gas", 40, 0], [197, 5, 3, "yes", 6, "3ft", "hyb", 40, 0], [197, 6, 1, "yes", 8, "2ft", "elec", 40, 0], [197, 6, 2, "yes", 8, "2ft", "gas", 40, 0], [197, 6, 3, "yes", 7, "3ft", "gas", 40, 1], [197, 7, 1, "yes", 6, "3ft", "elec", 30, 0], [197, 7, 2, "yes", 6, "2ft", "hyb", 35, 0], [197, 7, 3, "yes", 6, "2ft", "hyb", 30, 1], [197, 8, 1, "yes", 6, "2ft", "gas", 30, 0], [197, 8, 2, "yes", 8, "3ft", "gas", 40, 0], [197, 8, 3, "yes", 7, "3ft", "hyb", 40, 1], [197, 9, 1, "yes", 8, "3ft", "elec", 35, 0], [197, 9, 2, "yes", 7, "2ft", "hyb", 35, 0], [197, 9, 3, "yes", 6, "2ft", "elec", 40, 1], [197, 10, 1, "yes", 7, "3ft", "elec", 35, 1], [197, 10, 2, "yes", 8, "2ft", "hyb", 40, 0], [197, 10, 3, "yes", 8, "3ft", "elec", 40, 0], [197, 11, 1, "yes", 7, "3ft", "hyb", 35, 1], [197, 11, 2, "yes", 7, "2ft", "elec", 40, 0], [197, 11, 3, "yes", 7, "3ft", "elec", 40, 0], [197, 12, 1, "yes", 7, "2ft", "gas", 30, 1], [197, 12, 2, "yes", 7, "3ft", "gas", 35, 0], [197, 12, 3, "yes", 7, "2ft", "hyb", 30, 0], [197, 13, 1, "yes", 8, "3ft", "gas", 30, 1], [197, 13, 2, "yes", 7, "2ft", "elec", 30, 0], [197, 13, 3, "yes", 7, "3ft", "gas", 30, 0], [197, 14, 1, "yes", 8, "2ft", "elec", 35, 0], [197, 14, 2, "yes", 6, "3ft", "elec", 40, 1], [197, 14, 3, "yes", 6, "3ft", "elec", 35, 0], [197, 15, 1, "yes", 7, "2ft", "gas", 40, 0], [197, 15, 2, "yes", 8, "2ft", "gas", 30, 0], [197, 15, 3, "yes", 6, "3ft", "gas", 35, 1], [198, 1, 1, "no", 6, "2ft", "hyb", 35, 0], [198, 1, 2, "no", 7, "2ft", "elec", 40, 0], [198, 1, 3, "no", 6, "3ft", "gas", 35, 1], [198, 2, 1, "no", 7, "3ft", "hyb", 30, 1], [198, 2, 2, "no", 8, "2ft", "hyb", 30, 0], [198, 2, 3, "no", 6, "3ft", "hyb", 35, 0], [198, 3, 1, "no", 8, "3ft", "gas", 40, 1], [198, 3, 2, "no", 6, "2ft", "hyb", 40, 0], [198, 3, 3, "no", 7, "2ft", "gas", 35, 0], [198, 4, 1, "no", 8, "2ft", "elec", 40, 0], [198, 4, 2, "no", 8, "3ft", "elec", 40, 0], [198, 4, 3, "no", 6, "2ft", "gas", 30, 1], [198, 5, 1, "no", 7, "3ft", "gas", 40, 0], [198, 5, 2, "no", 7, "2ft", "gas", 30, 1], [198, 5, 3, "no", 8, "3ft", "gas", 35, 0], [198, 6, 1, "no", 8, "3ft", "hyb", 40, 1], [198, 6, 2, "no", 6, "3ft", "gas", 40, 0], [198, 6, 3, "no", 6, "3ft", "elec", 35, 0], [198, 7, 1, "no", 7, "3ft", "hyb", 40, 1], [198, 7, 2, "no", 8, "2ft", "hyb", 40, 0], [198, 7, 3, "no", 6, "2ft", "hyb", 30, 0], [198, 8, 1, "no", 7, "3ft", "gas", 35, 1], [198, 8, 2, "no", 6, "2ft", "gas", 40, 0], [198, 8, 3, "no", 8, "3ft", "elec", 35, 0], [198, 9, 1, "no", 8, "3ft", "hyb", 30, 1], [198, 9, 2, "no", 8, "2ft", "elec", 30, 0], [198, 9, 3, "no", 7, "2ft", "gas", 40, 0], [198, 10, 1, "no", 8, "2ft", "gas", 35, 0], [198, 10, 2, "no", 6, "2ft", "gas", 35, 1], [198, 10, 3, "no", 7, "2ft", "hyb", 40, 0], [198, 11, 1, "no", 6, "3ft", "gas", 30, 1], [198, 11, 2, "no", 7, "3ft", "elec", 40, 0], [198, 11, 3, "no", 7, "2ft", "hyb", 30, 0], [198, 12, 1, "no", 7, "2ft", "elec", 35, 0], [198, 12, 2, "no", 8, "2ft", "hyb", 35, 0], [198, 12, 3, "no", 6, "2ft", "elec", 30, 1], [198, 13, 1, "no", 7, "2ft", "elec", 30, 0], [198, 13, 2, "no", 8, "3ft", "hyb", 35, 0], [198, 13, 3, "no", 8, "2ft", "gas", 30, 1], [198, 14, 1, "no", 6, "3ft", "elec", 30, 0], [198, 14, 2, "no", 6, "3ft", "hyb", 30, 1], [198, 14, 3, "no", 7, "3ft", "hyb", 35, 0], [198, 15, 1, "no", 7, "3ft", "elec", 35, 0], [198, 15, 2, "no", 6, "3ft", "hyb", 40, 1], [198, 15, 3, "no", 8, "2ft", "elec", 35, 0], [199, 1, 1, "no", 6, "3ft", "elec", 35, 1], [199, 1, 2, "no", 8, "2ft", "elec", 30, 0], [199, 1, 3, "no", 8, "3ft", "elec", 40, 0], [199, 2, 1, "no", 6, "3ft", "elec", 40, 0], [199, 2, 2, "no", 8, "2ft", "hyb", 30, 0], [199, 2, 3, "no", 7, "3ft", "elec", 30, 1], [199, 3, 1, "no", 8, "2ft", "gas", 30, 0], [199, 3, 2, "no", 7, "2ft", "elec", 40, 0], [199, 3, 3, "no", 8, "3ft", "elec", 35, 1], [199, 4, 1, "no", 6, "2ft", "elec", 35, 1], [199, 4, 2, "no", 7, "2ft", "hyb", 35, 0], [199, 4, 3, "no", 6, "3ft", "hyb", 35, 0], [199, 5, 1, "no", 8, "2ft", "gas", 40, 0], [199, 5, 2, "no", 8, "2ft", "hyb", 35, 1], [199, 5, 3, "no", 6, "2ft", "hyb", 40, 0], [199, 6, 1, "no", 6, "3ft", "hyb", 40, 0], [199, 6, 2, "no", 8, "2ft", "elec", 35, 1], [199, 6, 3, "no", 6, "2ft", "elec", 40, 0], [199, 7, 1, "no", 7, "2ft", "gas", 40, 0], [199, 7, 2, "no", 6, "3ft", "gas", 40, 1], [199, 7, 3, "no", 8, "2ft", "hyb", 40, 0], [199, 8, 1, "no", 8, "3ft", "gas", 35, 1], [199, 8, 2, "no", 8, "3ft", "hyb", 40, 0], [199, 8, 3, "no", 6, "2ft", "gas", 35, 0], [199, 9, 1, "no", 7, "3ft", "hyb", 35, 0], [199, 9, 2, "no", 7, "2ft", "elec", 30, 1], [199, 9, 3, "no", 7, "3ft", "gas", 35, 0], [199, 10, 1, "no", 6, "3ft", "elec", 30, 1], [199, 10, 2, "no", 7, "3ft", "hyb", 40, 0], [199, 10, 3, "no", 6, "2ft", "hyb", 30, 0], [199, 11, 1, "no", 8, "3ft", "hyb", 30, 0], [199, 11, 2, "no", 6, "3ft", "gas", 35, 1], [199, 11, 3, "no", 8, "3ft", "elec", 30, 0], [199, 12, 1, "no", 7, "3ft", "gas", 40, 0], [199, 12, 2, "no", 8, "3ft", "gas", 30, 0], [199, 12, 3, "no", 7, "3ft", "elec", 35, 1], [199, 13, 1, "no", 6, "3ft", "gas", 30, 1], [199, 13, 2, "no", 7, "2ft", "elec", 35, 0], [199, 13, 3, "no", 7, "3ft", "gas", 30, 0], [199, 14, 1, "no", 7, "2ft", "gas", 30, 0], [199, 14, 2, "no", 7, "3ft", "elec", 40, 0], [199, 14, 3, "no", 7, "3ft", "hyb", 30, 1], [199, 15, 1, "no", 8, "2ft", "elec", 40, 0], [199, 15, 2, "no", 8, "3ft", "hyb", 35, 1], [199, 15, 3, "no", 7, "2ft", "hyb", 40, 0], [200, 1, 1, "no", 7, "3ft", "gas", 40, 0], [200, 1, 2, "no", 8, "2ft", "elec", 30, 0], [200, 1, 3, "no", 6, "3ft", "elec", 30, 1], [200, 2, 1, "no", 8, "3ft", "gas", 35, 1], [200, 2, 2, "no", 7, "2ft", "hyb", 30, 0], [200, 2, 3, "no", 6, "3ft", "gas", 30, 0], [200, 3, 1, "no", 8, "3ft", "hyb", 30, 1], [200, 3, 2, "no", 6, "3ft", "gas", 40, 0], [200, 3, 3, "no", 6, "3ft", "elec", 35, 0], [200, 4, 1, "no", 7, "2ft", "elec", 30, 0], [200, 4, 2, "no", 6, "2ft", "hyb", 30, 1], [200, 4, 3, "no", 6, "2ft", "elec", 35, 0], [200, 5, 1, "no", 8, "3ft", "elec", 30, 0], [200, 5, 2, "no", 6, "2ft", "hyb", 40, 0], [200, 5, 3, "no", 7, "2ft", "gas", 30, 1], [200, 6, 1, "no", 7, "3ft", "hyb", 30, 1], [200, 6, 2, "no", 8, "2ft", "hyb", 35, 0], [200, 6, 3, "no", 6, "3ft", "hyb", 40, 0], [200, 7, 1, "no", 6, "3ft", "hyb", 35, 1], [200, 7, 2, "no", 8, "3ft", "gas", 40, 0], [200, 7, 3, "no", 6, "2ft", "elec", 40, 0], [200, 8, 1, "no", 8, "2ft", "elec", 35, 0], [200, 8, 2, "no", 8, "2ft", "gas", 40, 1], [200, 8, 3, "no", 8, "3ft", "hyb", 35, 0], [200, 9, 1, "no", 7, "3ft", "gas", 30, 0], [200, 9, 2, "no", 8, "3ft", "gas", 30, 1], [200, 9, 3, "no", 7, "2ft", "elec", 40, 0], [200, 10, 1, "no", 8, "2ft", "hyb", 40, 1], [200, 10, 2, "no", 8, "2ft", "gas", 35, 0], [200, 10, 3, "no", 7, "2ft", "hyb", 40, 0], [200, 11, 1, "no", 6, "3ft", "elec", 40, 0], [200, 11, 2, "no", 6, "2ft", "gas", 30, 0], [200, 11, 3, "no", 8, "2ft", "hyb", 30, 1], [200, 12, 1, "no", 7, "2ft", "elec", 35, 0], [200, 12, 2, "no", 6, "3ft", "hyb", 30, 1], [200, 12, 3, "no", 8, "2ft", "elec", 40, 0], [200, 13, 1, "no", 7, "3ft", "elec", 40, 0], [200, 13, 2, "no", 7, "3ft", "elec", 30, 0], [200, 13, 3, "no", 6, "2ft", "gas", 40, 1], [200, 14, 1, "no", 6, "2ft", "gas", 35, 0], [200, 14, 2, "no", 7, "3ft", "gas", 35, 1], [200, 14, 3, "no", 7, "3ft", "hyb", 35, 0], [200, 15, 1, "no", 7, "2ft", "gas", 35, 0], [200, 15, 2, "no", 8, "3ft", "elec", 40, 0], [200, 15, 3, "no", 6, "3ft", "gas", 35, 1]];
+
+    // Define the dt_args
+    let dt_args = {"order": [], "fnInfoCallback": function (oSettings, iStart, iEnd, iMax, iTotal, sPre) { return sPre + ' (<a href="https://mwouts.github.io/itables/downsampling.html">downsampled</a> from 9,000x9 to 910x9 as maxBytes=65536)'; }};
+    dt_args["data"] = data;
+
+    $(document).ready(function () {
+        
+        $('#e14c8d69-74b9-4464-9170-0f99f1c383e8').DataTable(dt_args);
+    });
+</script>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Cojoint Variables
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li><code>resp.id</code>: Respondent identifier.</li>
+<li><code>ques</code>: Choice task number.</li>
+<li><code>alt</code>: Alternative number within the choice task.</li>
+<li><code>carpool</code>: Carpool option (yes/no).</li>
+<li><code>seat</code>: Number of seats (6, 7, 8).</li>
+<li><code>cargo</code>: Cargo space (2ft, 3ft).</li>
+<li><code>eng</code>: Engine type (gas, hybrid).</li>
+<li><code>price</code>: Price in thousands of dollars.</li>
+<li><code>choice</code>: Indicator for whether the alternative was chosen (1 if chosen, 0 otherwise).</li>
+</ul>
+</div>
+</div>
+</div>
+<p>The attributes (levels) were number of seats (6,7,8), cargo space (2ft, 3ft), engine type (gas, hybrid, electric), and price (in thousands of dollars).</p>
+<ul>
+<li>Number of respondents: 200</li>
+<li>Number of choice tasks per respondent: 15</li>
+<li>Number of alternatives presented in each choice task: 3</li>
+</ul>
+<p>Each respondent in the survey completed 15 choice tasks, with each task presenting 3 different alternatives to choose from.</p>
+</section>
+<section id="model" class="level3">
+<h3 class="anchored" data-anchor-id="model">Model</h3>
+<p>We’ll estimate an MNL model omitting the following levels to avoid multicollinearity:</p>
+<ul>
+<li><p>6 seats</p></li>
+<li><p>2ft cargo</p></li>
+<li><p>Gas engine</p></li>
+</ul>
+<p>The variables we will include in our model are:</p>
+<ul>
+<li><p><code>seat_7</code>: Dummy variable for 7 seats.</p></li>
+<li><p><code>seat_8</code>: Dummy variable for 8 seats.</p></li>
+<li><p><code>cargo_3ft</code>: Dummy variable for 3ft cargo space.</p></li>
+<li><p><code>eng_hyb</code>: Dummy variable for hybrid engine.</p></li>
+<li><p><code>price</code>: Continuous variable for price in thousands of dollars.</p></li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+conjoint_log_likelihood()
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="7bc90d1f" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> conjoint_log_likelihood(beta, data):</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Calculate the log-likelihood of the MNL model for the conjoint data.</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Parameters:</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">    beta (array): Array of coefficients [β_seat_7, β_seat_8, β_cargo_3ft, β_eng_hyb, β_price].</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">    data (DataFrame): The conjoint data with dummy variables.</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">    float: The log-likelihood value.</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    beta_seat_7, beta_seat_8, beta_cargo_3ft, beta_eng_hyb, beta_price <span class="op">=</span> beta</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'utility'</span>] <span class="op">=</span> (beta_seat_7 <span class="op">*</span> data[<span class="st">'seat_7'</span>] <span class="op">+</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>                       beta_seat_8 <span class="op">*</span> data[<span class="st">'seat_8'</span>] <span class="op">+</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>                       beta_cargo_3ft <span class="op">*</span> data[<span class="st">'cargo_3ft'</span>] <span class="op">+</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>                       beta_eng_hyb <span class="op">*</span> data[<span class="st">'eng_hyb'</span>] <span class="op">+</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>                       beta_price <span class="op">*</span> data[<span class="st">'price'</span>])</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'exp_utility'</span>] <span class="op">=</span> np.exp(data[<span class="st">'utility'</span>])</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'sum_exp_utility'</span>] <span class="op">=</span> data.groupby([<span class="st">'resp.id'</span>, <span class="st">'ques'</span>])[<span class="st">'exp_utility'</span>].transform(<span class="st">'sum'</span>)</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'probability'</span>] <span class="op">=</span> data[<span class="st">'exp_utility'</span>] <span class="op">/</span> data[<span class="st">'sum_exp_utility'</span>]</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'log_likelihood'</span>] <span class="op">=</span> data[<span class="st">'choice'</span>] <span class="op">*</span> np.log(data[<span class="st">'probability'</span>])</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span>data[<span class="st">'log_likelihood'</span>].<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<div id="0a1610df" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>initial_beta_conjoint <span class="op">=</span> np.zeros(<span class="dv">5</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>conjoint_result <span class="op">=</span> minimize(conjoint_log_likelihood, initial_beta_conjoint, args<span class="op">=</span>(conjoint_data,), method<span class="op">=</span><span class="st">'BFGS'</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>estimated_beta_conjoint <span class="op">=</span> conjoint_result.x</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>estimated_beta_conjoint</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="106">
+<pre><code>array([-0.48592307, -0.28346544,  0.41191849, -0.10548881, -0.15573405])</code></pre>
+</div>
+</div>
+<p>The estimated coefficients for the MNL model are as follows:</p>
+<ul>
+<li><p>beta seat 7: -0.486</p></li>
+<li><p>beta seat 8: -0.283</p></li>
+<li><p>beta cargo 3ft: 0.412</p></li>
+<li><p>beta hybrid engine: -0.105</p></li>
+<li><p>beta price: -0.156</p></li>
+</ul>
+</section>
+<section id="results" class="level3">
+<h3 class="anchored" data-anchor-id="results">Results</h3>
+<ol type="1">
+<li><p><strong>Seats:</strong></p>
+<ul>
+<li><p><strong>(7 seats):</strong> The negative coefficient suggests that 7 seats are less preferred compared to the baseline category (6 seats).</p></li>
+<li><p><strong>(8 seats):</strong> The negative coefficient suggests that 8 seats are also less preferred compared to 6 seats, but less so than 7 seats.</p></li>
+</ul></li>
+<li><p><strong>Cargo Space:</strong></p>
+<ul>
+<li><strong>(3ft cargo):</strong> The positive coefficient indicates that 3ft of cargo space is preferred over 2ft of cargo space.</li>
+</ul></li>
+<li><p><strong>Engine:</strong></p>
+<ul>
+<li><strong>(Hybrid Engine):</strong> The negative coefficient suggests that hybrid engines are less preferred compared to gas engines.</li>
+</ul></li>
+<li><p><strong>Price:</strong></p>
+<ul>
+<li><strong>(Price):</strong> The negative coefficient indicates that higher prices decrease the utility of the minivan, making it less likely to be chosen.</li>
+</ul></li>
+</ol>
+<div id="adee7405" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>conversion_factor_conjoint <span class="op">=</span> <span class="op">-</span><span class="dv">1</span> <span class="op">/</span> estimated_beta_conjoint[<span class="dv">4</span>]</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>utility_difference_cargo <span class="op">=</span> estimated_beta_conjoint[<span class="dv">2</span>]</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>monetary_value_cargo <span class="op">=</span> utility_difference_cargo <span class="op">*</span> conversion_factor_conjoint</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>monetary_value_cargo</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="107">
+<pre><code>2.645012364801245</code></pre>
+</div>
+</div>
+<p>The dollar value of having 3ft of cargo space compared to 2ft of cargo space is approximately $2,645. This means that, on average, consumers value the additional cargo space at $2,645.</p>
+<p>Let’s assume the market consists of the following 6 minivans.</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Minivan</th>
+<th>Seats</th>
+<th>Cargo</th>
+<th>Engine</th>
+<th>Price</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td>7</td>
+<td>2</td>
+<td>Hyb</td>
+<td>30</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td>6</td>
+<td>2</td>
+<td>Gas</td>
+<td>30</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td>8</td>
+<td>2</td>
+<td>Gas</td>
+<td>30</td>
+</tr>
+<tr class="even">
+<td>D</td>
+<td>7</td>
+<td>3</td>
+<td>Gas</td>
+<td>40</td>
+</tr>
+<tr class="odd">
+<td>E</td>
+<td>6</td>
+<td>2</td>
+<td>Elec</td>
+<td>40</td>
+</tr>
+<tr class="even">
+<td>F</td>
+<td>7</td>
+<td>2</td>
+<td>Hyb</td>
+<td>35</td>
+</tr>
+</tbody>
+</table>
+<p>We will use the estimated model to predict the market shares of these six minivans.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Code block
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="6108dff8" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>market_configurations <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'minivan'</span>: [<span class="st">'A'</span>, <span class="st">'B'</span>, <span class="st">'C'</span>, <span class="st">'D'</span>, <span class="st">'E'</span>, <span class="st">'F'</span>],</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'seat'</span>: [<span class="dv">7</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">6</span>, <span class="dv">7</span>],</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'cargo'</span>: [<span class="st">'2ft'</span>, <span class="st">'2ft'</span>, <span class="st">'2ft'</span>, <span class="st">'3ft'</span>, <span class="st">'2ft'</span>, <span class="st">'2ft'</span>],</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'eng'</span>: [<span class="st">'hyb'</span>, <span class="st">'gas'</span>, <span class="st">'gas'</span>, <span class="st">'gas'</span>, <span class="st">'elec'</span>, <span class="st">'hyb'</span>],</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">'price'</span>: [<span class="dv">30</span>, <span class="dv">30</span>, <span class="dv">30</span>, <span class="dv">40</span>, <span class="dv">40</span>, <span class="dv">35</span>]</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>market_configurations[<span class="st">'seat_7'</span>] <span class="op">=</span> (market_configurations[<span class="st">'seat'</span>] <span class="op">==</span> <span class="dv">7</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>market_configurations[<span class="st">'seat_8'</span>] <span class="op">=</span> (market_configurations[<span class="st">'seat'</span>] <span class="op">==</span> <span class="dv">8</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>market_configurations[<span class="st">'cargo_3ft'</span>] <span class="op">=</span> (market_configurations[<span class="st">'cargo'</span>] <span class="op">==</span> <span class="st">'3ft'</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>market_configurations[<span class="st">'eng_hyb'</span>] <span class="op">=</span> (market_configurations[<span class="st">'eng'</span>] <span class="op">==</span> <span class="st">'hyb'</span>).astype(<span class="bu">int</span>)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>market_configurations[<span class="st">'utility'</span>] <span class="op">=</span> (estimated_beta_conjoint[<span class="dv">0</span>] <span class="op">*</span> market_configurations[<span class="st">'seat_7'</span>] <span class="op">+</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>                                    estimated_beta_conjoint[<span class="dv">1</span>] <span class="op">*</span> market_configurations[<span class="st">'seat_8'</span>] <span class="op">+</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>                                    estimated_beta_conjoint[<span class="dv">2</span>] <span class="op">*</span> market_configurations[<span class="st">'cargo_3ft'</span>] <span class="op">+</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>                                    estimated_beta_conjoint[<span class="dv">3</span>] <span class="op">*</span> market_configurations[<span class="st">'eng_hyb'</span>] <span class="op">+</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>                                    estimated_beta_conjoint[<span class="dv">4</span>] <span class="op">*</span> market_configurations[<span class="st">'price'</span>])</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>market_configurations[<span class="st">'exp_utility'</span>] <span class="op">=</span> np.exp(market_configurations[<span class="st">'utility'</span>])</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>market_configurations[<span class="st">'market_share'</span>] <span class="op">=</span> market_configurations[<span class="st">'exp_utility'</span>] <span class="op">/</span> market_configurations[<span class="st">'exp_utility'</span>].<span class="bu">sum</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+<p><em>Note: Our professor took this example from the “R 4 Marketing Research” book by Chapman and Feit.</em> 🙂</p>
+<p>The predicted market shares for the six minivan configurations are as follows:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Minivan</th>
+<th>Market Share</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td>18.66%</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td>33.70%</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td>25.38%</td>
+</tr>
+<tr class="even">
+<td>D</td>
+<td>6.59%</td>
+</tr>
+<tr class="odd">
+<td>E</td>
+<td>7.10%</td>
+</tr>
+<tr class="even">
+<td>F</td>
+<td>8.56%</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p><strong>Minivan B</strong> (6 seats, 2ft cargo, gas engine, $30k) has the highest predicted market share at 33.70%.</p></li>
+<li><p><strong>Minivan C</strong> (8 seats, 2ft cargo, gas engine, $30k) and <strong>Minivan A</strong> (7 seats, 2ft cargo, hybrid engine, $30k) also have substantial market shares at 25.38% and 18.66%, respectively.</p></li>
+<li><p>Minivans with higher prices or different engine types (like hybrid or electric) tend to have lower market shares.</p></li>
+</ul>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
