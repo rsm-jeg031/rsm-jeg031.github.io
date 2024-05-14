@@ -2,6 +2,9 @@
 title: "Multinomial Logit Examples"
 author: "Jesus Gonzalez"
 date: May 16, 2024
+html-math-method:
+  method: mathjax
+  url: "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
 ---
 
 
@@ -72,7 +75,9 @@ show(yogurt_data)
 
 Let the vector of product features include brand dummy variables for yogurts 1-3 (we'll omit a dummy for product 4 to avoid multi-collinearity), a dummy variable to indicate if a yogurt was featured, and a continuous variable for the yogurts' prices:  
 
-$$ x_j' = [\mathbbm{1}(\text{Yogurt 1}), \mathbbm{1}(\text{Yogurt 2}), \mathbbm{1}(\text{Yogurt 3}), X_f, X_p] $$
+$$
+x_j' = [\mathbf{1}(\text{Yogurt 1}), \mathbf{1}(\text{Yogurt 2}), \mathbf{1}(\text{Yogurt 3}), X_f, X_p]
+$$
 
 The "hard part" of the MNL likelihood function is organizing the data, as we need to keep track of 3 dimensions (consumer $i$, covariate $k$, and product $j$) instead of the typical 2 dimensions for cross-sectional regression models (consumer $i$ and covariate $k$). 
 
