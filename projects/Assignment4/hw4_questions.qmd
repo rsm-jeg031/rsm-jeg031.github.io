@@ -1,0 +1,16 @@
+---
+title: "Key Drivers Analysis"
+author: "Jesus Gonzalez"
+date: May 30, 2024
+---
+
+
+This post implements a few measure of variable importance, interpreted as a key drivers analysis, for certain aspects of a payment card on customer satisfaction with that payment card.
+
+# 🚧 Work in progress 👷
+
+
+
+
+
+

@@ -296,7 +296,7 @@ Interactive Raw Yogurt Dataset
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="d99fa82b" class="cell" data-execution_count="2">
+<div id="33a42197" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div>
 <style>.itables table td {
@@ -323,7 +323,7 @@ Interactive Raw Yogurt Dataset
 </style>
 <div class="itables">
 
-<table id="9562467d-bfa1-431f-879c-222aba91d61b" class="display nowrap table table-sm table-striped small" data-quarto-postprocess="true">
+<table id="2d3cde93-4eef-4be9-a902-e2fac8ab061b" class="display nowrap table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header" style="text-align: right;">
 <th data-quarto-table-cell-role="th">id</th>
@@ -376,7 +376,7 @@ Interactive Raw Yogurt Dataset
 
     $(document).ready(function () {
         
-        $('#9562467d-bfa1-431f-879c-222aba91d61b').DataTable(dt_args);
+        $('#2d3cde93-4eef-4be9-a902-e2fac8ab061b').DataTable(dt_args);
     });
 </script>
 </div>
@@ -404,7 +404,7 @@ Interactive Cleaned Yogurt Dataset
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="e634bfe4" class="cell" data-execution_count="3">
+<div id="84ce26e4" class="cell" data-execution_count="3">
 <div class="cell-output cell-output-display">
 <div>
 <style>.itables table td {
@@ -431,7 +431,7 @@ Interactive Cleaned Yogurt Dataset
 </style>
 <div class="itables">
 
-<table id="5677f775-e3ea-4b15-b209-9194d071bfd0" class="display nowrap table table-sm table-striped small" data-quarto-postprocess="true">
+<table id="b8fca3ce-4912-4a72-a7cc-94830668085e" class="display nowrap table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header" style="text-align: right;">
 <th data-quarto-table-cell-role="th">id</th>
@@ -468,7 +468,7 @@ Interactive Cleaned Yogurt Dataset
 
     $(document).ready(function () {
         
-        $('#5677f775-e3ea-4b15-b209-9194d071bfd0').DataTable(dt_args);
+        $('#b8fca3ce-4912-4a72-a7cc-94830668085e').DataTable(dt_args);
     });
 </script>
 </div>
@@ -493,7 +493,7 @@ log_likelihood()
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="5b3dc0e2" class="cell" data-execution_count="4">
+<div id="8e1c9424" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log_likelihood(beta, data):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Calculate the log-likelihood of the MNL model.</span></span>
@@ -523,19 +523,19 @@ log_likelihood()
 </div>
 </div>
 </div>
-<div id="af78469d" class="cell" data-execution_count="5">
+<div id="80a16dc9" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>initial_beta <span class="op">=</span> np.zeros(<span class="dv">5</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>log_likelihood(initial_beta, yogurt_long)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="20">
+<div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>3368.6952975213344</code></pre>
 </div>
 </div>
 <p>Using <code>optim()</code> in R or <code>optimize()</code> in Python to find the MLEs for the 5 parameters (<span class="math inline">\(\beta_1, \beta_2, \beta_3, \beta_f, \beta_p\)</span>).</p>
-<div id="c9ee6c64" class="cell" data-execution_count="6">
+<div id="30c5469d" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> minimize(log_likelihood, initial_beta, args<span class="op">=</span>(yogurt_long,), method<span class="op">=</span><span class="st">'BFGS'</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>estimated_beta <span class="op">=</span> result.x</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>estimated_beta</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="21">
+<div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>array([  1.38775332,   0.64350491,  -3.08611501,   0.48741354,
        -37.05792291])</code></pre>
 </div>
@@ -555,12 +555,12 @@ log_likelihood()
 <li><p><strong>Price (<span class="math inline">\(\beta_p\)</span>):</strong> The large negative coefficient -37.058 indicates a strong negative effect of price on the utility, meaning higher prices significantly reduce the likelihood of a yogurt being chosen.</p></li>
 </ol>
 <p>Using the estimated price coefficient as a dollar-per-util conversion to calculate the dollar benefit between the most-preferred yogurt (the one with the highest intercept) and the least preferred yogurt (the one with the lowest intercept). This is a per-unit monetary measure of brand value.</p>
-<div id="f2acc392" class="cell" data-execution_count="7">
+<div id="9f4a3a45" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>conversion_factor <span class="op">=</span> <span class="op">-</span><span class="dv">1</span> <span class="op">/</span> estimated_beta[<span class="dv">4</span>]</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>utility_difference <span class="op">=</span> estimated_beta[<span class="dv">0</span>] <span class="op">-</span> estimated_beta[<span class="dv">2</span>]</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>monetary_value <span class="op">=</span> utility_difference <span class="op">*</span> conversion_factor</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>monetary_value</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="22">
+<div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>0.12072636520970716</code></pre>
 </div>
 </div>
@@ -580,7 +580,7 @@ predict_market_shares()
 </div>
 <div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="d55e6bfa" class="cell" data-execution_count="8">
+<div id="5a445726" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict_market_shares(beta, data):</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Predict market shares using the estimated beta coefficients.</span></span>
@@ -610,8 +610,8 @@ predict_market_shares()
 </div>
 </div>
 </div>
-<div id="47ceb1a3" class="cell" data-execution_count="9">
-<div class="cell-output cell-output-display" data-execution_count="24">
+<div id="56ec2c4e" class="cell" data-execution_count="9">
+<div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>(   product  market_share
  0        1      0.341975
  1        2      0.401235
@@ -659,7 +659,7 @@ Interactive Conjoint Dataset
 </div>
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="cc68f7aa" class="cell" data-execution_count="10">
+<div id="2fe4d95b" class="cell" data-execution_count="10">
 <div class="cell-output cell-output-display">
 <div>
 <style>.itables table td {
@@ -686,7 +686,7 @@ Interactive Conjoint Dataset
 </style>
 <div class="itables">
 
-<table id="f2826771-0b0a-441c-b5f5-6e5b4f6b8a66" class="display nowrap table table-sm table-striped small" data-quarto-postprocess="true">
+<table id="7716e94a-946d-44c9-a50c-e6c1f9442126" class="display nowrap table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header" style="text-align: right;">
 <th data-quarto-table-cell-role="th">resp.id</th>
@@ -731,7 +731,7 @@ Interactive Conjoint Dataset
 
     $(document).ready(function () {
         
-        $('#f2826771-0b0a-441c-b5f5-6e5b4f6b8a66').DataTable(dt_args);
+        $('#7716e94a-946d-44c9-a50c-e6c1f9442126').DataTable(dt_args);
     });
 </script>
 </div>
@@ -803,7 +803,7 @@ conjoint_log_likelihood()
 </div>
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="32c5b93e" class="cell" data-execution_count="12">
+<div id="1945a062" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> conjoint_log_likelihood(beta, data):</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Calculate the log-likelihood of the MNL model for the conjoint data.</span></span>
@@ -830,12 +830,12 @@ conjoint_log_likelihood()
 </div>
 </div>
 </div>
-<div id="50d4e7fe" class="cell" data-execution_count="13">
+<div id="f0efa1ab" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>initial_beta_conjoint <span class="op">=</span> np.zeros(<span class="dv">5</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>conjoint_result <span class="op">=</span> minimize(conjoint_log_likelihood, initial_beta_conjoint, args<span class="op">=</span>(conjoint_data,), method<span class="op">=</span><span class="st">'BFGS'</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>estimated_beta_conjoint <span class="op">=</span> conjoint_result.x</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>estimated_beta_conjoint</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="28">
+<div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>array([-0.48592307, -0.28346544,  0.41191849, -0.10548881, -0.15573405])</code></pre>
 </div>
 </div>
@@ -869,12 +869,12 @@ conjoint_log_likelihood()
 <li><strong>(Price):</strong> The negative coefficient indicates that higher prices decrease the utility of the minivan, making it less likely to be chosen.</li>
 </ul></li>
 </ol>
-<div id="d1295e34" class="cell" data-execution_count="14">
+<div id="5d8875ba" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>conversion_factor_conjoint <span class="op">=</span> <span class="op">-</span><span class="dv">1</span> <span class="op">/</span> estimated_beta_conjoint[<span class="dv">4</span>]</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>utility_difference_cargo <span class="op">=</span> estimated_beta_conjoint[<span class="dv">2</span>]</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>monetary_value_cargo <span class="op">=</span> utility_difference_cargo <span class="op">*</span> conversion_factor_conjoint</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>monetary_value_cargo</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="29">
+<div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>2.645012364801245</code></pre>
 </div>
 </div>
@@ -948,7 +948,7 @@ Code block
 </div>
 <div id="callout-8" class="callout-8-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div id="83c9efe8" class="cell" data-execution_count="15">
+<div id="b1aaa6b2" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>market_configurations <span class="op">=</span> pd.DataFrame({</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'minivan'</span>: [<span class="st">'A'</span>, <span class="st">'B'</span>, <span class="st">'C'</span>, <span class="st">'D'</span>, <span class="st">'E'</span>, <span class="st">'F'</span>],</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'seat'</span>: [<span class="dv">7</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">7</span>, <span class="dv">6</span>, <span class="dv">7</span>],</span>
