@@ -4,13 +4,546 @@ author: "Jesus Gonzalez"
 date: May 30, 2024
 ---
 
+```{python}
+#| echo: false
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import warnings
+warnings.filterwarnings('ignore')
+from itables import show
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import StandardScaler
+from sklearn.inspection import permutation_importance
+import shap
+from sklearn.ensemble import RandomForestRegressor
+import xgboost as xgb
+```
 
-This post implements a few measure of variable importance, interpreted as a key drivers analysis, for certain aspects of a payment card on customer satisfaction with that payment card.
+### 1. Introduction
 
-# 🚧 Work in progress 👷
+#### Overview
+In today's competitive financial landscape, understanding the factors that drive customer satisfaction with payment cards is crucial for businesses. This article delves into the analysis of survey data collected to gauge customer perceptions and satisfaction related to various aspects of payment cards. By examining these perceptions, companies can better tailor their offerings to meet customer needs and enhance satisfaction.
+
+#### Dataset Description
+The dataset used in this analysis comprises survey responses from customers regarding their experiences and satisfaction with different payment cards. The survey includes questions about various features of the cards, such as trustworthiness, ease of use, rewards, and customer service. Each response is associated with several variables representing these features, along with an overall satisfaction score.
+
+#### Objective
+The primary objective of this article is to explore and compare different methods for calculating the importance of various features (variables) in determining customer satisfaction. Understanding which features most significantly impact satisfaction can provide valuable insights for businesses aiming to improve their payment card products and services. The methods explored in this analysis include Pearson correlations, standardized regression coefficients, Shapley values, permutation importance, Johnson's relative weights, mean decrease in Gini coefficient, and XGBoost feature importance.
+
+### 2. Data Description
+
+#### Source of Data
+The survey data was provided by Professor Dan Yavorsky at the University of California, San Diego (UCSD) as part of a school-related project. 
+
+#### Key Variables
+The dataset includes several key variables that represent different aspects of payment cards, as reported by survey respondents. These variables include:
+
+- **trust**: Indicates whether the card is offered by a trusted brand.
+- **build**: Represents how well the card helps build credit quickly.
+- **differs**: Measures the uniqueness of the card compared to others.
+- **easy**: Assesses the ease of use of the card.
+- **appealing**: Reflects the appeal of the card's benefits or rewards.
+- **rewarding**: Captures the extent to which the card rewards responsible usage.
+- **popular**: Indicates how commonly the card is used by others.
+- **service**: Evaluates the quality of customer service provided.
+- **impact**: Measures the overall impact the card has on the user's life.
+
+Each variable is a binary or categorical representation of the survey responses, along with an overall satisfaction score for each respondent.
+
+#### Data Sample
+To give a snapshot of the dataset, below is an interactive dataset:
+
+::: {.callout-note collapse="true"}
+#### Survey Data
+```{python}
+#| echo: false
+data = pd.read_csv("../../files/Assignment4/data_for_drivers_analysis.csv")
+show(data)
+```
+::::
+
+- **Number of Rows**: 2553
+- **Number of Columns**: 12
+
+### 3. Methods for Calculating Feature Importance
+
+#### Introduction to Methods
+Understanding which features most significantly influence customer satisfaction is crucial for businesses aiming to enhance their payment card offerings. In this section, we explore various methods to calculate the importance of different features (variables) in determining overall satisfaction. Each method offers a unique perspective on feature importance, and by comparing them, we can gain a comprehensive understanding of the factors that matter most to customers.
+
+The methods explored in this analysis include:
+
+- **Pearson Correlations**: Measures the linear relationship between each feature and customer satisfaction.
+- **Standardized Regression Coefficients**: Provides insights from a linear regression model, indicating the relative contribution of each standardized feature to the prediction of satisfaction.
+- **Usefulness (Shapley Values)**: Uses cooperative game theory to fairly distribute the "payout" (importance) among features.
+- **Usefulness (Permutation Importance)**: Assesses the change in model performance when the values of a feature are randomly shuffled.
+- **Johnson's Relative Weights**: Decomposes the multiple correlation coefficient to determine the relative contribution of each predictor.
+- **Mean Decrease in Gini Coefficient**: Measures feature importance in a Random Forest model based on the decrease in node impurity.
+- **XGBoost Feature Importance**: Uses the XGBoost algorithm to calculate feature importance based on the gain in performance each feature provides.
+
+In the following subsections, we will delve into each method, describing how it works, how it was implemented in this analysis, and the results obtained.
+
+#### 3.1 Pearson Correlations
+
+**Description**: 
+Pearson correlation is a statistical measure that calculates the strength and direction of the linear relationship between two variables. The Pearson correlation coefficient ranges from -1 to 1, where:
+
+- 1 indicates a perfect positive linear relationship,
+
+- -1 indicates a perfect negative linear relationship, and
+
+- 0 indicates no linear relationship.
+
+In the context of this analysis, Pearson correlations help us understand how each feature (e.g., trust, ease of use) is related to overall customer satisfaction.
+
+**Implementation**: 
+To calculate the Pearson correlations for this dataset, we used the `pandas` library in Python. Specifically, we computed the correlation between the `satisfaction` variable and each of the other features. The steps are as follows:
+
+1. Load the dataset into a pandas DataFrame.
+
+2. Use the `corr` method with the `pearson` argument to calculate the Pearson correlation coefficient between `satisfaction` and each feature.
+
+Here is a snippet of the code used:
+```python
+import pandas as pd
+
+# Load the dataset
+data = pd.read_csv('data_for_drivers_analysis.csv')
+
+# Calculate Pearson correlations
+pearson_correlations = data.corr(method='pearson')['satisfaction'].drop('satisfaction').sort_index()
+```
+
+**Results**: 
+The Pearson correlation coefficients for the features are as follows:
+
+| Feature     | Pearson Correlation |
+|-------------|---------------------|
+| brand       | -0.0493             |
+| trust       | 0.2557              |
+| build       | 0.1919              |
+| differs     | 0.1848              |
+| easy        | 0.2130              |
+| appealing   | 0.2080              |
+| rewarding   | 0.1946              |
+| popular     | 0.1714              |
+| service     | 0.2511              |
+| impact      | 0.2545              |
+
+These results indicate that the features `trust`, `service`, and `impact` have the highest positive correlations with customer satisfaction. Conversely, the feature `brand` shows a slight negative correlation with satisfaction, indicating that it might not be a significant driver of satisfaction in this context.
+
+#### 3.2 Standardized Regression Coefficients
+
+**Description**: 
+Standardized regression coefficients, also known as beta coefficients, are the coefficients obtained from a linear regression model when all variables have been standardized (i.e., converted to have a mean of 0 and a standard deviation of 1). These coefficients allow for the comparison of the relative importance of each predictor variable in the model. The higher the absolute value of the standardized coefficient, the greater the impact of that variable on the dependent variable (in this case, customer satisfaction).
+
+**Implementation**: 
+To calculate standardized regression coefficients, we followed these steps:
+
+1. Standardize all predictor variables and the dependent variable using the `StandardScaler` from the `sklearn.preprocessing` module.
+
+2. Fit a linear regression model using the standardized variables.
+
+3. Extract the coefficients from the model, which are the standardized regression coefficients.
+
+Here is a snippet of the code used:
+```python
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import StandardScaler
+
+# Standardize the features
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(data.drop(columns=['satisfaction', 'id']))
+y_scaled = scaler.fit_transform(data[['satisfaction']])
+
+# Fit the linear regression model
+model = LinearRegression()
+model.fit(X_scaled, y_scaled)
+
+# Get the standardized regression coefficients
+standardized_coefficients = pd.Series(model.coef_[0], index=data.columns.drop(['satisfaction', 'id']))
+```
+
+**Results**: 
+The standardized regression coefficients for the features are as follows:
+
+| Feature     | Standardized Coefficient |
+|-------------|--------------------------|
+| brand       | 0.0121                   |
+| trust       | 0.1357                   |
+| build       | 0.0228                   |
+| differs     | 0.0333                   |
+| easy        | 0.0264                   |
+| appealing   | 0.0413                   |
+| rewarding   | 0.0065                   |
+| popular     | 0.0203                   |
+| service     | 0.1031                   |
+| impact      | 0.1508                   |
+
+These results show that `impact`, `trust`, and `service` have the largest standardized regression coefficients, indicating that they have the greatest relative importance in predicting customer satisfaction. The feature `brand`, on the other hand, has the smallest coefficient, suggesting it has a minimal impact on satisfaction compared to the other features.
+
+#### 3.3 Usefulness (Shapley Values)
+
+**Description**: 
+Shapley values, derived from cooperative game theory, are used to fairly distribute the "payout" (or importance) among players (or features) based on their contributions. In feature importance analysis, Shapley values quantify the contribution of each feature to the predictions made by a model. They are advantageous because they consider all possible combinations of features, providing a thorough assessment of each feature's importance.
+
+**Implementation**: 
+To calculate Shapley values for this dataset, we used the `shap` library in Python. The steps involved are:
+
+1. Train a linear regression model using the dataset.
+
+2. Use the `shap.Explainer` to calculate Shapley values for each feature in the model.
+
+3. Compute the mean absolute Shapley values to determine the importance of each feature.
+
+Here is the code used:
+```python
+import shap
+from sklearn.linear_model import LinearRegression
+import pandas as pd
+import numpy as np
+
+# Train a linear regression model for SHAP values
+model_shap = LinearRegression()
+model_shap.fit(X, y)
+
+# Calculate SHAP values
+explainer = shap.Explainer(model_shap, X)
+shap_values = explainer(X)
+
+# Calculate the mean absolute Shapley values for each feature
+shapley_values = pd.Series(np.abs(shap_values.values).mean(axis=0), index=X.columns)
+
+# Display the Shapley values
+shapley_values.sort_values(ascending=False)
+```
+
+**Results**: 
+The Shapley values for the features are as follows:
+
+| Feature     | Shapley Value |
+|-------------|---------------|
+| trust       | 0.136622      |
+| impact      | 0.130991      |
+| service     | 0.101534      |
+| appealing   | 0.040723      |
+| differs     | 0.029423      |
+| easy        | 0.026634      |
+| build       | 0.022562      |
+| popular     | 0.020249      |
+| brand       | 0.010036      |
+| rewarding   | 0.006399      |
+
+These results indicate that `trust`, `impact`, and `service` are the most influential features in determining customer satisfaction, as indicated by their high Shapley values. This finding is consistent with other methods used in the analysis, further emphasizing the importance of these features.
+
+#### 3.4 Usefulness (Permutation Importance)
+
+**Description**: 
+Permutation importance is a model-agnostic method for estimating the importance of features. It involves randomly shuffling the values of each feature and observing the impact on the model's performance. The idea is that if a feature is important, permuting its values should lead to a significant decrease in the model's performance. This method is particularly useful in machine learning because it provides insights into the contribution of each feature without being tied to a specific model.
+
+**Implementation**: 
+To calculate permutation importance for this dataset, we followed these steps:
+
+1. Train a linear regression model using the dataset.
+
+2. Apply the permutation importance method, which involves shuffling each feature's values and measuring the change in the model's performance.
+
+3. Compute the mean decrease in performance for each feature, which represents its importance.
+
+Here is a snippet of the code used:
+```python
+from sklearn.linear_model import LinearRegression
+from sklearn.inspection import permutation_importance
+
+# Train the linear regression model
+model = LinearRegression()
+model.fit(X, y)
+
+# Calculate permutation feature importance
+result = permutation_importance(model, X, y, n_repeats=10, random_state=42)
+
+# Create a Series for the feature importances
+permutation_importances = pd.Series(result.importances_mean, index=X.columns)
+
+# Display the permutation importances
+permutation_importances.sort_values(ascending=False)
+```
+
+**Results**: 
+The permutation importance values for the features are as follows:
+
+| Feature     | Permutation Importance |
+|-------------|------------------------|
+| impact      | 0.033393               |
+| trust       | 0.027346               |
+| service     | 0.016385               |
+| appealing   | 0.002693               |
+| differs     | 0.001756               |
+| easy        | 0.001021               |
+| build       | 0.000988               |
+| popular     | 0.000474               |
+| brand       | 0.000438               |
+| rewarding   | 0.000125               |
+
+These results indicate that `impact`, `trust`, and `service` have the highest permutation importance values, suggesting they are the most influential features in determining customer satisfaction. This aligns with the findings from the Shapley values and standardized regression coefficients, reinforcing the importance of these features.
+
+#### 3.5 Johnson's Relative Weights
+
+**Description**: 
+Johnson's relative weights are used in regression analysis to determine the relative contribution of each predictor variable to the total variance explained by the model. This method decomposes the multiple correlation coefficient to assess how much each predictor contributes, accounting for the multicollinearity among predictors. It provides a clear and interpretable measure of the importance of each feature.
+
+**Mathematical Equation**: 
+To compute Johnson's relative weights, we follow these steps:
+
+Here is the text formatted for Quarto, ensuring that the math equations render correctly:
+
+1. Calculate the correlation matrix \((R)\) for the predictors:
+   $$
+   R = \text{corr}(X)
+   $$
+
+2. Compute the correlation vector \((r_{yx})\) between the predictors and the dependent variable \((y)\):
+   $$
+   r_{yx} = \text{corr}(X, y)
+   $$
+
+3. Perform an eigenvalue decomposition of the correlation matrix to obtain eigenvalues \((\Lambda)\) and eigenvectors \((V)\):
+   $$
+   R = V \Lambda V^{-1}
+   $$
+
+4. Calculate the squared semipartial correlations \((r_{*}^{2})\) of each predictor with the dependent variable, adjusting for multicollinearity:
+   $$
+   y^{*} = V^{-1} r_{yx}
+   $$
+   $$
+   r_{*}^{2} = y^{*} y^{* T}
+   $$
+
+5. Normalize these values to get the relative weights \((w_i)\):
+   $$
+   w_i = \frac{r_{*i}^2}{\sum_{i} r_{*i}^2}
+   $$
+
+**Implementation**: 
+Here is the code used to compute Johnson's relative weights:
+```python
+import numpy as np
+
+# Function to calculate Johnson's relative weights
+def calculate_relative_weights(X, y):
+    corr_matrix = np.corrcoef(X, rowvar=False)
+    r_yx = np.corrcoef(X, y, rowvar=False)[-1, :-1]
+    r_sq = r_yx @ np.linalg.inv(corr_matrix) @ r_yx.T
+    eigenvalues, eigenvectors = np.linalg.eig(corr_matrix)
+    y_star = r_yx @ eigenvectors / np.sqrt(eigenvalues)
+    r_star_sq = y_star @ y_star.T
+    raw_relative_weights = r_star_sq / r_sq
+    relative_weights = raw_relative_weights / raw_relative_weights.sum()
+    return pd.Series(relative_weights, index=X.columns)
+
+# Calculate Johnson's relative weights
+johnsons_weights = calculate_relative_weights(X, y)
+
+# Display the relative weights
+johnsons_weights.sort_values(ascending=False)
+```
+
+**Results**: 
+The Johnson's relative weights for the features are as follows:
+
+| Feature     | Relative Weight |
+|-------------|-----------------|
+| impact      | 0.426861        |
+| trust       | 0.313095        |
+| service     | 0.175486        |
+| appealing   | 0.028907        |
+| differs     | 0.021672        |
+| easy        | 0.011538        |
+| build       | 0.009565        |
+| popular     | 0.008361        |
+| brand       | 0.003803        |
+| rewarding   | 0.000711        |
+
+These results show that `impact`, `trust`, and `service` have the highest relative weights, indicating that they are the most significant features in explaining the variance in customer satisfaction. This further confirms the findings from the previous methods, highlighting the importance of these features.
+
+#### 3.6 Mean Decrease in Gini Coefficient
+
+**Description**: 
+The mean decrease in Gini coefficient is a metric used in Random Forest models to measure the importance of each feature. In the context of decision trees, the Gini impurity measures the likelihood of an incorrect classification of a randomly chosen element. The mean decrease in Gini coefficient indicates how much each feature contributes to reducing the impurity, with higher values signifying greater importance. This metric helps in identifying the most influential features in predicting the target variable.
+
+**Implementation**: 
+To calculate the mean decrease in Gini coefficient, we followed these steps:
+
+1. Train a Random Forest model using the dataset.
+
+2. Extract the feature importances from the model, which represent the mean decrease in Gini coefficient for each feature.
+
+Here is a snippet of the code used:
+```python
+from sklearn.ensemble import RandomForestRegressor
+
+# Train a random forest model
+rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
+rf_model.fit(X, y)
+
+# Calculate feature importances (mean decrease in Gini coefficient)
+rf_importances = pd.Series(rf_model.feature_importances_, index=X.columns)
+
+# Display the feature importances
+rf_importances.sort_values(ascending=False)
+```
+
+**Results**: 
+The mean decrease in Gini coefficient for the features are as follows:
+
+| Feature     | Mean Decrease in Gini |
+|-------------|------------------------|
+| brand       | 0.266676               |
+| trust       | 0.090872               |
+| popular     | 0.089204               |
+| build       | 0.086096               |
+| rewarding   | 0.082906               |
+| easy        | 0.081621               |
+| service     | 0.081490               |
+| impact      | 0.079966               |
+| differs     | 0.072536               |
+| appealing   | 0.068633               |
+
+These results show that `brand`, `trust`, and `popular` have the highest mean decrease in Gini coefficient values, suggesting they are the most influential features in reducing impurity in the Random Forest model. This indicates that these features play a significant role in predicting customer satisfaction in the context of this model.
+
+#### 3.7 XGBoost Feature Importance
+
+**Description**: 
+XGBoost is a powerful gradient boosting framework widely used for supervised learning tasks. It builds an ensemble of decision trees in a sequential manner, where each tree corrects the errors of the previous ones. Feature importance in XGBoost is determined based on the improvement in the model’s performance each feature provides when it is used to split the data. This can be quantified by metrics such as gain, cover, and frequency. In this analysis, we focus on the gain metric, which measures the improvement in accuracy brought by a feature to the branches it is on.
+
+**Implementation**: 
+To derive feature importance using the XGBoost model, we followed these steps:
+
+1. Train an XGBoost regression model using the dataset.
+
+2. Extract the feature importances from the model based on the gain metric.
+
+Here is a snippet of the code used:
+```python
+import xgboost as xgb
+
+# Train an XGBoost model
+xgb_model = xgb.XGBRegressor(objective='reg:squarederror', random_state=42)
+xgb_model.fit(X, y)
+
+# Get feature importances from the XGBoost model
+xgb_importances = pd.Series(xgb_model.feature_importances_, index=X.columns)
+
+# Display the feature importances
+xgb_importances.sort_values(ascending=False)
+```
+
+**Results**: 
+The XGBoost feature importance values for the features are as follows:
+
+| Feature     | XGBoost Feature Importance |
+|-------------|----------------------------|
+| trust       | 0.200411                   |
+| impact      | 0.155718                   |
+| service     | 0.093874                   |
+| brand       | 0.093745                   |
+| build       | 0.079080                   |
+| popular     | 0.077944                   |
+| differs     | 0.076992                   |
+| rewarding   | 0.076080                   |
+| appealing   | 0.074944                   |
+| easy        | 0.071211                   |
+
+These results indicate that `trust`, `impact`, and `service` have the highest feature importance values in the XGBoost model, suggesting they are the most influential features in predicting customer satisfaction. This is consistent with the findings from other methods, reinforcing the importance of these features.
+
+### 4. Comparative Analysis
+
+#### Summary Table
+Below is the summary table that consolidates the importance metrics from all the methods discussed:
+
+| Feature     | Pearson Correlations | Standardized Regression Coefficients | Shapley Values | Permutation Importance | Johnson's Relative Weights | Mean Decrease in Gini Coefficient | XGBoost Feature Importance |
+|-------------|----------------------|--------------------------------------|----------------|------------------------|----------------------------|----------------------------------|----------------------------|
+| brand       | -0.049296            | 0.012083                             | 0.010036       | 0.000438               | 0.003803                   | 0.266676                         | 0.093745                   |
+| trust       | 0.255706             | 0.135680                             | 0.136622       | 0.027346               | 0.313095                   | 0.090872                         | 0.200411                   |
+| build       | 0.191896             | 0.022809                             | 0.022562       | 0.000988               | 0.009565                   | 0.086096                         | 0.079080                   |
+| differs     | 0.184801             | 0.033271                             | 0.029423       | 0.001756               | 0.021672                   | 0.072536                         | 0.076992                   |
+| easy        | 0.212985             | 0.026449                             | 0.026634       | 0.001021               | 0.011538                   | 0.081621                         | 0.071211                   |
+| appealing   | 0.207997             | 0.041336                             | 0.040723       | 0.002693               | 0.028907                   | 0.068633                         | 0.074944                   |
+| rewarding   | 0.194561             | 0.006482                             | 0.006399       | 0.000125               | 0.000711                   | 0.082906                         | 0.076080                   |
+| popular     | 0.171425             | 0.020254                             | 0.020249       | 0.000474               | 0.008361                   | 0.089204                         | 0.077944                   |
+| service     | 0.251098             | 0.103069                             | 0.101534       | 0.016385               | 0.175486                   | 0.081490                         | 0.093874                   |
+| impact      | 0.254539             | 0.150809                             | 0.130991       | 0.033393               | 0.426861                   | 0.079966                         | 0.155718                   |
+
+#### Discussion
+The comparative analysis of different feature importance methods reveals both consistencies and discrepancies. Here are some key observations:
+
+1. **Consistencies**:
+   - **Trust, Impact, and Service**: These features consistently rank high across multiple methods. `Trust` has the highest Shapley value and XGBoost feature importance, and it also ranks high in Pearson correlations and Johnson's relative weights. `Impact` similarly ranks high across Shapley values, standardized regression coefficients, and Johnson's relative weights. `Service` is also consistently important across these methods.
+   - **Brand**: This feature shows a high mean decrease in Gini coefficient, indicating it significantly reduces impurity in the Random Forest model. However, it has low importance in other methods, suggesting that its influence might be model-specific.
+
+2. **Discrepancies**:
+   - **Popular**: This feature shows a high mean decrease in Gini coefficient but low importance in other methods. This discrepancy highlights the need to consider multiple metrics to get a comprehensive view of feature importance.
+   - **Build and Rewarding**: These features have relatively low importance across most methods, except for the mean decrease in Gini coefficient where `Rewarding` shows moderate importance.
+
+#### Insights
+The analysis highlights that `trust`, `impact`, and `service` are the most important features for customer satisfaction with payment cards. This suggests that customers value cards from trusted brands that make a significant positive impact on their lives and provide excellent customer service. These insights can guide financial institutions in prioritizing these aspects to enhance customer satisfaction.
+
+Additionally, the discrepancies observed in features like `brand` and `popular` suggest that feature importance can vary depending on the method used. Therefore, it is beneficial to use multiple methods to gain a holistic understanding of what drives customer satisfaction.
+
+#### Business Context
+To make the analysis more relatable to business applications, we mapped each variable to a corresponding customer satisfaction question. This mapping helps in understanding the business context and the specific aspects of payment cards that are most important to customers. Here is the mapping:
+
+- **Is offered by a brand I trust** -> `trust`
+- **Helps build credit quickly** -> `build`
+- **Is different from other cards** -> `differs`
+- **Is easy to use** -> `easy`
+- **Has appealing benefits or rewards** -> `appealing`
+- **Rewards me for responsible usage** -> `rewarding`
+- **Is used by a lot of people** -> `popular`
+- **Provides outstanding customer service** -> `service`
+- **Makes a difference in my life** -> `impact`
+
+Below is the final table with percentages instead of decimals and incorporating the business-related question likely associated with each variable:
+
+| Question                               | Pearson Correlations | Standardized Regression Coefficients | Shapley Values | Permutation Importance | Johnson's Relative Weights | Mean Decrease in Gini Coefficient | XGBoost Feature Importance |
+|----------------------------------------|----------------------|--------------------------------------|----------------|------------------------|----------------------------|----------------------------------|----------------------------|
+| Is offered by a brand I trust          | -4.9%                | 1.2%                                 | 1.0%           | 0.04%                  | 0.4%                       | 26.7%                           | 9.4%                       |
+| Helps build credit quickly             | 19.2%                | 2.3%                                 | 2.3%           | 0.1%                   | 1.0%                       | 8.6%                            | 7.9%                       |
+| Is different from other cards          | 18.5%                | 3.3%                                 | 2.9%           | 0.2%                   | 2.2%                       | 7.3%                            | 7.7%                       |
+| Is easy to use                         | 21.3%                | 2.6%                                 | 2.7%           | 0.1%                   | 1.2%                       | 8.2%                            | 7.1%                       |
+| Has appealing benefits or rewards      | 20.8%                | 4.1%                                 | 4.1%           | 0.3%                   | 2.9%                       | 6.9%                            | 7.5%                       |
+| Rewards me for responsible usage       | 19.5%                | 0.6%                                 | 0.6%           | 0.0%                   | 0.1%                       | 8.3%                            | 7.6%                       |
+| Is used by a lot of people             | 17.1%                | 2.0%                                 | 2.0%           | 0.0%                   | 0.8%                       | 8.9%                            | 7.8%                       |
+| Provides outstanding customer service  | 25.1%                | 10.3%                                | 10.2%          | 1.6%                   | 17.5%                      | 8.1%                            | 9.4%                       |
+| Makes a difference in my life          | 25.5%                | 15.1%                                | 13.1%          | 3.3%                   | 42.7%                      | 8.0%                            | 15.6%                      |
 
 
+### 5. Conclusion
 
+#### Summary
+In this analysis, we explored multiple methods to determine the importance of various features in predicting customer satisfaction with payment cards. The methods included Pearson correlations, standardized regression coefficients, Shapley values, permutation importance, Johnson's relative weights, mean decrease in Gini coefficient, and XGBoost feature importance. Consistently across these methods, `trust`, `impact`, and `service` emerged as the most significant features influencing customer satisfaction. These findings were further contextualized by mapping each feature to a specific customer satisfaction question.
 
+#### Implications
+The insights from this analysis have several implications for businesses in the financial sector:
 
+1. **Focus on Trust**: Building and maintaining trust is crucial. Companies should prioritize transparency, reliability, and security to enhance trust among customers.
+
+2. **Customer Impact**: Payment cards should offer tangible benefits that positively impact customers' lives. This could include unique rewards, financial benefits, or services that simplify financial management.
+
+3. **Outstanding Service**: Providing exceptional customer service is key to satisfaction. Businesses should invest in training customer service representatives, offering multiple support channels, and ensuring prompt and effective resolution of issues.
+
+By focusing on these areas, companies can better meet customer needs, enhance satisfaction, and foster loyalty.
+
+#### Future Work
+There are several avenues for further research and additional analyses:
+
+1. **Longitudinal Studies**: Conducting longitudinal studies to track changes in customer satisfaction over time and understanding how feature importance evolves.
+
+2. **Segmentation Analysis**: Performing segmentation analysis to identify differences in feature importance across different customer demographics or segments.
+
+3. **Advanced Modeling Techniques**: Exploring advanced modeling techniques such as deep learning or ensemble methods to validate and potentially enhance the findings.
+
+4. **Customer Feedback Integration**: Integrating direct customer feedback and sentiment analysis to enrich the understanding of customer satisfaction drivers.
 
