@@ -460,9 +460,10 @@ These results indicate that `trust`, `impact`, and `service` have the highest fe
 
 ### 4. Comparative Analysis
 
-#### Summary Table
 Below is the summary table that consolidates the importance metrics from all the methods discussed:
 
+::::{.callout-note collapse="true"}
+### Summary Table
 | Feature     | Pearson Correlations | Standardized Regression Coefficients | Shapley Values | Permutation Importance | Johnson's Relative Weights | Mean Decrease in Gini Coefficient | XGBoost Feature Importance |
 |-------------|----------------------|--------------------------------------|----------------|------------------------|----------------------------|----------------------------------|----------------------------|
 | brand       | -0.049296            | 0.012083                             | 0.010036       | 0.000438               | 0.003803                   | 0.266676                         | 0.093745                   |
@@ -475,6 +476,7 @@ Below is the summary table that consolidates the importance metrics from all the
 | popular     | 0.171425             | 0.020254                             | 0.020249       | 0.000474               | 0.008361                   | 0.089204                         | 0.077944                   |
 | service     | 0.251098             | 0.103069                             | 0.101534       | 0.016385               | 0.175486                   | 0.081490                         | 0.093874                   |
 | impact      | 0.254539             | 0.150809                             | 0.130991       | 0.033393               | 0.426861                   | 0.079966                         | 0.155718                   |
+::::
 
 #### Discussion
 The comparative analysis of different feature importance methods reveals both consistencies and discrepancies. Here are some key observations:
@@ -507,6 +509,8 @@ To make the analysis more relatable to business applications, we mapped each var
 
 Below is the final table with percentages instead of decimals and incorporating the business-related question likely associated with each variable:
 
+::::{.callout-note collapse="true"}
+### Final Table
 | Question                               | Pearson Correlations | Standardized Regression Coefficients | Shapley Values | Permutation Importance | Johnson's Relative Weights | Mean Decrease in Gini Coefficient | XGBoost Feature Importance |
 |----------------------------------------|----------------------|--------------------------------------|----------------|------------------------|----------------------------|----------------------------------|----------------------------|
 | Is offered by a brand I trust          | -4.9%                | 1.2%                                 | 1.0%           | 0.04%                  | 0.4%                       | 26.7%                           | 9.4%                       |
@@ -518,7 +522,7 @@ Below is the final table with percentages instead of decimals and incorporating 
 | Is used by a lot of people             | 17.1%                | 2.0%                                 | 2.0%           | 0.0%                   | 0.8%                       | 8.9%                            | 7.8%                       |
 | Provides outstanding customer service  | 25.1%                | 10.3%                                | 10.2%          | 1.6%                   | 17.5%                      | 8.1%                            | 9.4%                       |
 | Makes a difference in my life          | 25.5%                | 15.1%                                | 13.1%          | 3.3%                   | 42.7%                      | 8.0%                            | 15.6%                      |
-
+::::
 
 ### 5. Conclusion
 
