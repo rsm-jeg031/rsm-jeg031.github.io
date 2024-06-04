@@ -1,0 +1,14 @@
+---
+title: "Segmentation Methods"
+author: "Jesus Gonzalez"
+date: June 8, 2024
+---
+
+## K-Means
+
+### Work in progress 🏗️ 🚧
+
+
+## Latent-Class Multinomial Logit (MNL)
+
+### Work in progress 🏗️ 🚧
