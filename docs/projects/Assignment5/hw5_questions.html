@@ -22,10 +22,44 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -97,7 +131,39 @@ cookieconsent.run({
 });
 </script> 
   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
 
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../../styles.css">
 </head>
@@ -143,14 +209,26 @@ cookieconsent.run({
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#k-means" id="toc-k-means" class="nav-link active" data-scroll-target="#k-means">K-Means</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  <li><a href="#kmeans-algorithm" id="toc-kmeans-algorithm" class="nav-link" data-scroll-target="#kmeans-algorithm">KMeans Algorithm</a>
   <ul class="collapse">
-  <li><a href="#work-in-progress" id="toc-work-in-progress" class="nav-link" data-scroll-target="#work-in-progress">Work in progress 🏗️ 🚧</a></li>
-  </ul></li>
-  <li><a href="#latent-class-multinomial-logit-mnl" id="toc-latent-class-multinomial-logit-mnl" class="nav-link" data-scroll-target="#latent-class-multinomial-logit-mnl">Latent-Class Multinomial Logit (MNL)</a>
+  <li><a href="#kmeans-algorithm-steps" id="toc-kmeans-algorithm-steps" class="nav-link" data-scroll-target="#kmeans-algorithm-steps">KMeans Algorithm Steps</a>
   <ul class="collapse">
-  <li><a href="#work-in-progress-1" id="toc-work-in-progress-1" class="nav-link" data-scroll-target="#work-in-progress-1">Work in progress 🏗️ 🚧</a></li>
+  <li><a href="#initialize-centroids" id="toc-initialize-centroids" class="nav-link" data-scroll-target="#initialize-centroids">Initialize Centroids</a></li>
+  <li><a href="#compute-distances" id="toc-compute-distances" class="nav-link" data-scroll-target="#compute-distances">Compute Distances</a></li>
+  <li><a href="#assign-clusters" id="toc-assign-clusters" class="nav-link" data-scroll-target="#assign-clusters">Assign Clusters</a></li>
+  <li><a href="#update-centroids" id="toc-update-centroids" class="nav-link" data-scroll-target="#update-centroids">Update Centroids</a></li>
+  <li><a href="#kmeans-function" id="toc-kmeans-function" class="nav-link" data-scroll-target="#kmeans-function">KMeans Function</a></li>
   </ul></li>
+  </ul></li>
+  <li><a href="#implementation-and-visualizations" id="toc-implementation-and-visualizations" class="nav-link" data-scroll-target="#implementation-and-visualizations">Implementation and Visualizations</a>
+  <ul class="collapse">
+  <li><a href="#comparison-of-custom-kmeans-and-sklearn-kmeans" id="toc-comparison-of-custom-kmeans-and-sklearn-kmeans" class="nav-link" data-scroll-target="#comparison-of-custom-kmeans-and-sklearn-kmeans">Comparison of Custom KMeans and Sklearn KMeans</a></li>
+  </ul></li>
+  <li><a href="#within-cluster-sum-of-squares-and-silhouette-scores" id="toc-within-cluster-sum-of-squares-and-silhouette-scores" class="nav-link" data-scroll-target="#within-cluster-sum-of-squares-and-silhouette-scores">Within-Cluster Sum of Squares and Silhouette Scores</a></li>
+  <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
 </nav>
     </div>
@@ -188,19 +266,401 @@ cookieconsent.run({
 </header>
 
 
-<section id="k-means" class="level2">
-<h2 class="anchored" data-anchor-id="k-means">K-Means</h2>
-<section id="work-in-progress" class="level3">
-<h3 class="anchored" data-anchor-id="work-in-progress">Work in progress 🏗️ 🚧</h3>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Clustering is a powerful machine learning technique used to identify natural groupings in data. In this analysis, we evaluate the performance of the KMeans clustering algorithm on the Palmer Penguins dataset.</p>
+</section>
+<section id="data" class="level1">
+<h1>Data</h1>
+<p>The Palmer Penguins dataset is widely used in clustering analysis.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Interactive Dataset
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div id="1cf10dc5" class="cell" data-execution_count="1">
+<div class="cell-output cell-output-display">
+<div>
+<style>.itables table td {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.itables table th {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.itables thead input {
+    width: 100%;
+    padding: 3px;
+    box-sizing: border-box;
+}
+
+.itables tfoot input {
+    width: 100%;
+    padding: 3px;
+    box-sizing: border-box;
+}
+</style>
+<div class="itables">
+
+<table id="61ba0d40-86e6-4d7c-8439-1af5a56f94c0" class="display nowrap table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header" style="text-align: right;">
+<th data-quarto-table-cell-role="th">rowid</th>
+<th data-quarto-table-cell-role="th">species</th>
+<th data-quarto-table-cell-role="th">island</th>
+<th data-quarto-table-cell-role="th">bill_length_mm</th>
+<th data-quarto-table-cell-role="th">bill_depth_mm</th>
+<th data-quarto-table-cell-role="th">flipper_length_mm</th>
+<th data-quarto-table-cell-role="th">body_mass_g</th>
+<th data-quarto-table-cell-role="th">sex</th>
+<th data-quarto-table-cell-role="th">year</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Loading... (need <a href="https://mwouts.github.io/itables/troubleshooting.html">help</a>?)</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+<script type="module">
+    // Import jquery and DataTable
+    import 'https://code.jquery.com/jquery-3.6.0.min.js';
+    import dt from 'https://cdn.datatables.net/1.12.1/js/jquery.dataTables.mjs';
+    dt($);
+
+    // Define the table data
+    const data = [[1, "Adelie", "Torgersen", 39.1, 18.7, 181.0, 3750.0, "male", 2007], [2, "Adelie", "Torgersen", 39.5, 17.4, 186.0, 3800.0, "female", 2007], [3, "Adelie", "Torgersen", 40.3, 18.0, 195.0, 3250.0, "female", 2007], [4, "Adelie", "Torgersen", NaN, NaN, NaN, NaN, "NaN", 2007], [5, "Adelie", "Torgersen", 36.7, 19.3, 193.0, 3450.0, "female", 2007], [6, "Adelie", "Torgersen", 39.3, 20.6, 190.0, 3650.0, "male", 2007], [7, "Adelie", "Torgersen", 38.9, 17.8, 181.0, 3625.0, "female", 2007], [8, "Adelie", "Torgersen", 39.2, 19.6, 195.0, 4675.0, "male", 2007], [9, "Adelie", "Torgersen", 34.1, 18.1, 193.0, 3475.0, "NaN", 2007], [10, "Adelie", "Torgersen", 42.0, 20.2, 190.0, 4250.0, "NaN", 2007], [11, "Adelie", "Torgersen", 37.8, 17.1, 186.0, 3300.0, "NaN", 2007], [12, "Adelie", "Torgersen", 37.8, 17.3, 180.0, 3700.0, "NaN", 2007], [13, "Adelie", "Torgersen", 41.1, 17.6, 182.0, 3200.0, "female", 2007], [14, "Adelie", "Torgersen", 38.6, 21.2, 191.0, 3800.0, "male", 2007], [15, "Adelie", "Torgersen", 34.6, 21.1, 198.0, 4400.0, "male", 2007], [16, "Adelie", "Torgersen", 36.6, 17.8, 185.0, 3700.0, "female", 2007], [17, "Adelie", "Torgersen", 38.7, 19.0, 195.0, 3450.0, "female", 2007], [18, "Adelie", "Torgersen", 42.5, 20.7, 197.0, 4500.0, "male", 2007], [19, "Adelie", "Torgersen", 34.4, 18.4, 184.0, 3325.0, "female", 2007], [20, "Adelie", "Torgersen", 46.0, 21.5, 194.0, 4200.0, "male", 2007], [21, "Adelie", "Biscoe", 37.8, 18.3, 174.0, 3400.0, "female", 2007], [22, "Adelie", "Biscoe", 37.7, 18.7, 180.0, 3600.0, "male", 2007], [23, "Adelie", "Biscoe", 35.9, 19.2, 189.0, 3800.0, "female", 2007], [24, "Adelie", "Biscoe", 38.2, 18.1, 185.0, 3950.0, "male", 2007], [25, "Adelie", "Biscoe", 38.8, 17.2, 180.0, 3800.0, "male", 2007], [26, "Adelie", "Biscoe", 35.3, 18.9, 187.0, 3800.0, "female", 2007], [27, "Adelie", "Biscoe", 40.6, 18.6, 183.0, 3550.0, "male", 2007], [28, "Adelie", "Biscoe", 40.5, 17.9, 187.0, 3200.0, "female", 2007], [29, "Adelie", "Biscoe", 37.9, 18.6, 172.0, 3150.0, "female", 2007], [30, "Adelie", "Biscoe", 40.5, 18.9, 180.0, 3950.0, "male", 2007], [31, "Adelie", "Dream", 39.5, 16.7, 178.0, 3250.0, "female", 2007], [32, "Adelie", "Dream", 37.2, 18.1, 178.0, 3900.0, "male", 2007], [33, "Adelie", "Dream", 39.5, 17.8, 188.0, 3300.0, "female", 2007], [34, "Adelie", "Dream", 40.9, 18.9, 184.0, 3900.0, "male", 2007], [35, "Adelie", "Dream", 36.4, 17.0, 195.0, 3325.0, "female", 2007], [36, "Adelie", "Dream", 39.2, 21.1, 196.0, 4150.0, "male", 2007], [37, "Adelie", "Dream", 38.8, 20.0, 190.0, 3950.0, "male", 2007], [38, "Adelie", "Dream", 42.2, 18.5, 180.0, 3550.0, "female", 2007], [39, "Adelie", "Dream", 37.6, 19.3, 181.0, 3300.0, "female", 2007], [40, "Adelie", "Dream", 39.8, 19.1, 184.0, 4650.0, "male", 2007], [41, "Adelie", "Dream", 36.5, 18.0, 182.0, 3150.0, "female", 2007], [42, "Adelie", "Dream", 40.8, 18.4, 195.0, 3900.0, "male", 2007], [43, "Adelie", "Dream", 36.0, 18.5, 186.0, 3100.0, "female", 2007], [44, "Adelie", "Dream", 44.1, 19.7, 196.0, 4400.0, "male", 2007], [45, "Adelie", "Dream", 37.0, 16.9, 185.0, 3000.0, "female", 2007], [46, "Adelie", "Dream", 39.6, 18.8, 190.0, 4600.0, "male", 2007], [47, "Adelie", "Dream", 41.1, 19.0, 182.0, 3425.0, "male", 2007], [48, "Adelie", "Dream", 37.5, 18.9, 179.0, 2975.0, "NaN", 2007], [49, "Adelie", "Dream", 36.0, 17.9, 190.0, 3450.0, "female", 2007], [50, "Adelie", "Dream", 42.3, 21.2, 191.0, 4150.0, "male", 2007], [51, "Adelie", "Biscoe", 39.6, 17.7, 186.0, 3500.0, "female", 2008], [52, "Adelie", "Biscoe", 40.1, 18.9, 188.0, 4300.0, "male", 2008], [53, "Adelie", "Biscoe", 35.0, 17.9, 190.0, 3450.0, "female", 2008], [54, "Adelie", "Biscoe", 42.0, 19.5, 200.0, 4050.0, "male", 2008], [55, "Adelie", "Biscoe", 34.5, 18.1, 187.0, 2900.0, "female", 2008], [56, "Adelie", "Biscoe", 41.4, 18.6, 191.0, 3700.0, "male", 2008], [57, "Adelie", "Biscoe", 39.0, 17.5, 186.0, 3550.0, "female", 2008], [58, "Adelie", "Biscoe", 40.6, 18.8, 193.0, 3800.0, "male", 2008], [59, "Adelie", "Biscoe", 36.5, 16.6, 181.0, 2850.0, "female", 2008], [60, "Adelie", "Biscoe", 37.6, 19.1, 194.0, 3750.0, "male", 2008], [61, "Adelie", "Biscoe", 35.7, 16.9, 185.0, 3150.0, "female", 2008], [62, "Adelie", "Biscoe", 41.3, 21.1, 195.0, 4400.0, "male", 2008], [63, "Adelie", "Biscoe", 37.6, 17.0, 185.0, 3600.0, "female", 2008], [64, "Adelie", "Biscoe", 41.1, 18.2, 192.0, 4050.0, "male", 2008], [65, "Adelie", "Biscoe", 36.4, 17.1, 184.0, 2850.0, "female", 2008], [66, "Adelie", "Biscoe", 41.6, 18.0, 192.0, 3950.0, "male", 2008], [67, "Adelie", "Biscoe", 35.5, 16.2, 195.0, 3350.0, "female", 2008], [68, "Adelie", "Biscoe", 41.1, 19.1, 188.0, 4100.0, "male", 2008], [69, "Adelie", "Torgersen", 35.9, 16.6, 190.0, 3050.0, "female", 2008], [70, "Adelie", "Torgersen", 41.8, 19.4, 198.0, 4450.0, "male", 2008], [71, "Adelie", "Torgersen", 33.5, 19.0, 190.0, 3600.0, "female", 2008], [72, "Adelie", "Torgersen", 39.7, 18.4, 190.0, 3900.0, "male", 2008], [73, "Adelie", "Torgersen", 39.6, 17.2, 196.0, 3550.0, "female", 2008], [74, "Adelie", "Torgersen", 45.8, 18.9, 197.0, 4150.0, "male", 2008], [75, "Adelie", "Torgersen", 35.5, 17.5, 190.0, 3700.0, "female", 2008], [76, "Adelie", "Torgersen", 42.8, 18.5, 195.0, 4250.0, "male", 2008], [77, "Adelie", "Torgersen", 40.9, 16.8, 191.0, 3700.0, "female", 2008], [78, "Adelie", "Torgersen", 37.2, 19.4, 184.0, 3900.0, "male", 2008], [79, "Adelie", "Torgersen", 36.2, 16.1, 187.0, 3550.0, "female", 2008], [80, "Adelie", "Torgersen", 42.1, 19.1, 195.0, 4000.0, "male", 2008], [81, "Adelie", "Torgersen", 34.6, 17.2, 189.0, 3200.0, "female", 2008], [82, "Adelie", "Torgersen", 42.9, 17.6, 196.0, 4700.0, "male", 2008], [83, "Adelie", "Torgersen", 36.7, 18.8, 187.0, 3800.0, "female", 2008], [84, "Adelie", "Torgersen", 35.1, 19.4, 193.0, 4200.0, "male", 2008], [85, "Adelie", "Dream", 37.3, 17.8, 191.0, 3350.0, "female", 2008], [86, "Adelie", "Dream", 41.3, 20.3, 194.0, 3550.0, "male", 2008], [87, "Adelie", "Dream", 36.3, 19.5, 190.0, 3800.0, "male", 2008], [88, "Adelie", "Dream", 36.9, 18.6, 189.0, 3500.0, "female", 2008], [89, "Adelie", "Dream", 38.3, 19.2, 189.0, 3950.0, "male", 2008], [90, "Adelie", "Dream", 38.9, 18.8, 190.0, 3600.0, "female", 2008], [91, "Adelie", "Dream", 35.7, 18.0, 202.0, 3550.0, "female", 2008], [92, "Adelie", "Dream", 41.1, 18.1, 205.0, 4300.0, "male", 2008], [93, "Adelie", "Dream", 34.0, 17.1, 185.0, 3400.0, "female", 2008], [94, "Adelie", "Dream", 39.6, 18.1, 186.0, 4450.0, "male", 2008], [95, "Adelie", "Dream", 36.2, 17.3, 187.0, 3300.0, "female", 2008], [96, "Adelie", "Dream", 40.8, 18.9, 208.0, 4300.0, "male", 2008], [97, "Adelie", "Dream", 38.1, 18.6, 190.0, 3700.0, "female", 2008], [98, "Adelie", "Dream", 40.3, 18.5, 196.0, 4350.0, "male", 2008], [99, "Adelie", "Dream", 33.1, 16.1, 178.0, 2900.0, "female", 2008], [100, "Adelie", "Dream", 43.2, 18.5, 192.0, 4100.0, "male", 2008], [101, "Adelie", "Biscoe", 35.0, 17.9, 192.0, 3725.0, "female", 2009], [102, "Adelie", "Biscoe", 41.0, 20.0, 203.0, 4725.0, "male", 2009], [103, "Adelie", "Biscoe", 37.7, 16.0, 183.0, 3075.0, "female", 2009], [104, "Adelie", "Biscoe", 37.8, 20.0, 190.0, 4250.0, "male", 2009], [105, "Adelie", "Biscoe", 37.9, 18.6, 193.0, 2925.0, "female", 2009], [106, "Adelie", "Biscoe", 39.7, 18.9, 184.0, 3550.0, "male", 2009], [107, "Adelie", "Biscoe", 38.6, 17.2, 199.0, 3750.0, "female", 2009], [108, "Adelie", "Biscoe", 38.2, 20.0, 190.0, 3900.0, "male", 2009], [109, "Adelie", "Biscoe", 38.1, 17.0, 181.0, 3175.0, "female", 2009], [110, "Adelie", "Biscoe", 43.2, 19.0, 197.0, 4775.0, "male", 2009], [111, "Adelie", "Biscoe", 38.1, 16.5, 198.0, 3825.0, "female", 2009], [112, "Adelie", "Biscoe", 45.6, 20.3, 191.0, 4600.0, "male", 2009], [113, "Adelie", "Biscoe", 39.7, 17.7, 193.0, 3200.0, "female", 2009], [114, "Adelie", "Biscoe", 42.2, 19.5, 197.0, 4275.0, "male", 2009], [115, "Adelie", "Biscoe", 39.6, 20.7, 191.0, 3900.0, "female", 2009], [116, "Adelie", "Biscoe", 42.7, 18.3, 196.0, 4075.0, "male", 2009], [117, "Adelie", "Torgersen", 38.6, 17.0, 188.0, 2900.0, "female", 2009], [118, "Adelie", "Torgersen", 37.3, 20.5, 199.0, 3775.0, "male", 2009], [119, "Adelie", "Torgersen", 35.7, 17.0, 189.0, 3350.0, "female", 2009], [120, "Adelie", "Torgersen", 41.1, 18.6, 189.0, 3325.0, "male", 2009], [121, "Adelie", "Torgersen", 36.2, 17.2, 187.0, 3150.0, "female", 2009], [122, "Adelie", "Torgersen", 37.7, 19.8, 198.0, 3500.0, "male", 2009], [123, "Adelie", "Torgersen", 40.2, 17.0, 176.0, 3450.0, "female", 2009], [124, "Adelie", "Torgersen", 41.4, 18.5, 202.0, 3875.0, "male", 2009], [125, "Adelie", "Torgersen", 35.2, 15.9, 186.0, 3050.0, "female", 2009], [126, "Adelie", "Torgersen", 40.6, 19.0, 199.0, 4000.0, "male", 2009], [127, "Adelie", "Torgersen", 38.8, 17.6, 191.0, 3275.0, "female", 2009], [128, "Adelie", "Torgersen", 41.5, 18.3, 195.0, 4300.0, "male", 2009], [129, "Adelie", "Torgersen", 39.0, 17.1, 191.0, 3050.0, "female", 2009], [130, "Adelie", "Torgersen", 44.1, 18.0, 210.0, 4000.0, "male", 2009], [131, "Adelie", "Torgersen", 38.5, 17.9, 190.0, 3325.0, "female", 2009], [132, "Adelie", "Torgersen", 43.1, 19.2, 197.0, 3500.0, "male", 2009], [133, "Adelie", "Dream", 36.8, 18.5, 193.0, 3500.0, "female", 2009], [134, "Adelie", "Dream", 37.5, 18.5, 199.0, 4475.0, "male", 2009], [135, "Adelie", "Dream", 38.1, 17.6, 187.0, 3425.0, "female", 2009], [136, "Adelie", "Dream", 41.1, 17.5, 190.0, 3900.0, "male", 2009], [137, "Adelie", "Dream", 35.6, 17.5, 191.0, 3175.0, "female", 2009], [138, "Adelie", "Dream", 40.2, 20.1, 200.0, 3975.0, "male", 2009], [139, "Adelie", "Dream", 37.0, 16.5, 185.0, 3400.0, "female", 2009], [140, "Adelie", "Dream", 39.7, 17.9, 193.0, 4250.0, "male", 2009], [141, "Adelie", "Dream", 40.2, 17.1, 193.0, 3400.0, "female", 2009], [142, "Adelie", "Dream", 40.6, 17.2, 187.0, 3475.0, "male", 2009], [143, "Adelie", "Dream", 32.1, 15.5, 188.0, 3050.0, "female", 2009], [144, "Adelie", "Dream", 40.7, 17.0, 190.0, 3725.0, "male", 2009], [145, "Adelie", "Dream", 37.3, 16.8, 192.0, 3000.0, "female", 2009], [146, "Adelie", "Dream", 39.0, 18.7, 185.0, 3650.0, "male", 2009], [147, "Adelie", "Dream", 39.2, 18.6, 190.0, 4250.0, "male", 2009], [148, "Adelie", "Dream", 36.6, 18.4, 184.0, 3475.0, "female", 2009], [149, "Adelie", "Dream", 36.0, 17.8, 195.0, 3450.0, "female", 2009], [150, "Adelie", "Dream", 37.8, 18.1, 193.0, 3750.0, "male", 2009], [151, "Adelie", "Dream", 36.0, 17.1, 187.0, 3700.0, "female", 2009], [152, "Adelie", "Dream", 41.5, 18.5, 201.0, 4000.0, "male", 2009], [153, "Gentoo", "Biscoe", 46.1, 13.2, 211.0, 4500.0, "female", 2007], [154, "Gentoo", "Biscoe", 50.0, 16.3, 230.0, 5700.0, "male", 2007], [155, "Gentoo", "Biscoe", 48.7, 14.1, 210.0, 4450.0, "female", 2007], [156, "Gentoo", "Biscoe", 50.0, 15.2, 218.0, 5700.0, "male", 2007], [157, "Gentoo", "Biscoe", 47.6, 14.5, 215.0, 5400.0, "male", 2007], [158, "Gentoo", "Biscoe", 46.5, 13.5, 210.0, 4550.0, "female", 2007], [159, "Gentoo", "Biscoe", 45.4, 14.6, 211.0, 4800.0, "female", 2007], [160, "Gentoo", "Biscoe", 46.7, 15.3, 219.0, 5200.0, "male", 2007], [161, "Gentoo", "Biscoe", 43.3, 13.4, 209.0, 4400.0, "female", 2007], [162, "Gentoo", "Biscoe", 46.8, 15.4, 215.0, 5150.0, "male", 2007], [163, "Gentoo", "Biscoe", 40.9, 13.7, 214.0, 4650.0, "female", 2007], [164, "Gentoo", "Biscoe", 49.0, 16.1, 216.0, 5550.0, "male", 2007], [165, "Gentoo", "Biscoe", 45.5, 13.7, 214.0, 4650.0, "female", 2007], [166, "Gentoo", "Biscoe", 48.4, 14.6, 213.0, 5850.0, "male", 2007], [167, "Gentoo", "Biscoe", 45.8, 14.6, 210.0, 4200.0, "female", 2007], [168, "Gentoo", "Biscoe", 49.3, 15.7, 217.0, 5850.0, "male", 2007], [169, "Gentoo", "Biscoe", 42.0, 13.5, 210.0, 4150.0, "female", 2007], [170, "Gentoo", "Biscoe", 49.2, 15.2, 221.0, 6300.0, "male", 2007], [171, "Gentoo", "Biscoe", 46.2, 14.5, 209.0, 4800.0, "female", 2007], [172, "Gentoo", "Biscoe", 48.7, 15.1, 222.0, 5350.0, "male", 2007], [173, "Gentoo", "Biscoe", 50.2, 14.3, 218.0, 5700.0, "male", 2007], [174, "Gentoo", "Biscoe", 45.1, 14.5, 215.0, 5000.0, "female", 2007], [175, "Gentoo", "Biscoe", 46.5, 14.5, 213.0, 4400.0, "female", 2007], [176, "Gentoo", "Biscoe", 46.3, 15.8, 215.0, 5050.0, "male", 2007], [177, "Gentoo", "Biscoe", 42.9, 13.1, 215.0, 5000.0, "female", 2007], [178, "Gentoo", "Biscoe", 46.1, 15.1, 215.0, 5100.0, "male", 2007], [179, "Gentoo", "Biscoe", 44.5, 14.3, 216.0, 4100.0, "NaN", 2007], [180, "Gentoo", "Biscoe", 47.8, 15.0, 215.0, 5650.0, "male", 2007], [181, "Gentoo", "Biscoe", 48.2, 14.3, 210.0, 4600.0, "female", 2007], [182, "Gentoo", "Biscoe", 50.0, 15.3, 220.0, 5550.0, "male", 2007], [183, "Gentoo", "Biscoe", 47.3, 15.3, 222.0, 5250.0, "male", 2007], [184, "Gentoo", "Biscoe", 42.8, 14.2, 209.0, 4700.0, "female", 2007], [185, "Gentoo", "Biscoe", 45.1, 14.5, 207.0, 5050.0, "female", 2007], [186, "Gentoo", "Biscoe", 59.6, 17.0, 230.0, 6050.0, "male", 2007], [187, "Gentoo", "Biscoe", 49.1, 14.8, 220.0, 5150.0, "female", 2008], [188, "Gentoo", "Biscoe", 48.4, 16.3, 220.0, 5400.0, "male", 2008], [189, "Gentoo", "Biscoe", 42.6, 13.7, 213.0, 4950.0, "female", 2008], [190, "Gentoo", "Biscoe", 44.4, 17.3, 219.0, 5250.0, "male", 2008], [191, "Gentoo", "Biscoe", 44.0, 13.6, 208.0, 4350.0, "female", 2008], [192, "Gentoo", "Biscoe", 48.7, 15.7, 208.0, 5350.0, "male", 2008], [193, "Gentoo", "Biscoe", 42.7, 13.7, 208.0, 3950.0, "female", 2008], [194, "Gentoo", "Biscoe", 49.6, 16.0, 225.0, 5700.0, "male", 2008], [195, "Gentoo", "Biscoe", 45.3, 13.7, 210.0, 4300.0, "female", 2008], [196, "Gentoo", "Biscoe", 49.6, 15.0, 216.0, 4750.0, "male", 2008], [197, "Gentoo", "Biscoe", 50.5, 15.9, 222.0, 5550.0, "male", 2008], [198, "Gentoo", "Biscoe", 43.6, 13.9, 217.0, 4900.0, "female", 2008], [199, "Gentoo", "Biscoe", 45.5, 13.9, 210.0, 4200.0, "female", 2008], [200, "Gentoo", "Biscoe", 50.5, 15.9, 225.0, 5400.0, "male", 2008], [201, "Gentoo", "Biscoe", 44.9, 13.3, 213.0, 5100.0, "female", 2008], [202, "Gentoo", "Biscoe", 45.2, 15.8, 215.0, 5300.0, "male", 2008], [203, "Gentoo", "Biscoe", 46.6, 14.2, 210.0, 4850.0, "female", 2008], [204, "Gentoo", "Biscoe", 48.5, 14.1, 220.0, 5300.0, "male", 2008], [205, "Gentoo", "Biscoe", 45.1, 14.4, 210.0, 4400.0, "female", 2008], [206, "Gentoo", "Biscoe", 50.1, 15.0, 225.0, 5000.0, "male", 2008], [207, "Gentoo", "Biscoe", 46.5, 14.4, 217.0, 4900.0, "female", 2008], [208, "Gentoo", "Biscoe", 45.0, 15.4, 220.0, 5050.0, "male", 2008], [209, "Gentoo", "Biscoe", 43.8, 13.9, 208.0, 4300.0, "female", 2008], [210, "Gentoo", "Biscoe", 45.5, 15.0, 220.0, 5000.0, "male", 2008], [211, "Gentoo", "Biscoe", 43.2, 14.5, 208.0, 4450.0, "female", 2008], [212, "Gentoo", "Biscoe", 50.4, 15.3, 224.0, 5550.0, "male", 2008], [213, "Gentoo", "Biscoe", 45.3, 13.8, 208.0, 4200.0, "female", 2008], [214, "Gentoo", "Biscoe", 46.2, 14.9, 221.0, 5300.0, "male", 2008], [215, "Gentoo", "Biscoe", 45.7, 13.9, 214.0, 4400.0, "female", 2008], [216, "Gentoo", "Biscoe", 54.3, 15.7, 231.0, 5650.0, "male", 2008], [217, "Gentoo", "Biscoe", 45.8, 14.2, 219.0, 4700.0, "female", 2008], [218, "Gentoo", "Biscoe", 49.8, 16.8, 230.0, 5700.0, "male", 2008], [219, "Gentoo", "Biscoe", 46.2, 14.4, 214.0, 4650.0, "NaN", 2008], [220, "Gentoo", "Biscoe", 49.5, 16.2, 229.0, 5800.0, "male", 2008], [221, "Gentoo", "Biscoe", 43.5, 14.2, 220.0, 4700.0, "female", 2008], [222, "Gentoo", "Biscoe", 50.7, 15.0, 223.0, 5550.0, "male", 2008], [223, "Gentoo", "Biscoe", 47.7, 15.0, 216.0, 4750.0, "female", 2008], [224, "Gentoo", "Biscoe", 46.4, 15.6, 221.0, 5000.0, "male", 2008], [225, "Gentoo", "Biscoe", 48.2, 15.6, 221.0, 5100.0, "male", 2008], [226, "Gentoo", "Biscoe", 46.5, 14.8, 217.0, 5200.0, "female", 2008], [227, "Gentoo", "Biscoe", 46.4, 15.0, 216.0, 4700.0, "female", 2008], [228, "Gentoo", "Biscoe", 48.6, 16.0, 230.0, 5800.0, "male", 2008], [229, "Gentoo", "Biscoe", 47.5, 14.2, 209.0, 4600.0, "female", 2008], [230, "Gentoo", "Biscoe", 51.1, 16.3, 220.0, 6000.0, "male", 2008], [231, "Gentoo", "Biscoe", 45.2, 13.8, 215.0, 4750.0, "female", 2008], [232, "Gentoo", "Biscoe", 45.2, 16.4, 223.0, 5950.0, "male", 2008], [233, "Gentoo", "Biscoe", 49.1, 14.5, 212.0, 4625.0, "female", 2009], [234, "Gentoo", "Biscoe", 52.5, 15.6, 221.0, 5450.0, "male", 2009], [235, "Gentoo", "Biscoe", 47.4, 14.6, 212.0, 4725.0, "female", 2009], [236, "Gentoo", "Biscoe", 50.0, 15.9, 224.0, 5350.0, "male", 2009], [237, "Gentoo", "Biscoe", 44.9, 13.8, 212.0, 4750.0, "female", 2009], [238, "Gentoo", "Biscoe", 50.8, 17.3, 228.0, 5600.0, "male", 2009], [239, "Gentoo", "Biscoe", 43.4, 14.4, 218.0, 4600.0, "female", 2009], [240, "Gentoo", "Biscoe", 51.3, 14.2, 218.0, 5300.0, "male", 2009], [241, "Gentoo", "Biscoe", 47.5, 14.0, 212.0, 4875.0, "female", 2009], [242, "Gentoo", "Biscoe", 52.1, 17.0, 230.0, 5550.0, "male", 2009], [243, "Gentoo", "Biscoe", 47.5, 15.0, 218.0, 4950.0, "female", 2009], [244, "Gentoo", "Biscoe", 52.2, 17.1, 228.0, 5400.0, "male", 2009], [245, "Gentoo", "Biscoe", 45.5, 14.5, 212.0, 4750.0, "female", 2009], [246, "Gentoo", "Biscoe", 49.5, 16.1, 224.0, 5650.0, "male", 2009], [247, "Gentoo", "Biscoe", 44.5, 14.7, 214.0, 4850.0, "female", 2009], [248, "Gentoo", "Biscoe", 50.8, 15.7, 226.0, 5200.0, "male", 2009], [249, "Gentoo", "Biscoe", 49.4, 15.8, 216.0, 4925.0, "male", 2009], [250, "Gentoo", "Biscoe", 46.9, 14.6, 222.0, 4875.0, "female", 2009], [251, "Gentoo", "Biscoe", 48.4, 14.4, 203.0, 4625.0, "female", 2009], [252, "Gentoo", "Biscoe", 51.1, 16.5, 225.0, 5250.0, "male", 2009], [253, "Gentoo", "Biscoe", 48.5, 15.0, 219.0, 4850.0, "female", 2009], [254, "Gentoo", "Biscoe", 55.9, 17.0, 228.0, 5600.0, "male", 2009], [255, "Gentoo", "Biscoe", 47.2, 15.5, 215.0, 4975.0, "female", 2009], [256, "Gentoo", "Biscoe", 49.1, 15.0, 228.0, 5500.0, "male", 2009], [257, "Gentoo", "Biscoe", 47.3, 13.8, 216.0, 4725.0, "NaN", 2009], [258, "Gentoo", "Biscoe", 46.8, 16.1, 215.0, 5500.0, "male", 2009], [259, "Gentoo", "Biscoe", 41.7, 14.7, 210.0, 4700.0, "female", 2009], [260, "Gentoo", "Biscoe", 53.4, 15.8, 219.0, 5500.0, "male", 2009], [261, "Gentoo", "Biscoe", 43.3, 14.0, 208.0, 4575.0, "female", 2009], [262, "Gentoo", "Biscoe", 48.1, 15.1, 209.0, 5500.0, "male", 2009], [263, "Gentoo", "Biscoe", 50.5, 15.2, 216.0, 5000.0, "female", 2009], [264, "Gentoo", "Biscoe", 49.8, 15.9, 229.0, 5950.0, "male", 2009], [265, "Gentoo", "Biscoe", 43.5, 15.2, 213.0, 4650.0, "female", 2009], [266, "Gentoo", "Biscoe", 51.5, 16.3, 230.0, 5500.0, "male", 2009], [267, "Gentoo", "Biscoe", 46.2, 14.1, 217.0, 4375.0, "female", 2009], [268, "Gentoo", "Biscoe", 55.1, 16.0, 230.0, 5850.0, "male", 2009], [269, "Gentoo", "Biscoe", 44.5, 15.7, 217.0, 4875.0, "NaN", 2009], [270, "Gentoo", "Biscoe", 48.8, 16.2, 222.0, 6000.0, "male", 2009], [271, "Gentoo", "Biscoe", 47.2, 13.7, 214.0, 4925.0, "female", 2009], [272, "Gentoo", "Biscoe", NaN, NaN, NaN, NaN, "NaN", 2009], [273, "Gentoo", "Biscoe", 46.8, 14.3, 215.0, 4850.0, "female", 2009], [274, "Gentoo", "Biscoe", 50.4, 15.7, 222.0, 5750.0, "male", 2009], [275, "Gentoo", "Biscoe", 45.2, 14.8, 212.0, 5200.0, "female", 2009], [276, "Gentoo", "Biscoe", 49.9, 16.1, 213.0, 5400.0, "male", 2009], [277, "Chinstrap", "Dream", 46.5, 17.9, 192.0, 3500.0, "female", 2007], [278, "Chinstrap", "Dream", 50.0, 19.5, 196.0, 3900.0, "male", 2007], [279, "Chinstrap", "Dream", 51.3, 19.2, 193.0, 3650.0, "male", 2007], [280, "Chinstrap", "Dream", 45.4, 18.7, 188.0, 3525.0, "female", 2007], [281, "Chinstrap", "Dream", 52.7, 19.8, 197.0, 3725.0, "male", 2007], [282, "Chinstrap", "Dream", 45.2, 17.8, 198.0, 3950.0, "female", 2007], [283, "Chinstrap", "Dream", 46.1, 18.2, 178.0, 3250.0, "female", 2007], [284, "Chinstrap", "Dream", 51.3, 18.2, 197.0, 3750.0, "male", 2007], [285, "Chinstrap", "Dream", 46.0, 18.9, 195.0, 4150.0, "female", 2007], [286, "Chinstrap", "Dream", 51.3, 19.9, 198.0, 3700.0, "male", 2007], [287, "Chinstrap", "Dream", 46.6, 17.8, 193.0, 3800.0, "female", 2007], [288, "Chinstrap", "Dream", 51.7, 20.3, 194.0, 3775.0, "male", 2007], [289, "Chinstrap", "Dream", 47.0, 17.3, 185.0, 3700.0, "female", 2007], [290, "Chinstrap", "Dream", 52.0, 18.1, 201.0, 4050.0, "male", 2007], [291, "Chinstrap", "Dream", 45.9, 17.1, 190.0, 3575.0, "female", 2007], [292, "Chinstrap", "Dream", 50.5, 19.6, 201.0, 4050.0, "male", 2007], [293, "Chinstrap", "Dream", 50.3, 20.0, 197.0, 3300.0, "male", 2007], [294, "Chinstrap", "Dream", 58.0, 17.8, 181.0, 3700.0, "female", 2007], [295, "Chinstrap", "Dream", 46.4, 18.6, 190.0, 3450.0, "female", 2007], [296, "Chinstrap", "Dream", 49.2, 18.2, 195.0, 4400.0, "male", 2007], [297, "Chinstrap", "Dream", 42.4, 17.3, 181.0, 3600.0, "female", 2007], [298, "Chinstrap", "Dream", 48.5, 17.5, 191.0, 3400.0, "male", 2007], [299, "Chinstrap", "Dream", 43.2, 16.6, 187.0, 2900.0, "female", 2007], [300, "Chinstrap", "Dream", 50.6, 19.4, 193.0, 3800.0, "male", 2007], [301, "Chinstrap", "Dream", 46.7, 17.9, 195.0, 3300.0, "female", 2007], [302, "Chinstrap", "Dream", 52.0, 19.0, 197.0, 4150.0, "male", 2007], [303, "Chinstrap", "Dream", 50.5, 18.4, 200.0, 3400.0, "female", 2008], [304, "Chinstrap", "Dream", 49.5, 19.0, 200.0, 3800.0, "male", 2008], [305, "Chinstrap", "Dream", 46.4, 17.8, 191.0, 3700.0, "female", 2008], [306, "Chinstrap", "Dream", 52.8, 20.0, 205.0, 4550.0, "male", 2008], [307, "Chinstrap", "Dream", 40.9, 16.6, 187.0, 3200.0, "female", 2008], [308, "Chinstrap", "Dream", 54.2, 20.8, 201.0, 4300.0, "male", 2008], [309, "Chinstrap", "Dream", 42.5, 16.7, 187.0, 3350.0, "female", 2008], [310, "Chinstrap", "Dream", 51.0, 18.8, 203.0, 4100.0, "male", 2008], [311, "Chinstrap", "Dream", 49.7, 18.6, 195.0, 3600.0, "male", 2008], [312, "Chinstrap", "Dream", 47.5, 16.8, 199.0, 3900.0, "female", 2008], [313, "Chinstrap", "Dream", 47.6, 18.3, 195.0, 3850.0, "female", 2008], [314, "Chinstrap", "Dream", 52.0, 20.7, 210.0, 4800.0, "male", 2008], [315, "Chinstrap", "Dream", 46.9, 16.6, 192.0, 2700.0, "female", 2008], [316, "Chinstrap", "Dream", 53.5, 19.9, 205.0, 4500.0, "male", 2008], [317, "Chinstrap", "Dream", 49.0, 19.5, 210.0, 3950.0, "male", 2008], [318, "Chinstrap", "Dream", 46.2, 17.5, 187.0, 3650.0, "female", 2008], [319, "Chinstrap", "Dream", 50.9, 19.1, 196.0, 3550.0, "male", 2008], [320, "Chinstrap", "Dream", 45.5, 17.0, 196.0, 3500.0, "female", 2008], [321, "Chinstrap", "Dream", 50.9, 17.9, 196.0, 3675.0, "female", 2009], [322, "Chinstrap", "Dream", 50.8, 18.5, 201.0, 4450.0, "male", 2009], [323, "Chinstrap", "Dream", 50.1, 17.9, 190.0, 3400.0, "female", 2009], [324, "Chinstrap", "Dream", 49.0, 19.6, 212.0, 4300.0, "male", 2009], [325, "Chinstrap", "Dream", 51.5, 18.7, 187.0, 3250.0, "male", 2009], [326, "Chinstrap", "Dream", 49.8, 17.3, 198.0, 3675.0, "female", 2009], [327, "Chinstrap", "Dream", 48.1, 16.4, 199.0, 3325.0, "female", 2009], [328, "Chinstrap", "Dream", 51.4, 19.0, 201.0, 3950.0, "male", 2009], [329, "Chinstrap", "Dream", 45.7, 17.3, 193.0, 3600.0, "female", 2009], [330, "Chinstrap", "Dream", 50.7, 19.7, 203.0, 4050.0, "male", 2009], [331, "Chinstrap", "Dream", 42.5, 17.3, 187.0, 3350.0, "female", 2009], [332, "Chinstrap", "Dream", 52.2, 18.8, 197.0, 3450.0, "male", 2009], [333, "Chinstrap", "Dream", 45.2, 16.6, 191.0, 3250.0, "female", 2009], [334, "Chinstrap", "Dream", 49.3, 19.9, 203.0, 4050.0, "male", 2009], [335, "Chinstrap", "Dream", 50.2, 18.8, 202.0, 3800.0, "male", 2009], [336, "Chinstrap", "Dream", 45.6, 19.4, 194.0, 3525.0, "female", 2009], [337, "Chinstrap", "Dream", 51.9, 19.5, 206.0, 3950.0, "male", 2009], [338, "Chinstrap", "Dream", 46.8, 16.5, 189.0, 3650.0, "female", 2009], [339, "Chinstrap", "Dream", 45.7, 17.0, 195.0, 3650.0, "female", 2009], [340, "Chinstrap", "Dream", 55.8, 19.8, 207.0, 4000.0, "male", 2009], [341, "Chinstrap", "Dream", 43.5, 18.1, 202.0, 3400.0, "female", 2009], [342, "Chinstrap", "Dream", 49.6, 18.2, 193.0, 3775.0, "male", 2009], [343, "Chinstrap", "Dream", 50.8, 19.0, 210.0, 4100.0, "male", 2009], [344, "Chinstrap", "Dream", 50.2, 18.7, 198.0, 3775.0, "female", 2009]];
+
+    // Define the dt_args
+    let dt_args = {"order": []};
+    dt_args["data"] = data;
+
+    $(document).ready(function () {
+        
+        $('#61ba0d40-86e6-4d7c-8439-1af5a56f94c0').DataTable(dt_args);
+    });
+</script>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="kmeans-algorithm" class="level1">
+<h1>KMeans Algorithm</h1>
+<p>The KMeans algorithm partitions data into K distinct clusters based on feature similarity.</p>
+<section id="kmeans-algorithm-steps" class="level2">
+<h2 class="anchored" data-anchor-id="kmeans-algorithm-steps">KMeans Algorithm Steps</h2>
+<section id="initialize-centroids" class="level3">
+<h3 class="anchored" data-anchor-id="initialize-centroids">Initialize Centroids</h3>
+<p>First, we initialize the centroids by randomly selecting K points from the dataset.</p>
+<p><strong>Formula</strong>: <span class="math display">\[
+\text{Centroids} = X[\text{indices}]
+\]</span></p>
+<div id="b286fb38" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> initialize_centroids(X, k):</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    indices <span class="op">=</span> np.random.choice(X.shape[<span class="dv">0</span>], k, replace<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> X[indices]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="compute-distances" class="level3">
+<h3 class="anchored" data-anchor-id="compute-distances">Compute Distances</h3>
+<p>For each point in the dataset, we compute the Euclidean distance to each centroid.</p>
+<p><strong>Formula</strong>: <span class="math display">\[
+d(x_i, c_j) = \sqrt{\sum_{m=1}^n (x_{im} - c_{jm})^2}
+\]</span></p>
+<div id="e84aab5c" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compute_distances(X, centroids):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    distances <span class="op">=</span> np.zeros((X.shape[<span class="dv">0</span>], <span class="bu">len</span>(centroids)))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, centroid <span class="kw">in</span> <span class="bu">enumerate</span>(centroids):</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        distances[:, i] <span class="op">=</span> np.linalg.norm(X <span class="op">-</span> centroid, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> distances</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="assign-clusters" class="level3">
+<h3 class="anchored" data-anchor-id="assign-clusters">Assign Clusters</h3>
+<p>Then, we assign each point to the nearest centroid.</p>
+<p><strong>Formula</strong>: <span class="math display">\[
+\text{Cluster Assignment} = \arg\min_{j} d(x_i, c_j)
+\]</span></p>
+<div id="83b7db08" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> assign_clusters(distances):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.argmin(distances, axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="update-centroids" class="level3">
+<h3 class="anchored" data-anchor-id="update-centroids">Update Centroids</h3>
+<p>After assigning clusters, we update the centroid of each cluster to be the mean of the points assigned to it.</p>
+<p><strong>Formula</strong>: <span class="math display">\[
+c_j = \frac{1}{|C_j|} \sum_{x_i \in C_j} x_i
+\]</span></p>
+<div id="5cfde748" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> update_centroids(X, labels, k):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    centroids <span class="op">=</span> np.zeros((k, X.shape[<span class="dv">1</span>]))</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(k):</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        points <span class="op">=</span> X[labels <span class="op">==</span> i]</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        centroids[i] <span class="op">=</span> points.mean(axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> centroids</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="kmeans-function" class="level3">
+<h3 class="anchored" data-anchor-id="kmeans-function">KMeans Function</h3>
+<p>Lastly, we iterate through the steps until the centroids do not change significantly.</p>
+<div id="1ac71243" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> kmeans(X, k, max_iters<span class="op">=</span><span class="dv">100</span>, tol<span class="op">=</span><span class="fl">1e-4</span>):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    centroids <span class="op">=</span> initialize_centroids(X, k)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(max_iters):</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        distances <span class="op">=</span> compute_distances(X, centroids)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        labels <span class="op">=</span> assign_clusters(distances)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        new_centroids <span class="op">=</span> update_centroids(X, labels, k)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> np.<span class="bu">all</span>(np.<span class="bu">abs</span>(new_centroids <span class="op">-</span> centroids) <span class="op">&lt;</span> tol):</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        centroids <span class="op">=</span> new_centroids</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        plot_kmeans(X, centroids, labels, i <span class="op">+</span> <span class="dv">1</span>)  </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> centroids, labels</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 </section>
-<section id="latent-class-multinomial-logit-mnl" class="level2">
-<h2 class="anchored" data-anchor-id="latent-class-multinomial-logit-mnl">Latent-Class Multinomial Logit (MNL)</h2>
-<section id="work-in-progress-1" class="level3">
-<h3 class="anchored" data-anchor-id="work-in-progress-1">Work in progress 🏗️ 🚧</h3>
+</section>
+<section id="implementation-and-visualizations" class="level1">
+<h1>Implementation and Visualizations</h1>
+<p>Below, we will visualize the KMeans algorithm as iterates until there is no significant change in the centroids position.</p>
+<div id="e6135825" class="cell" data-execution_count="9">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hw5_questions_files/figure-html/cell-10-output-1.png" width="662" height="523" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hw5_questions_files/figure-html/cell-10-output-2.png" width="662" height="523" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hw5_questions_files/figure-html/cell-10-output-3.png" width="662" height="523" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hw5_questions_files/figure-html/cell-10-output-4.png" width="662" height="523" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hw5_questions_files/figure-html/cell-10-output-5.png" width="662" height="523" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hw5_questions_files/figure-html/cell-10-output-6.png" width="662" height="523" class="figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hw5_questions_files/figure-html/cell-10-output-7.png" width="662" height="523" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="comparison-of-custom-kmeans-and-sklearn-kmeans" class="level2">
+<h2 class="anchored" data-anchor-id="comparison-of-custom-kmeans-and-sklearn-kmeans">Comparison of Custom KMeans and Sklearn KMeans</h2>
+<p>The table below shows the cluster labelling assigned by both our custom KMeans and the off-the-shelf SKlearn KMeans.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Custom KMeans vs SKlearn KMeans
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<table class="table">
+<thead>
+<tr class="header">
+<th><strong>Index</strong></th>
+<th><strong>Custom KMeans</strong></th>
+<th><strong>Sklearn KMeans</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>6</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>8</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>9</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>10</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>11</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>12</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>13</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>14</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>15</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr class="even">
+<td>339</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>340</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>341</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>342</td>
+<td>2</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>343</td>
+<td>2</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="within-cluster-sum-of-squares-and-silhouette-scores" class="level1">
+<h1>Within-Cluster Sum of Squares and Silhouette Scores</h1>
+<p>To determine the optimal number of clusters, we examine WCSS and Silhouette Scores for different values of K. These metrics help us assess cluster cohesion and separation.</p>
+<div id="28fc361c" class="cell" data-execution_count="10">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="hw5_questions_files/figure-html/cell-11-output-1.png" width="1142" height="470" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="discussion" class="level1">
+<h1>Discussion</h1>
+<p>From the WCSS plot, we can observe the “elbow” point, which suggests the optimal number of clusters. The Silhouette Score plot provides additional confirmation by indicating the number of clusters that result in the highest score.</p>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>This analysis demonstrates the application of KMeans clustering on the Palmer Penguins sample dataset. We evaluated the performance of the custom algorithm using WCSS and Silhouette Scores. We also identified the optimal number of clusters using these metrics, providing insights into the natural groupings within the dataset.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

@@ -4,11 +4,259 @@ author: "Jesus Gonzalez"
 date: June 8, 2024
 ---
 
-## K-Means
+# Introduction
 
-### Work in progress 🏗️ 🚧
+Clustering is a powerful machine learning technique used to identify natural groupings in data. In this analysis, we evaluate the performance of the KMeans clustering algorithm on the Palmer Penguins dataset.
 
+# Data
 
-## Latent-Class Multinomial Logit (MNL)
+The Palmer Penguins dataset is widely used in clustering analysis. 
 
-### Work in progress 🏗️ 🚧
+::::{.callout-note collapse="true"}
+### Interactive Dataset
+```{python}
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+import pandas as pd
+from itables import show
+penguin_data_main = pd.read_csv("../../files/Assignment5/penguins.csv")
+show(penguin_data_main)
+```
+::::
+
+```{python}
+#| echo: false
+# Data loading and preprocessing steps
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+
+# Load the Palmer Penguins dataset
+penguin_data = penguin_data_main.copy()
+
+# Drop rows with missing values
+penguin_data = penguin_data.dropna()
+
+# Extract features
+features = penguin_data[['bill_length_mm', 'bill_depth_mm', 'flipper_length_mm', 'body_mass_g']]
+
+# Scaling the data
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(features)
+```
+
+# KMeans Algorithm
+
+The KMeans algorithm partitions data into K distinct clusters based on feature similarity.
+
+## KMeans Algorithm Steps
+
+### Initialize Centroids
+
+First, we initialize the centroids by randomly selecting K points from the dataset. 
+
+**Formula**:
+$$
+\text{Centroids} = X[\text{indices}]
+$$
+
+```{python}
+def initialize_centroids(X, k):
+    indices = np.random.choice(X.shape[0], k, replace=False)
+    return X[indices]
+```
+
+### Compute Distances
+
+For each point in the dataset, we compute the Euclidean distance to each centroid.
+
+**Formula**:
+$$
+d(x_i, c_j) = \sqrt{\sum_{m=1}^n (x_{im} - c_{jm})^2}
+$$
+
+```{python}
+def compute_distances(X, centroids):
+    distances = np.zeros((X.shape[0], len(centroids)))
+    for i, centroid in enumerate(centroids):
+        distances[:, i] = np.linalg.norm(X - centroid, axis=1)
+    return distances
+```
+
+### Assign Clusters
+
+Then, we assign each point to the nearest centroid.
+
+**Formula**:
+$$
+\text{Cluster Assignment} = \arg\min_{j} d(x_i, c_j)
+$$
+
+```{python}
+def assign_clusters(distances):
+    return np.argmin(distances, axis=1)
+```
+
+### Update Centroids
+
+After assigning clusters, we update the centroid of each cluster to be the mean of the points assigned to it.
+
+**Formula**:
+$$
+c_j = \frac{1}{|C_j|} \sum_{x_i \in C_j} x_i
+$$
+
+```{python}
+def update_centroids(X, labels, k):
+    centroids = np.zeros((k, X.shape[1]))
+    for i in range(k):
+        points = X[labels == i]
+        centroids[i] = points.mean(axis=0)
+    return centroids
+```
+
+### KMeans Function
+
+Lastly, we iterate through the steps until the centroids do not change significantly.
+
+```{python}
+def kmeans(X, k, max_iters=100, tol=1e-4):
+    centroids = initialize_centroids(X, k)
+    for i in range(max_iters):
+        distances = compute_distances(X, centroids)
+        labels = assign_clusters(distances)
+        new_centroids = update_centroids(X, labels, k)
+        if np.all(np.abs(new_centroids - centroids) < tol):
+            break
+        centroids = new_centroids
+        plot_kmeans(X, centroids, labels, i + 1)  
+    return centroids, labels
+```
+
+# Implementation and Visualizations
+
+Below, we will visualize the KMeans algorithm as iterates until there is no significant change in the centroids position.
+
+```{python}
+#| echo: false
+def plot_kmeans(X, centroids, labels, iteration):
+    plt.figure(figsize=(8, 6))
+    plt.scatter(X[:, 0], X[:, 1], c=labels, s=30, cmap='viridis')
+    plt.scatter(centroids[:, 0], centroids[:, 1], c='red', s=200, alpha=0.5)
+    plt.title(f'Iteration {iteration}')
+    plt.xlabel('Feature 1')
+    plt.ylabel('Feature 2')
+    plt.show()
+```
+
+```{python}
+#| echo: false
+k = 3  # Number of clusters
+centroids, labels = kmeans(X_scaled, k)
+
+# Compare with the built-in KMeans function
+kmeans_sklearn = KMeans(n_clusters=k)
+kmeans_sklearn.fit(X_scaled)
+labels_sklearn = kmeans_sklearn.labels_
+
+# Display the comparison
+comparison_df = pd.DataFrame({
+    'Custom KMeans': labels,
+    'Sklearn KMeans': labels_sklearn
+})
+
+# centroids, labels, labels_sklearn
+```
+
+## Comparison of Custom KMeans and Sklearn KMeans
+
+The table below shows the cluster labelling assigned by both our custom KMeans and the off-the-shelf SKlearn KMeans.
+
+::::{.callout-note collapse="true"}
+### Custom KMeans vs SKlearn KMeans
+| **Index** | **Custom KMeans** | **Sklearn KMeans** |
+|-----------|-------------------|--------------------|
+| 0         | 0                 | 1                  |
+| 1         | 0                 | 1                  |
+| 2         | 0                 | 1                  |
+| 3         | 0                 | 1                  |
+| 4         | 0                 | 1                  |
+| 5         | 0                 | 1                  |
+| 6         | 0                 | 1                  |
+| 7         | 0                 | 1                  |
+| 8         | 0                 | 1                  |
+| 9         | 0                 | 1                  |
+| 10        | 0                 | 1                  |
+| 11        | 0                 | 1                  |
+| 12        | 2                 | 1                  |
+| 13        | 0                 | 1                  |
+| 14        | 2                 | 1                  |
+| 15        | 0                 | 1                  |
+| ...       | ...               | ...                |
+| 339       | 2                 | 1                  |
+| 340       | 2                 | 1                  |
+| 341       | 2                 | 1                  |
+| 342       | 2                 | 1                  |
+| 343       | 2                 | 1                  |
+::::
+
+# Within-Cluster Sum of Squares and Silhouette Scores
+
+To determine the optimal number of clusters, we examine WCSS and Silhouette Scores for different values of K. These metrics help us assess cluster cohesion and separation.
+
+```{python}
+#| echo: false
+from sklearn.metrics import silhouette_score
+from sklearn.cluster import KMeans
+
+# Function to calculate WCSS
+def calculate_wcss(X, k):
+    kmeans = KMeans(n_clusters=k)
+    kmeans.fit(X)
+    return kmeans.inertia_
+
+# Function to calculate silhouette score
+def calculate_silhouette_score(X, k):
+    kmeans = KMeans(n_clusters=k)
+    labels = kmeans.fit_predict(X)
+    return silhouette_score(X, labels)
+
+# Lists to store WCSS and silhouette scores
+wcss = []
+silhouette_scores = []
+
+# Evaluate K from 2 to 7
+k_values = range(2, 8)
+for k in k_values:
+    wcss.append(calculate_wcss(X_scaled, k))
+    silhouette_scores.append(calculate_silhouette_score(X_scaled, k))
+
+# Plotting the results
+plt.figure(figsize=(12, 5))
+
+plt.subplot(1, 2, 1)
+plt.plot(k_values, wcss, marker='o')
+plt.title('WCSS vs. Number of Clusters')
+plt.xlabel('Number of Clusters (K)')
+plt.ylabel('WCSS')
+
+plt.subplot(1, 2, 2)
+plt.plot(k_values, silhouette_scores, marker='o')
+plt.title('Silhouette Score vs. Number of Clusters')
+plt.xlabel('Number of Clusters (K)')
+plt.ylabel('Silhouette Score')
+
+plt.tight_layout()
+plt.show()
+
+```
+
+# Discussion
+
+From the WCSS plot, we can observe the "elbow" point, which suggests the optimal number of clusters. The Silhouette Score plot provides additional confirmation by indicating the number of clusters that result in the highest score.
+
+# Conclusion
+
+This analysis demonstrates the application of KMeans clustering on the Palmer Penguins sample dataset. We evaluated the performance of the custom algorithm using WCSS and Silhouette Scores. We also identified the optimal number of clusters using these metrics, providing insights into the natural groupings within the dataset.

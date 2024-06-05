@@ -334,5 +334,26 @@
     "title": "Segmentation Methods",
     "section": "Latent-Class Multinomial Logit (MNL)",
     "text": "Latent-Class Multinomial Logit (MNL)\n\nWork in progress 🏗️ 🚧"
+  },
+  {
+    "objectID": "projects/Assignment5/hw5_questions.html",
+    "href": "projects/Assignment5/hw5_questions.html",
+    "title": "Segmentation Methods",
+    "section": "",
+    "text": "Clustering is a powerful machine learning technique used to identify natural groupings in data. In this analysis, we evaluate the performance of the KMeans clustering algorithm on the Palmer Penguins dataset."
+  },
+  {
+    "objectID": "projects/Assignment5/hw5_questions.html#kmeans-algorithm-steps",
+    "href": "projects/Assignment5/hw5_questions.html#kmeans-algorithm-steps",
+    "title": "Segmentation Methods",
+    "section": "KMeans Algorithm Steps",
+    "text": "KMeans Algorithm Steps\n\nInitialize Centroids\nFirst, we initialize the centroids by randomly selecting K points from the dataset.\nFormula: \\[\n\\text{Centroids} = X[\\text{indices}]\n\\]\n\ndef initialize_centroids(X, k):\n    indices = np.random.choice(X.shape[0], k, replace=False)\n    return X[indices]\n\n\n\nCompute Distances\nFor each point in the dataset, we compute the Euclidean distance to each centroid.\nFormula: \\[\nd(x_i, c_j) = \\sqrt{\\sum_{m=1}^n (x_{im} - c_{jm})^2}\n\\]\n\ndef compute_distances(X, centroids):\n    distances = np.zeros((X.shape[0], len(centroids)))\n    for i, centroid in enumerate(centroids):\n        distances[:, i] = np.linalg.norm(X - centroid, axis=1)\n    return distances\n\n\n\nAssign Clusters\nThen, we assign each point to the nearest centroid.\nFormula: \\[\n\\text{Cluster Assignment} = \\arg\\min_{j} d(x_i, c_j)\n\\]\n\ndef assign_clusters(distances):\n    return np.argmin(distances, axis=1)\n\n\n\nUpdate Centroids\nAfter assigning clusters, we update the centroid of each cluster to be the mean of the points assigned to it.\nFormula: \\[\nc_j = \\frac{1}{|C_j|} \\sum_{x_i \\in C_j} x_i\n\\]\n\ndef update_centroids(X, labels, k):\n    centroids = np.zeros((k, X.shape[1]))\n    for i in range(k):\n        points = X[labels == i]\n        centroids[i] = points.mean(axis=0)\n    return centroids\n\n\n\nKMeans Function\nLastly, we iterate through the steps until the centroids do not change significantly.\n\ndef kmeans(X, k, max_iters=100, tol=1e-4):\n    centroids = initialize_centroids(X, k)\n    for i in range(max_iters):\n        distances = compute_distances(X, centroids)\n        labels = assign_clusters(distances)\n        new_centroids = update_centroids(X, labels, k)\n        if np.all(np.abs(new_centroids - centroids) &lt; tol):\n            break\n        centroids = new_centroids\n        plot_kmeans(X, centroids, labels, i + 1)  \n    return centroids, labels"
+  },
+  {
+    "objectID": "projects/Assignment5/hw5_questions.html#comparison-of-custom-kmeans-and-sklearn-kmeans",
+    "href": "projects/Assignment5/hw5_questions.html#comparison-of-custom-kmeans-and-sklearn-kmeans",
+    "title": "Segmentation Methods",
+    "section": "Comparison of Custom KMeans and Sklearn KMeans",
+    "text": "Comparison of Custom KMeans and Sklearn KMeans\nThe table below shows the cluster labelling assigned by both our custom KMeans and the off-the-shelf SKlearn KMeans.\n\n\n\n\n\n\nCustom KMeans vs SKlearn KMeans\n\n\n\n\n\n\n\n\nIndex\nCustom KMeans\nSklearn KMeans\n\n\n\n\n0\n0\n1\n\n\n1\n0\n1\n\n\n2\n0\n1\n\n\n3\n0\n1\n\n\n4\n0\n1\n\n\n5\n0\n1\n\n\n6\n0\n1\n\n\n7\n0\n1\n\n\n8\n0\n1\n\n\n9\n0\n1\n\n\n10\n0\n1\n\n\n11\n0\n1\n\n\n12\n2\n1\n\n\n13\n0\n1\n\n\n14\n2\n1\n\n\n15\n0\n1\n\n\n…\n…\n…\n\n\n339\n2\n1\n\n\n340\n2\n1\n\n\n341\n2\n1\n\n\n342\n2\n1\n\n\n343\n2\n1"
   }
 ]
