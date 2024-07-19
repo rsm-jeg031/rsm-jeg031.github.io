@@ -3,7 +3,7 @@ title: "Jesus Gonzalez"
 about: 
     id: main-content
     template: trestles
-    image: "files/profile_pic.png"
+    image: "files/Jesus_photo.jpeg"
     image-shape: round
     links: 
         - icon: envelope
