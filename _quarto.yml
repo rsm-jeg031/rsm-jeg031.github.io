@@ -16,8 +16,6 @@ website:
     palette: dark
   navbar:
     left:
-      - href: about.qmd
-        text: About
       - href: projects.qmd
         text: Projects
 

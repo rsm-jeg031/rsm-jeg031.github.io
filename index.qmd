@@ -24,7 +24,7 @@ format:
 
 ## Current
 
-- Data TPM | PlayStation
+- Senior Engineering PM | Apple
 - Military Interview Coach | Candorful
 - Transitioning Military Mentor | Veterati
 
@@ -32,13 +32,15 @@ format:
 
 ## Work History
 
+- Apple | 2024 - Current
+- Sony PlayStation | 2022 - 2024
 - US Air Force | 2015 - 2022
 
 ---
 
 ## Education
 
-- MSBA | UCSD Rady 2024
+- MSBA | UCSD 2024
 - MBA | AMU 2022
 - BBA | AMU 2020
 - AAS | CCAF 2018
